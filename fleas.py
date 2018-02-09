@@ -1,7 +1,5 @@
+import argparse
 import pygame
-
-WIDTH = 75 # width of individual square
-HEIGHT = 75 # height of individual square
 
 BLACK = (0, 0, 0)
 GREY = (100, 100, 100)
@@ -10,11 +8,14 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
-def column_to_pixel(col_num, width=WIDTH):
-    return col_num * width + 10
+def column_to_pixel(col_num):
+    return col_num * WIDTH + 10
 
-def row_to_pixel(row_num, height=HEIGHT):
-    return row_num * height + 10
+def row_to_pixel(row_num):
+    return row_num * HEIGHT + 10
+
+def column_row_to_pixels(row_num, col_num):
+    return (column_to_pixel(col_num), row_to_pixel(row_num))
 
 class Square(pygame.sprite.Sprite):
     def __init__(self, row, col, color):
@@ -26,8 +27,8 @@ class Square(pygame.sprite.Sprite):
         self.image = pygame.Surface([WIDTH, HEIGHT])
         self.image.fill(color)
         self.rect = self.image.get_rect()
-        self.rect.x = column_to_pixel(col)
-        self.rect.y = row_to_pixel(row)
+        self.rect.x = column_to_pixel(self.col)
+        self.rect.y = row_to_pixel(self.row)
 
 class Board:
     def __init__(self, num_rows, num_cols):
@@ -42,13 +43,13 @@ class Board:
 
 def draw_grid(screen, num_rows, num_cols, color=GREY):
     for row in range(num_rows + 1):
-        left = (column_to_pixel(0), row_to_pixel(row))
-        right = (column_to_pixel(num_cols), row_to_pixel(row))
+        left = column_row_to_pixels(row, 0)
+        right = column_row_to_pixels(row, num_cols)
         pygame.draw.line(screen, color, left, right)
 
     for col in range(num_cols + 1):
-        top = (column_to_pixel(col), row_to_pixel(0))
-        bottom = (column_to_pixel(col), row_to_pixel(num_rows))
+        top = column_row_to_pixels(0, col)
+        bottom = column_row_to_pixels(num_rows, col)
         pygame.draw.line(screen, color, top, bottom)
 
 def new_game(num_rows, num_cols):
@@ -67,4 +68,15 @@ def new_game(num_rows, num_cols):
 
     pygame.quit()
 
-new_game(10, 10)
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--num_rows', type=int, default=20, help='Number of rows')
+    parser.add_argument('--num_cols', type=int, default=20, help='Number of columns')
+    parser.add_argument('--width', type=int, default=100, help='Width of each square (in pixels)')
+    parser.add_argument('--height', type=int, default=100, help='Height of each square (in pixels)')
+    args = parser.parse_args()
+
+    WIDTH = args.width
+    HEIGHT = args.height
+
+    new_game(args.num_rows, args.num_cols)

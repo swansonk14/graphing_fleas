@@ -10,10 +10,10 @@ COLORS = {
     'blue': (0, 0, 255)
 }
 DIRECTIONS = {
-    'up': (0, 1),
-    'right': (1, 0),
-    'down': (0, -1),
-    'left': (-1, 0)
+    'up': (-1, 0),
+    'right': (0, 1),
+    'down': (1, 0),
+    'left': (0, -1)
 }
 
 def column_to_pixel(col_num):
@@ -36,7 +36,7 @@ class Flea(pygame.sprite.Sprite):
         self.direction = direction
         self.square = board.get_square(self.row, self.col)
         self.rect = self.square.rect
-        self.set_pic()
+        self.set_image()
 
     def initialize_directions(self):
         # Initialize directions and direction changes
@@ -52,11 +52,11 @@ class Flea(pygame.sprite.Sprite):
 
     def rotate_left(self):
         self.image = pygame.transform.rotate(self.image, 90)
-        self.direction = self.right_direction[self.direction]
+        self.direction = self.left_direction[self.direction]
 
     def rotate_right(self):
         self.image = pygame.transform.rotate(self.image, -90)
-        self.direction = self.left_direction[self.direction]
+        self.direction = self.right_direction[self.direction]
 
     def rotate(self):
         if self.square.color == 'white':
@@ -74,9 +74,11 @@ class Flea(pygame.sprite.Sprite):
         self.rotate()
         self.move()
 
-    def set_pic(self):
+    def set_image(self):
         self.image = pygame.image.load('flea.jpg')
+        self.image = pygame.transform.scale(self.image, (WIDTH, HEIGHT))
 
+        # Rotate if necessary
         if self.direction == 'right':
             self.image = pygame.transform.rotate(self.image, 270)
         elif self.direction == 'down':
@@ -137,6 +139,18 @@ class Board:
     def get_square(self, row, col):
         return self.board[row][col]
 
+    def rotate_fleas(self):
+        for flea in self.fleas.sprites():
+            flea.rotate()
+
+    def move_fleas(self):
+        for flea in self.fleas.sprites():
+            flea.move()
+
+    def change_square_colors(self):
+        for flea in self.fleas.sprites():
+            flea.square.change_color()
+
     def draw_grid(self, screen, color='grey'):
         # Draw horizontal lines
         for row in range(self.num_rows + 1):
@@ -150,20 +164,13 @@ class Board:
             bottom = column_row_to_pixels(self.num_rows, col)
             pygame.draw.line(screen, COLORS[color], top, bottom)
 
-    def step(self):
-        # Move flea and change square color
-        for flea in self.fleas.sprites():
-            flea.step()
-            flea.square.change_color()
-
     def draw(self):
-        # Draw sprites
         self.squares.draw(self.screen)
         self.draw_grid(self.screen)
         self.fleas.draw(self.screen)
         pygame.display.flip()
 
-def new_game(num_rows, num_cols):
+def new_game(num_rows, num_cols, speed):
     pygame.init()
 
     window_size = (num_cols * HEIGHT + 200,
@@ -172,10 +179,32 @@ def new_game(num_rows, num_cols):
     pygame.display.set_caption('Graphing Fleas')
 
     board = Board(screen, num_rows, num_cols)
+    board.draw()
+    pygame.time.delay(2000)
 
+    quit = False
+    pause = False
     while True:
-        board.draw()
-        board.step()
+        # Check for quit or pause
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit = True
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                pause = not pause
+        if quit:
+            break
+
+        # Take step
+        if not pause:
+            board.rotate_fleas()
+            board.draw()
+            pygame.time.delay(speed)
+
+            board.change_square_colors()
+
+            board.move_fleas()
+            board.draw()
+            pygame.time.delay(speed)
 
     pygame.quit()
 
@@ -185,9 +214,10 @@ if __name__ == '__main__':
     parser.add_argument('--num_cols', type=int, default=20, help='Number of columns')
     parser.add_argument('--width', type=int, default=100, help='Width of each square (in pixels)')
     parser.add_argument('--height', type=int, default=100, help='Height of each square (in pixels)')
+    parser.add_argument('--speed', type=int, default=250, help='Number of milliseconds between steps')
     args = parser.parse_args()
 
     WIDTH = args.width
     HEIGHT = args.height
 
-    new_game(args.num_rows, args.num_cols)
+    new_game(args.num_rows, args.num_cols, args.speed)

@@ -1,7 +1,7 @@
 import argparse
 import pygame
 from constants import COLORS, MARGIN_TOP, MARGIN_SIDE, set_width, set_height, get_width, get_height
-from grid import Grid
+from board import Board
 from flea import Flea
 from square import Square
 from text import Text
@@ -10,8 +10,8 @@ def run_simulation(num_rows, num_cols, num_colors, delay):
     """Runs a graphing fleas simulation.
 
     Arguments:
-        num_rows(int): Number of rows in the grid.
-        num_cols(int): Number of columns in the grid.
+        num_rows(int): Number of rows in the board.
+        num_cols(int): Number of columns in the board.
         num_colors(int): The number of colors each square can take on.
         delay(int): The number of milliseconds of delay between each step.
     """
@@ -23,10 +23,10 @@ def run_simulation(num_rows, num_cols, num_colors, delay):
     screen = pygame.display.set_mode(window_size)
     pygame.display.set_caption('Graphing Fleas')
 
-    grid = Grid(screen, num_rows, num_cols, num_colors)
-    grid.draw()
+    board = Board(screen, num_rows, num_cols, num_colors)
+    board.draw()
 
-    text = Text(screen, grid)
+    text = Text(screen, board)
     text.update("Step 0")
 
     pygame.time.delay(1000)
@@ -49,14 +49,14 @@ def run_simulation(num_rows, num_cols, num_colors, delay):
         if not pause:
             text.update("Step {}".format(step))
 
-            grid.rotate_fleas()
-            grid.draw()
+            board.rotate_fleas()
+            board.draw()
             pygame.time.delay(delay)
 
-            grid.change_square_colors()
+            board.change_square_colors()
 
-            grid.move_fleas()
-            grid.draw()
+            board.move_fleas()
+            board.draw()
             pygame.time.delay(delay)
 
             step += 1

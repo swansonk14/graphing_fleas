@@ -23,7 +23,7 @@ def get_flea(flea_name):
 
     if flea_name not in FLEA_CLASSES:
         raise Exception(
-            'Flea class "{}" not in FLEA_CLASSES.'.format(flea_name) +
+            'Flea class "{}" not in FLEA_CLASSES. '.format(flea_name) +
             'Available Fleas are {}'.format(FLEA_CLASSES.keys()))
 
     flea_class = FLEA_CLASSES[flea_name]

@@ -26,48 +26,69 @@ def column_row_to_pixels(row_num, col_num):
     return (column_to_pixel(col_num), row_to_pixel(row_num))
 
 class Flea(pygame.sprite.Sprite):
-    directions = ['up', 'right', 'down', 'left']
-    right_direction = {directions[i]: directions[(i+1) % len(directions)] for i in range(len(directions))}
-    left_direction = {directions[i]: directions[(i-1) % len(directions)] for i in range(len(directions))}
-
     def __init__(self, board, row, col, direction='up'):
         super(Flea, self).__init__()
+        self.initialize_directions()
+
         self.board = board
         self.row = row
         self.col = col
-        self.rect = board.get_square(self.row, self.col).rect
         self.direction = direction
+        self.square = board.get_square(self.row, self.col)
+        self.rect = self.square.rect
         self.set_pic()
+
+    def initialize_directions(self):
+        # Initialize directions and direction changes
+        self.directions = ['up', 'right', 'down', 'left']
+        self.right_direction = {
+            self.directions[i]: self.directions[(i+1) % len(self.directions)]
+            for i in range(len(self.directions))
+        }
+        self.left_direction = {
+            self.directions[i]: self.directions[(i-1) % len(self.directions)]
+            for i in range(len(self.directions))
+        }
 
     def rotate_left(self):
         self.image = pygame.transform.rotate(self.image, 90)
-        self.direction = self.left_direction[self.direction]
+        self.direction = self.right_direction[self.direction]
 
     def rotate_right(self):
         self.image = pygame.transform.rotate(self.image, -90)
-        self.direction = self.right_direction[self.direction]
+        self.direction = self.left_direction[self.direction]
+
+    def rotate(self):
+        if self.square.color == 'white':
+            self.rotate_right()
+        else:
+            self.rotate_left()
+
+    def move(self):
+        self.row = (self.row + DIRECTIONS[self.direction][0]) % self.board.num_rows
+        self.col = (self.col + DIRECTIONS[self.direction][1]) % self.board.num_cols
+        self.square = self.board.get_square(self.row, self.col)
+        self.rect = self.square.rect
 
     def step(self):
-        self.row = (self.row + self.direction[0]) % board.num_rows
-        self.col = (self.col + self.direction[1]) % board.num_cols
-        self.rect = board.get_square(self.row, self.col).rect
+        self.rotate()
+        self.move()
 
     def set_pic(self):
         self.image = pygame.image.load('flea.jpg')
 
-        if self.direction == self.right:
+        if self.direction == 'right':
             self.image = pygame.transform.rotate(self.image, 270)
-        elif self.direction == self.down:
+        elif self.direction == 'down':
             self.image = pygame.transform.rotate(self.image, 180)
-        elif self.direction == self.left:
+        elif self.direction == 'left':
             self.image = pygame.transform.rotate(self.image, 90)
 
 class Square(pygame.sprite.Sprite):
-    colors = ['white', 'black' 'red', 'green', 'blue']
-    next_color = {colors[i]: colors[(i+1) % len(colors)] for i in range(len(colors))}
-
-    def __init__(self, row, col, color):
+    def __init__(self, row, col, color='white'):
         super(Square, self).__init__()
+        self.initialize_colors()
+
         self.row = row
         self.col = col
         self.color = color
@@ -78,11 +99,20 @@ class Square(pygame.sprite.Sprite):
         self.rect.x = column_to_pixel(self.col)
         self.rect.y = row_to_pixel(self.row)
 
+    def initialize_colors(self):
+        self.colors = ['white', 'black', 'red', 'green', 'blue']
+        self.next_color = {
+            self.colors[i]: self.colors[(i+1) % len(self.colors)]
+            for i in range(len(self.colors))
+        }
+
     def change_color(self):
         self.color = self.next_color[self.color]
+        self.image.fill(COLORS[self.color])
 
 class Board:
-    def __init__(self, num_rows, num_cols):
+    def __init__(self, screen, num_rows, num_cols, square_color='white'):
+        self.screen = screen
         self.num_rows = num_rows
         self.num_cols = num_cols
 
@@ -94,30 +124,44 @@ class Board:
             row_squares = []
 
             for col in range(self.num_cols):
-                square = Square(row, col, WHITE)
+                square = Square(row, col, square_color)
                 self.squares.add(square)
                 row_squares.append(square)
 
             self.board.append(row_squares)
 
         # Initialize flea
-        self.flea = pygame.sprite.Group(Flea(self, num_rows // 2, num_cols // 2))
+        self.fleas = pygame.sprite.Group()
+        self.fleas.add(Flea(self, num_rows // 2, num_cols // 2))
 
     def get_square(self, row, col):
         return self.board[row][col]
 
-    def draw_grid(self, screen, color=GREY):
+    def draw_grid(self, screen, color='grey'):
         # Draw horizontal lines
         for row in range(self.num_rows + 1):
             left = column_row_to_pixels(row, 0)
             right = column_row_to_pixels(row, self.num_cols)
-            pygame.draw.line(screen, color, left, right)
+            pygame.draw.line(screen, COLORS[color], left, right)
 
         # Draw vertical lines
         for col in range(self.num_cols + 1):
             top = column_row_to_pixels(0, col)
             bottom = column_row_to_pixels(self.num_rows, col)
-            pygame.draw.line(screen, color, top, bottom)
+            pygame.draw.line(screen, COLORS[color], top, bottom)
+
+    def step(self):
+        # Move flea and change square color
+        for flea in self.fleas.sprites():
+            flea.step()
+            flea.square.change_color()
+
+    def draw(self):
+        # Draw sprites
+        self.squares.draw(self.screen)
+        self.draw_grid(self.screen)
+        self.fleas.draw(self.screen)
+        pygame.display.flip()
 
 def new_game(num_rows, num_cols):
     pygame.init()
@@ -127,12 +171,11 @@ def new_game(num_rows, num_cols):
     screen = pygame.display.set_mode(window_size)
     pygame.display.set_caption('Graphing Fleas')
 
-    board = Board(num_rows, num_cols)
+    board = Board(screen, num_rows, num_cols)
 
-    board.squares.draw(screen)
-    board.draw_grid(screen)
-    board.flea.draw(screen)
-    pygame.display.flip()
+    while True:
+        board.draw()
+        board.step()
 
     pygame.quit()
 

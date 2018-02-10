@@ -5,7 +5,7 @@ from square import Square
 
 GREY = (100, 100, 100)
 
-class Board:
+class Grid:
     def __init__(self, screen, num_rows, num_cols, num_colors=2, square_color='white'):
         self.screen = screen
         self.num_rows = num_rows
@@ -14,9 +14,9 @@ class Board:
         self.square_color = square_color
 
         self.squares = pygame.sprite.Group()
-        self.board = []
+        self.grid = []
 
-        # Initialize squares on board
+        # Initialize squares on grid
         for row in range(self.num_rows):
             row_squares = []
 
@@ -25,14 +25,14 @@ class Board:
                 self.squares.add(square)
                 row_squares.append(square)
 
-            self.board.append(row_squares)
+            self.grid.append(row_squares)
 
         # Initialize flea
         self.fleas = pygame.sprite.Group()
         self.fleas.add(Flea(self, num_rows // 2, num_cols // 2))
 
     def get_square(self, row, col):
-        return self.board[row][col]
+        return self.grid[row][col]
 
     def rotate_fleas(self):
         for flea in self.fleas.sprites():

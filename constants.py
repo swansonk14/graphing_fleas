@@ -13,5 +13,22 @@ DIRECTIONS = {
     'left': (0, -1)
 }
 
-WIDTH = 0
-HEIGHT = 0
+MARGIN_TOP = 50
+MARGIN_SIDE = 20
+
+width = 0
+height = 0
+
+def set_width(new_width):
+	global width
+	width = new_width
+
+def set_height(new_height):
+	global height
+	height = new_height
+
+def get_width():
+	return width
+
+def get_height():
+	return height

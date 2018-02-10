@@ -1,5 +1,5 @@
 import pygame
-import constants
+from constants import DIRECTIONS, get_width, get_height
 
 class Flea(pygame.sprite.Sprite):
     def __init__(self, board, row, col, direction='up'):
@@ -42,8 +42,8 @@ class Flea(pygame.sprite.Sprite):
             self.rotate_left()
 
     def move(self):
-        self.row = (self.row + constants.DIRECTIONS[self.direction][0]) % self.board.num_rows
-        self.col = (self.col + constants.DIRECTIONS[self.direction][1]) % self.board.num_cols
+        self.row = (self.row + DIRECTIONS[self.direction][0]) % self.board.num_rows
+        self.col = (self.col + DIRECTIONS[self.direction][1]) % self.board.num_cols
         self.square = self.board.get_square(self.row, self.col)
         self.rect = self.square.rect
 
@@ -53,7 +53,7 @@ class Flea(pygame.sprite.Sprite):
 
     def set_image(self):
         self.image = pygame.image.load('flea.jpg')
-        self.image = pygame.transform.scale(self.image, (constants.WIDTH, constants.HEIGHT))
+        self.image = pygame.transform.scale(self.image, (get_width(), get_height()))
 
         # Rotate if necessary
         if self.direction == 'right':

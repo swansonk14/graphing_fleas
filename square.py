@@ -1,5 +1,5 @@
 import pygame
-import constants
+from constants import COLORS, get_width, get_height
 from helpers import column_to_pixel, row_to_pixel
 
 class Square(pygame.sprite.Sprite):
@@ -18,12 +18,12 @@ class Square(pygame.sprite.Sprite):
         }
 
         # Initialize square image
-        self.image = pygame.Surface([constants.WIDTH, constants.HEIGHT])
-        self.image.fill(constants.COLORS[self.color])
+        self.image = pygame.Surface((get_width(), get_height()))
+        self.image.fill(COLORS[self.color])
         self.rect = self.image.get_rect()
         self.rect.x = column_to_pixel(self.col)
         self.rect.y = row_to_pixel(self.row)
 
     def change_color(self):
         self.color = self.next_color[self.color]
-        self.image.fill(constants.COLORS[self.color])
+        self.image.fill(COLORS[self.color])

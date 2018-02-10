@@ -1,7 +1,37 @@
 import pygame
+from abc import ABCMeta, abstractmethod
 from constants import DIRECTIONS, get_width, get_height
 
-class Flea(pygame.sprite.Sprite):
+FLEA_CLASSES = {}
+
+def RegisterFlea(flea_class):
+    def decorator(cls):
+        FLEA_CLASSES[flea_class] = cls
+        return cls
+
+    return decorator
+
+def get_flea(flea_name):
+    """Gets the Flea class from the FLEA_CLASSES.
+
+    Arguments:
+        flea_name(str): The name of the class of Flea to get.
+
+    Returns:
+        The class corresponding to the Flea name provided.
+    """
+
+    if flea_name not in FLEA_CLASSES:
+        raise Exception(
+            'Flea class "{}" not in FLEA_CLASSES.'.format(flea_name) +
+            'Available Fleas are {}'.format(FLEA_CLASSES.keys()))
+
+    flea_class = FLEA_CLASSES[flea_name]
+
+    return flea_class
+
+
+class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     def __init__(self, board, row, col, direction='up'):
         super(Flea, self).__init__()
         self.initialize_directions()
@@ -35,11 +65,9 @@ class Flea(pygame.sprite.Sprite):
         self.image = pygame.transform.rotate(self.image, -90)
         self.direction = self.right_direction[self.direction]
 
+    @abstractmethod
     def rotate(self):
-        if self.square.color == 'white':
-            self.rotate_right()
-        else:
-            self.rotate_left()
+        pass
 
     def move(self):
         self.row = (self.row + DIRECTIONS[self.direction][0]) % self.board.num_rows
@@ -62,3 +90,12 @@ class Flea(pygame.sprite.Sprite):
             self.image = pygame.transform.rotate(self.image, 180)
         elif self.direction == 'left':
             self.image = pygame.transform.rotate(self.image, 90)
+
+
+@RegisterFlea("langtons_flea")
+class LangtonsFlea(Flea):
+    def rotate(self):
+        if self.square.color == 'white':
+            self.rotate_right()
+        else:
+            self.rotate_left()

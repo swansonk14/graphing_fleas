@@ -2,16 +2,18 @@ import argparse
 import pygame
 from constants import COLORS, MARGIN_TOP, MARGIN_SIDE, set_width, set_height, get_width, get_height
 from board import Board
-from flea import Flea
+from flea import get_flea
 from square import Square
 from text import Text
 
-def run_simulation(num_rows, num_cols, num_colors, delay):
+def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, delay):
     """Runs a graphing fleas simulation.
 
     Arguments:
         num_rows(int): Number of rows in the board.
         num_cols(int): Number of columns in the board.
+        flea_class(class): The class of the Fleas to be created.
+        num_fleas(int): The number of Fleas to create.
         num_colors(int): The number of colors each square can take on.
         delay(int): The number of milliseconds of delay between each step.
     """
@@ -23,7 +25,7 @@ def run_simulation(num_rows, num_cols, num_colors, delay):
     screen = pygame.display.set_mode(window_size)
     pygame.display.set_caption('Graphing Fleas')
 
-    board = Board(screen, num_rows, num_cols, num_colors)
+    board = Board(screen, num_rows, num_cols, flea_class, num_fleas, num_colors)
     board.draw()
 
     text = Text(screen, board)
@@ -67,8 +69,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--num_rows', type=int, default=20, help='Number of rows')
     parser.add_argument('--num_cols', type=int, default=20, help='Number of columns')
-    parser.add_argument('--width', type=int, default=100, help='Width of each square (in pixels)')
-    parser.add_argument('--height', type=int, default=100, help='Height of each square (in pixels)')
+    parser.add_argument('--width', type=int, default=75, help='Width of each square (in pixels)')
+    parser.add_argument('--height', type=int, default=75, help='Height of each square (in pixels)')
+    parser.add_argument('--flea_name', type=str, default='langtons_flea', help='The name of the class of Flea to create')
+    parser.add_argument('--num_fleas', type=int, default=1, help='Number of Fleas')
     parser.add_argument('--num_colors', type=int, default=2, help='Number of square colors (min = 1, max = {})'.format(len(COLORS)))
     parser.add_argument('--delay', type=int, default=200, help='Number of milliseconds between steps')
     args = parser.parse_args()
@@ -76,4 +80,6 @@ if __name__ == '__main__':
     set_width(args.width)
     set_height(args.height)
 
-    run_simulation(args.num_rows, args.num_cols, args.num_colors, args.delay)
+    flea_class = get_flea(args.flea_name)
+
+    run_simulation(args.num_rows, args.num_cols, args.num_colors, flea_class, args.num_fleas, args.delay)

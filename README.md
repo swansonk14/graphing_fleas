@@ -12,6 +12,10 @@ To run the simulation, simply run:
 python main.py
 ```
 
+The simulation can be paused and resumed by pressing the space bar.
+
+![Alt Text](langtons_flea.gif)
+
 A number of optional arguments can be passed, including:
 
 * `num_rows` - The number of rows in the grid.
@@ -28,6 +32,8 @@ Example:
 ```
 python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name langtons_flea --num_fleas 20 --num_colors 5 --delay 0
 ```
+
+![Alt Text](multi_color_langtons_flea.gif)
 
 ## Authors
 Kyle Swanson, Magdalen Dobson, Thomas Sturm

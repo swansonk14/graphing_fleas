@@ -6,7 +6,7 @@ from flea import get_flea
 from square import Square
 from text import Text
 
-def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, delay):
+def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, display_frequency, delay):
     """Runs a graphing fleas simulation.
 
     Arguments:
@@ -15,6 +15,8 @@ def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, delay)
         flea_class(class): The class of the Fleas to be created.
         num_fleas(int): The number of Fleas to create.
         num_colors(int): The number of colors each square can take on.
+        display_frequency(int): How many steps between each update of the display.
+            -1 to update manually upon pressing "d" key.
         delay(int): The number of milliseconds of delay between each step.
     """
 
@@ -41,9 +43,12 @@ def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, delay)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit = True
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                pause = not pause
-                text.update("Step {}{}".format(step, ', PAUSED' if pause else ''))
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    pause = not pause
+                    text.update("Step {}{}".format(step, ', PAUSED' if pause else ''))
+                elif event.key == pygame.K_d:
+                    board.draw()
         if quit:
             break
 
@@ -52,14 +57,17 @@ def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, delay)
             text.update("Step {}".format(step))
 
             board.rotate_fleas()
-            board.draw()
-            pygame.time.delay(delay)
+            if display_frequency != -1 and step % display_frequency == 0:
+                board.draw()
+                pygame.time.delay(delay)
 
             board.change_square_colors()
 
             board.move_fleas()
-            board.draw()
-            pygame.time.delay(delay)
+            
+            if display_frequency != -1 and step % display_frequency == 0:
+                board.draw()
+                pygame.time.delay(delay)
 
             step += 1
 
@@ -74,7 +82,8 @@ if __name__ == '__main__':
     parser.add_argument('--flea_name', type=str, default='langtons_flea', help='The name of the class of Flea to create')
     parser.add_argument('--num_fleas', type=int, default=1, help='Number of Fleas')
     parser.add_argument('--num_colors', type=int, default=2, help='Number of square colors (min = 1, max = {})'.format(len(COLORS)))
-    parser.add_argument('--delay', type=int, default=200, help='Number of milliseconds between steps')
+    parser.add_argument('--display_frequency', type=int, default=1, help='How often to update the display (-1 to update only on pressing "d" key)')
+    parser.add_argument('--delay', type=int, default=0, help='Number of milliseconds between steps')
     args = parser.parse_args()
 
     set_width(args.width)
@@ -82,4 +91,4 @@ if __name__ == '__main__':
 
     flea_class = get_flea(args.flea_name)
 
-    run_simulation(args.num_rows, args.num_cols, args.num_colors, flea_class, args.num_fleas, args.delay)
+    run_simulation(args.num_rows, args.num_cols, args.num_colors, flea_class, args.num_fleas, args.display_frequency, args.delay)

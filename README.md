@@ -4,6 +4,13 @@ Simulates the movement of fleas on a 2-dimensional grid. The fleas rotate depend
 
 Note: Requires Python 3.
 
+## Installation
+
+```
+git clone https://github.com/swansonk14/graphing_fleas.git
+pip install -r requirements.txt
+```
+
 ## Running the simulation
 
 To run the simulation, simply run:
@@ -14,7 +21,7 @@ python main.py
 
 The simulation can be paused and resumed by pressing the space bar.
 
-![Alt Text](langtons_flea.gif)
+![Alt Text](images/langtons_flea.gif)
 
 A number of optional arguments can be passed, including:
 
@@ -34,7 +41,7 @@ Example:
 python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name langtons_flea --num_fleas 20 --num_colors 5 --display_frequency 1 --delay 0
 ```
 
-![Alt Text](multi_color_langtons_flea.gif)
+![Alt Text](images/multi_color_langtons_flea.gif)
 
 ## Authors
 Kyle Swanson, Magdalen Dobson, Thomas Sturm

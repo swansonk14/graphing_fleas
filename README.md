@@ -21,7 +21,11 @@ python main.py
 
 The simulation can be paused and resumed by pressing the space bar.
 
+The default simulates [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant).
+
 ![Alt Text](images/langtons_flea.gif)
+
+## Arguments
 
 A number of optional arguments can be passed, including:
 
@@ -37,13 +41,23 @@ A number of optional arguments can be passed, including:
 * `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key.
 * `delay` - The number of milliseconds of delay between each step of the simulation.
 
-Example:
+## Examples
+
+Langton's Ant with 5 colors.
 
 ```
 python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name langtons_flea --num_fleas 20 --num_colors 5 --display_frequency 1 --delay 0
 ```
 
 ![Alt Text](images/multi_color_langtons_flea.gif)
+
+RRLLLRLLLRRR version of Langton's Ant.
+
+```
+python main.py --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_name triangle_flea --num_fleas 1 --num_colors 12 --display_frequency 5000 --flea_row 30
+```
+
+![Alt Text](images/triangle_flea.gif)
 
 ## Authors
 Kyle Swanson, Magdalen Dobson, Thomas Sturm

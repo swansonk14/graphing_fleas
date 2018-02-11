@@ -56,13 +56,17 @@ def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, displa
         if not pause:
             text.update("Step {}".format(step))
 
+            # Rotate fleas
             board.rotate_fleas()
+
             if display_frequency != -1 and step % display_frequency == 0:
                 board.draw()
                 pygame.time.delay(delay)
 
+            # Change square colors
             board.change_square_colors()
 
+            # Move fleas
             board.move_fleas()
             
             if display_frequency != -1 and step % display_frequency == 0:

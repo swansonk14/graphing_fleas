@@ -70,17 +70,17 @@ class Board:
         for flea in self.fleas.sprites():
             flea.rotate()
 
-    def move_fleas(self):
-        """Moves all Fleas."""
-
-        for flea in self.fleas.sprites():
-            flea.move()
-
     def change_square_colors(self):
         """Changes the color of the Squares under the Fleas."""
 
         for flea in self.fleas.sprites():
             flea.square.change_color()
+
+    def move_fleas(self):
+        """Moves all Fleas."""
+
+        for flea in self.fleas.sprites():
+            flea.move()
 
     def draw_grid(self, screen):
         """Draws a grid of lines to visualize separate the Squares.

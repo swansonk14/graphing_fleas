@@ -107,12 +107,6 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         self.square = self.board.get_square(self.row, self.col)
         self.rect = self.square.rect
 
-    def step(self):
-        """Rotates and moves the Flea."""
-
-        self.rotate()
-        self.move()
-
     def set_image(self):
         """Sets the image of the Flea and orients it correctly."""
 

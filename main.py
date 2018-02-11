@@ -6,13 +6,25 @@ from flea import get_flea
 from square import Square
 from text import Text
 
-def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, display_frequency, delay):
+def run_simulation(num_rows,
+                   num_cols,
+                   num_colors,
+                   flea_class,
+                   flea_row,
+                   flea_col,
+                   num_fleas,
+                   display_frequency,
+                   delay):
     """Runs a graphing fleas simulation.
 
     Arguments:
         num_rows(int): Number of rows in the board.
         num_cols(int): Number of columns in the board.
         flea_class(class): The class of the Fleas to be created.
+        flea_row(int): The initial row of the first flea.
+            -1 to start in the center vertically.
+        flea_col(int): The initial column of the first flea.
+            -1 to start in the center horizontally.
         num_fleas(int): The number of Fleas to create.
         num_colors(int): The number of colors each square can take on.
         display_frequency(int): How many steps between each update of the display.
@@ -23,11 +35,18 @@ def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, displa
     pygame.init()
 
     window_size = (num_cols * get_width() + MARGIN_SIDE,
-                   num_rows * get_height() + MARGIN_TOP)
+                   num_rows * get_height() + MARGIN_TOP + MARGIN_SIDE)
     screen = pygame.display.set_mode(window_size)
     pygame.display.set_caption('Graphing Fleas')
 
-    board = Board(screen, num_rows, num_cols, flea_class, num_fleas, num_colors)
+    board = Board(screen,
+                  num_rows,
+                  num_cols,
+                  flea_class,
+                  flea_row,
+                  flea_col,
+                  num_fleas,
+                  num_colors)
     board.draw()
 
     text = Text(screen, board)
@@ -89,6 +108,8 @@ if __name__ == '__main__':
     parser.add_argument('--width', type=int, default=75, help='Width of each square (in pixels)')
     parser.add_argument('--height', type=int, default=75, help='Height of each square (in pixels)')
     parser.add_argument('--flea_name', type=str, default='langtons_flea', help='The name of the class of Flea to create')
+    parser.add_argument('--flea_row', type=int, default=-1, help='Initial row of first flea (-1 for center of board vertically)')
+    parser.add_argument('--flea_col', type=int, default=-1, help='Initial column of first flea (-1 for center of board horizontally)')
     parser.add_argument('--num_fleas', type=int, default=1, help='Number of Fleas')
     parser.add_argument('--num_colors', type=int, default=2, help='Number of square colors (min = 1, max = {})'.format(len(COLORS)))
     parser.add_argument('--display_frequency', type=int, default=1, help='How often to update the display (-1 to update only on pressing "d" key)')
@@ -100,4 +121,12 @@ if __name__ == '__main__':
 
     flea_class = get_flea(args.flea_name)
 
-    run_simulation(args.num_rows, args.num_cols, args.num_colors, flea_class, args.num_fleas, args.display_frequency, args.delay)
+    run_simulation(args.num_rows,
+                   args.num_cols,
+                   args.num_colors,
+                   flea_class,
+                   args.flea_row,
+                   args.flea_col,
+                   args.num_fleas,
+                   args.display_frequency,
+                   args.delay)

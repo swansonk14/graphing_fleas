@@ -1,6 +1,6 @@
 import pygame
 from abc import ABCMeta, abstractmethod
-from constants import DIRECTIONS, get_width, get_height
+from constants import DIRECTIONS, ORDERED_COLORS, get_width, get_height
 
 FLEA_CLASSES = {}
 
@@ -131,19 +131,16 @@ class LangtonsFlea(Flea):
         else:
             self.rotate_left()
 
-@RegisterFlea('multi_color_flea')
-class MultiColorFlea(Flea):
-    def rotate(self):
-        if self.square.color == 'white':
-            num_rotations = 1
-        elif self.square.color == 'black':
-            num_rotations = 2
-        elif self.square.color == 'red':
-            num_rotations = 3
-        elif self.square.color == 'green':
-            num_rotations = 4
-        elif self.square.color == 'blue':
-            num_rotations = 5
+# RRLLLRLLLRRR flea
+@RegisterFlea('triangle_flea')
+class TriangleFlea(Flea):
+    right_turn_colors = [ORDERED_COLORS[i] for i in [0, 1, 5, 9, 10, 11]]
+    left_turn_colors = [ORDERED_COLORS[i] for i in [2, 3, 4, 6, 7, 8]]
 
-        for _ in range(num_rotations):
+    def rotate(self):
+        if self.square.color in self.right_turn_colors:
             self.rotate_right()
+        elif self.square.color in self.left_turn_colors:
+            self.rotate_left()
+        else:
+            raise Exception('Too many colors. Triangle Flea only supports 12 colors.')

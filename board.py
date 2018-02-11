@@ -8,7 +8,15 @@ GREY = (100, 100, 100)
 class Board:
     """A Board contains, controls, and displays all Squares and Fleas in the simulation."""
 
-    def __init__(self, screen, num_rows, num_cols, flea_class, num_fleas=1, num_colors=2, square_color='white'):
+    def __init__(self,
+                 screen,
+                 num_rows,
+                 num_cols,
+                 flea_class,
+                 flea_row,
+                 flea_col,
+                 num_fleas,
+                 num_colors):
         """Initializes the Board.
 
         Arguments:
@@ -16,18 +24,22 @@ class Board:
             num_rows(int): The number of rows in the Board.
             num_cols(int): The number of columns in the Board.
             flea_class(class): The class of the Fleas to be created.
+            flea_row(int): The initial row of the first flea.
+                -1 to start in the center vertically.
+            flea_col(int): The initial column of the first flea.
+                -1 to start in the center horizontally.
             num_fleas(int): The number of Fleas to create.
             num_colors(int): The number of possible colors each Square can take on.
-            square_color(str): The initial color of each Square.
         """
 
         self.screen = screen
         self.num_rows = num_rows
         self.num_cols = num_cols
         self.flea_class = flea_class
+        self.flea_row = flea_row if flea_row != -1 else num_rows // 2
+        self.flea_col = flea_col if flea_col != -1 else num_cols // 2
         self.num_fleas = num_fleas
         self.num_colors = num_colors
-        self.square_color = square_color
 
         self.squares = pygame.sprite.Group()
         self.board = []
@@ -37,7 +49,7 @@ class Board:
             row_squares = []
 
             for col in range(self.num_cols):
-                square = Square(row, col, self.num_colors, self.square_color)
+                square = Square(row, col, self.num_colors)
                 self.squares.add(square)
                 row_squares.append(square)
 
@@ -45,7 +57,7 @@ class Board:
 
         # Initialize fleas (first is centered, others are random)
         self.fleas = pygame.sprite.Group()
-        self.fleas.add(self.flea_class(self, num_rows // 2, num_cols // 2))
+        self.fleas.add(self.flea_class(self, self.flea_row, self.flea_col))
         for _ in range(self.num_fleas - 1):
             self.fleas.add(self.flea_class(self,
                                            random.randint(0, num_rows - 1),

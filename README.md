@@ -30,6 +30,8 @@ A number of optional arguments can be passed, including:
 * `width` - The width (in pixels) of each square in the grid.
 * `height` - The height (in pixels) of each square in the grid.
 * `flea_name` - The name of the type of flea to simulate. Different fleas follow different rules.
+* `flea_row` - The initial row of the first flea. -1 to start in the center vertically.
+* `flea_col` - The initial column of the first flea. -1 to start in the center horizontally.
 * `num_fleas` - The number of fleas to simulate.
 * `num_colors` - The number of colors each square can take on.
 * `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key.

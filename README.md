@@ -25,12 +25,13 @@ A number of optional arguments can be passed, including:
 * `flea_name` - The name of the type of flea to simulate. Different fleas follow different rules.
 * `num_fleas` - The number of fleas to simulate.
 * `num_colors` - The number of colors each square can take on.
+* `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key.
 * `delay` - The number of milliseconds of delay between each step of the simulation.
 
 Example:
 
 ```
-python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name langtons_flea --num_fleas 20 --num_colors 5 --delay 0
+python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name langtons_flea --num_fleas 20 --num_colors 5 --display_frequency 1 --delay 0
 ```
 
 ![Alt Text](multi_color_langtons_flea.gif)

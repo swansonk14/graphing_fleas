@@ -48,13 +48,18 @@ def run_simulation(num_rows, num_cols, num_colors, flea_class, num_fleas, displa
                     pause = not pause
                     text.update("Step {}{}".format(step, ', PAUSED' if pause else ''))
                 elif event.key == pygame.K_d:
+                    text.update("Step {}".format(step))
                     board.draw()
         if quit:
             break
 
         # Take step
         if not pause:
-            text.update("Step {}".format(step))
+            print("Step {}".format(step))
+
+            # Update text displaying step number
+            if display_frequency != -1 and step % display_frequency == 0:
+                text.update("Step {}".format(step))
 
             # Rotate fleas
             board.rotate_fleas()

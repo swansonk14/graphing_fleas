@@ -1,9 +1,8 @@
 import pygame
 import random
+from constants import COLORS
 from helpers import row_column_to_pixels
 from square import Square
-
-GREY = (100, 100, 100)
 
 class Board:
     """A Board contains, controls, and displays all Squares and Fleas in the simulation."""
@@ -16,6 +15,7 @@ class Board:
                  flea_row,
                  flea_col,
                  num_fleas,
+                 square_class,
                  num_colors):
         """Initializes the Board.
 
@@ -23,12 +23,13 @@ class Board:
             screen(Surface): A pygame Surface representing the screen display.
             num_rows(int): The number of rows in the Board.
             num_cols(int): The number of columns in the Board.
-            flea_class(class): The class of the Fleas to be created.
+            flea_class(class): The class of the Fleas to create.
             flea_row(int): The initial row of the first flea.
                 -1 to start in the center vertically.
             flea_col(int): The initial column of the first flea.
                 -1 to start in the center horizontally.
             num_fleas(int): The number of Fleas to create.
+            square_class(class): The class of the Squares to create.
             num_colors(int): The number of possible colors each Square can take on.
         """
 
@@ -39,6 +40,7 @@ class Board:
         self.flea_row = flea_row if flea_row != -1 else num_rows // 2
         self.flea_col = flea_col if flea_col != -1 else num_cols // 2
         self.num_fleas = num_fleas
+        self.square_class = square_class
         self.num_colors = num_colors
 
         self.squares = pygame.sprite.Group()
@@ -49,7 +51,7 @@ class Board:
             row_squares = []
 
             for col in range(self.num_cols):
-                square = Square(row, col, self.num_colors)
+                square = self.square_class(row, col, self.num_colors)
                 self.squares.add(square)
                 row_squares.append(square)
 
@@ -94,29 +96,25 @@ class Board:
         for flea in self.fleas.sprites():
             flea.move()
 
-    def draw_grid(self, screen):
-        """Draws a grid of lines to visualize separate the Squares.
-
-        Arguments:
-            screen(Surface): A pygame Surface representing the screen display.
-        """
+    def draw_grid(self):
+        """Draws a grid of lines to visualize separate the Squares."""
 
         # Draw horizontal lines
         for row in range(self.num_rows + 1):
             left = row_column_to_pixels(row, 0)
             right = row_column_to_pixels(row, self.num_cols)
-            pygame.draw.line(screen, GREY, left, right)
+            pygame.draw.line(self.screen, COLORS['gray'], left, right)
 
         # Draw vertical lines
         for col in range(self.num_cols + 1):
             top = row_column_to_pixels(0, col)
             bottom = row_column_to_pixels(self.num_rows, col)
-            pygame.draw.line(screen, GREY, top, bottom)
+            pygame.draw.line(self.screen, COLORS['gray'], top, bottom)
 
     def draw(self):
         """Draws the Board including the Squares, grid, and Fleas."""
 
         self.squares.draw(self.screen)
-        self.draw_grid(self.screen)
+        self.draw_grid()
         self.fleas.draw(self.screen)
         pygame.display.flip()

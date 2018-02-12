@@ -50,6 +50,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         """
 
         super(Flea, self).__init__()
+
         self.initialize_directions()
 
         self.board = board
@@ -120,7 +121,6 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
             self.image = pygame.transform.rotate(self.image, 180)
         elif self.direction == 'left':
             self.image = pygame.transform.rotate(self.image, 90)
-
 
 # https://en.wikipedia.org/wiki/Langton%27s_ant
 @RegisterFlea('langtons_flea')

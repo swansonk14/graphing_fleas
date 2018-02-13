@@ -162,3 +162,24 @@ class OneDimensionalFlea(Flea):
         if self.square.color == 'white':
             self.rotate_right()
             self.rotate_right()
+
+@RegisterFlea('kyle_flea')
+class KyleFlea(Flea):
+    """Does whatever Kyle wants it to do."""
+
+    def rotate(self):
+        pass
+
+@RegisterFlea('magdalen_flea')
+class MagdalenFlea(Flea):
+    """Does whatever Magdalen wants it to do."""
+
+    def rotate(self):
+        pass
+
+@RegisterFlea('thomas_flea')
+class ThomasFlea(Flea):
+    """Does whatever Thomas wants it to do."""
+
+    def rotate(self):
+        pass

@@ -45,7 +45,9 @@ A number of optional arguments can be passed, including:
 
 ## Examples
 
-Langton's Ant with 5 colors.
+### Multi-color Langton's Ant
+
+Langton's Ant on squares with 5 colors.
 
 ```
 python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name langtons_flea --num_fleas 20 --num_colors 5 --display_frequency 1 --delay 0
@@ -53,13 +55,21 @@ python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name l
 
 ![Alt Text](images/multi_color_langtons_flea.gif)
 
-RRLLLRLLLRRR version of Langton's Ant.
+### RRLLLRLLLRRR
+
+Langton's Ant with 12 colors. Rotations left or right correspond to the rule RRLLLRLLLRRR for the 12 colors.
 
 ```
 python main.py --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_name triangle_flea --num_fleas 1 --num_colors 12 --display_frequency 5000 --flea_row 30
 ```
 
 ![Alt Text](images/triangle_flea.gif)
+
+### 1D flea
+
+A one-dimensional flea visiting all squares.
+
+![Alt Text](images/1d_flea.gif)
 
 ## Authors
 Kyle Swanson, Magdalen Dobson, Thomas Sturm

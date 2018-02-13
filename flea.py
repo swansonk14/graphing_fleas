@@ -58,7 +58,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         self.col = col
         self.direction = direction
 
-        self.square = board.get_square(self.row, self.col)
+        self.square = self.board.get_square(self.row, self.col)
         self.rect = self.square.rect
         self.set_image()
 
@@ -122,18 +122,20 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         elif self.direction == 'left':
             self.image = pygame.transform.rotate(self.image, 90)
 
-# https://en.wikipedia.org/wiki/Langton%27s_ant
 @RegisterFlea('langtons_flea')
 class LangtonsFlea(Flea):
+    """Langton's ant in flea form (https://en.wikipedia.org/wiki/Langton%27s_ant)."""
+
     def rotate(self):
         if self.square.color == 'white':
             self.rotate_right()
         else:
             self.rotate_left()
 
-# RRLLLRLLLRRR flea
 @RegisterFlea('triangle_flea')
 class TriangleFlea(Flea):
+    """RRLLLRLLLRRR flea."""
+
     right_turn_colors = [ORDERED_COLORS[i] for i in [0, 1, 5, 9, 10, 11]]
     left_turn_colors = [ORDERED_COLORS[i] for i in [2, 3, 4, 6, 7, 8]]
 
@@ -144,3 +146,19 @@ class TriangleFlea(Flea):
             self.rotate_left()
         else:
             raise Exception('Too many colors. Triangle Flea only supports 12 colors.')
+
+@RegisterFlea('1d_flea')
+class OneDimensionalFlea(Flea):
+    """A flea meant for one dimension."""
+
+    def __init__(self, *args, **kwargs):
+        super(OneDimensionalFlea, self).__init__(*args, **kwargs)
+
+        # Start facing right
+        self.rotate_right()
+
+    def rotate(self):
+        # Rotate 180 on white, no rotation on black
+        if self.square.color == 'white':
+            self.rotate_right()
+            self.rotate_right()

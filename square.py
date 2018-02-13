@@ -52,10 +52,7 @@ class Square(pygame.sprite.Sprite):
 
         # Initialize colors
         self.colors = ORDERED_COLORS[:self.num_colors]
-        self.next_color = {
-            self.colors[i]: self.colors[(i+1) % len(self.colors)]
-            for i in range(len(self.colors))
-        }
+        self.initialize_next_color_map()
         self.color = self.colors[0]
 
         # Initialize square image
@@ -64,6 +61,15 @@ class Square(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = column_to_pixel(self.col)
         self.rect.y = row_to_pixel(self.row)
+
+    def initialize_next_color_map(self):
+        """Initializes self.next_color which maps from the
+        current color to the next color."""
+
+        self.next_color = {
+            self.colors[i]: self.colors[(i+1) % len(self.colors)]
+            for i in range(len(self.colors))
+        }
 
     def change_color(self):
         """Changes the color of the Square.
@@ -89,3 +95,16 @@ class VisitedSquare(Square):
 
         pygame.draw.line(self.image, COLORS['gray'], (0, 0), (get_width(), get_height()))
         pygame.draw.line(self.image, COLORS['gray'], (get_width(), 0), (0, get_height()))
+
+@RegisterSquare('end_color_square')
+class EndColorSquare(Square):
+    """The EndColorSquare cycles through the colors until it
+    reaches the final color, which never changes."""
+
+    def initialize_next_color_map(self):
+        self.next_color = {
+            self.colors[i]: self.colors[i+1]
+            for i in range(len(self.colors) - 1)
+        }
+        last_color = self.colors[-1]
+        self.next_color[last_color] = last_color

@@ -41,6 +41,7 @@ A number of optional arguments can be passed, including:
 * `num_colors` - The number of colors each square can take on.
 * `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key.
 * `delay` - The number of milliseconds of delay between each step of the simulation.
+* `pause` - Add this flag to start the game in a paused state.
 
 ## Examples
 

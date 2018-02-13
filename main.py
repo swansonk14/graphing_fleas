@@ -15,7 +15,8 @@ def run_simulation(num_rows,
                    square_class,
                    num_colors,
                    display_frequency,
-                   delay):
+                   delay,
+                   pause):
     """Runs a graphing fleas simulation.
 
     Arguments:
@@ -32,6 +33,7 @@ def run_simulation(num_rows,
         display_frequency(int): How many steps between each update of the display.
             -1 to update manually upon pressing "d" key.
         delay(int): The number of milliseconds of delay between each step.
+        pause(bool): True to start the game in a paused state.
     """
 
     pygame.init()
@@ -53,12 +55,11 @@ def run_simulation(num_rows,
     board.draw()
 
     text = Text(screen, board)
-    text.update("Step 0")
+    text.update("Step 0{}".format(', PAUSED' if pause else ''))
 
-    pygame.time.delay(1000)
+    pygame.time.delay(500)
 
     quit = False
-    pause = False
     step = 0
     while True:
         # Check for quit or pause
@@ -118,6 +119,7 @@ if __name__ == '__main__':
     parser.add_argument('--num_colors', type=int, default=2, help='Number of square colors (min = 1, max = {})'.format(len(COLORS)))
     parser.add_argument('--display_frequency', type=int, default=1, help='How often to update the display (-1 to update only on pressing "d" key)')
     parser.add_argument('--delay', type=int, default=0, help='Number of milliseconds between steps')
+    parser.add_argument('--pause', action='store_true', default=False, help='Start the game in a paused state')
     args = parser.parse_args()
 
     set_width(args.width)
@@ -135,4 +137,5 @@ if __name__ == '__main__':
                    square_class,
                    args.num_colors,
                    args.display_frequency,
-                   args.delay)
+                   args.delay,
+                   args.pause)

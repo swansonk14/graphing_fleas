@@ -177,7 +177,7 @@ class OneDimensionalVisitorFlea(Flea):
             self.rotate_right()
 
 @RegisterFlea('2d_visit_flea')
-class TwoDimensionalFlea(Flea):
+class TwoDimensionalVisitorFlea(Flea):
     """A flea which visits all squares in two dimensions.
 
     num_colors = 3

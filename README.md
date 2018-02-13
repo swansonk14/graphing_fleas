@@ -85,7 +85,7 @@ python main.py --flea_name 2d_visit_flea --num_rows 320 --num_cols 600 --width 5
 
 ![Alt Text](images/2d_visit_flea.gif)
 
-Remark: Below is an image of the same flea on squares with 4 colors instead of 3. All the white squares have not been touched by the flea, all the black squares have been touched once, the red squares twice, and the green squares three or more times. The pattern below indicates that the flea works by circling around the border of the diamond and traveling up and down the green highway but never again touching any of the red squares.
+**Remark:** Below is an image of the same flea on squares with 4 colors instead of 3. All the white squares have not been touched by the flea, all the black squares have been touched once, the red squares twice, and the green squares three or more times. The pattern below indicates that the flea works by circling around the border of the diamond and traveling up and down the green highway but never again touching any of the red squares.
 
 ![Alt Text](images/2d_visit_flea_4_colors.png)
 

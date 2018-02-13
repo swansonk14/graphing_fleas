@@ -50,7 +50,7 @@ A number of optional arguments can be passed, including:
 Langton's Ant on squares with 5 colors.
 
 ```
-python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name langtons_flea --num_fleas 20 --num_colors 5 --display_frequency 1 --delay 0
+python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name langtons_flea --num_fleas 20 --num_colors 5
 ```
 
 ![Alt Text](images/multi_color_langtons_flea.gif)
@@ -68,6 +68,10 @@ python main.py --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_name tr
 ### 1D flea
 
 A one-dimensional flea visiting all squares.
+
+```
+python main.py --flea_name 1d_flea --delay 50 --num_rows 1 --num_cols 15 --width 100 --height 100 --square_name end_color_square
+```
 
 ![Alt Text](images/1d_flea.gif)
 

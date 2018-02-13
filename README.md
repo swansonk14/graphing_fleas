@@ -65,15 +65,25 @@ python main.py --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_name tr
 
 ![Alt Text](images/triangle_flea.gif)
 
-### 1D flea
+### 1D visit flea
 
 A one-dimensional flea visiting all squares.
 
 ```
-python main.py --flea_name 1d_flea --delay 50 --num_rows 1 --num_cols 15 --width 100 --height 100 --square_name end_color_square
+python main.py --flea_name 1d_visit_flea --delay 50 --num_rows 1 --num_cols 15 --width 100 --height 100 --square_name end_color_square
 ```
 
-![Alt Text](images/1d_flea.gif)
+![Alt Text](images/1d_visit_flea.gif)
+
+### 2D visit flea
+
+A two-dimensional flea visiting all squares.
+
+```
+python main.py --flea_name 2d_visit_flea --num_rows 320 --num_cols 600 --width 5 --height 5 --square_name end_color_square --num_colors 3 --display_frequency 7000 --flea_row 200
+```
+
+![Alt Text](images/2d_visit_flea.gif)
 
 ## Authors
 Kyle Swanson, Magdalen Dobson, Thomas Sturm

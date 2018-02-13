@@ -122,9 +122,14 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         elif self.direction == 'left':
             self.image = pygame.transform.rotate(self.image, 90)
 
+
 @RegisterFlea('langtons_flea')
 class LangtonsFlea(Flea):
-    """Langton's ant in flea form (https://en.wikipedia.org/wiki/Langton%27s_ant)."""
+    """Langton's ant in flea form (https://en.wikipedia.org/wiki/Langton%27s_ant).
+
+    num_colors = 2
+    square_name = "square"
+    """
 
     def rotate(self):
         if self.square.color == 'white':
@@ -134,7 +139,11 @@ class LangtonsFlea(Flea):
 
 @RegisterFlea('triangle_flea')
 class TriangleFlea(Flea):
-    """RRLLLRLLLRRR flea."""
+    """RRLLLRLLLRRR flea.
+
+    num_colors = 12
+    square_name = "square"
+    """
 
     right_turn_colors = [ORDERED_COLORS[i] for i in [0, 1, 5, 9, 10, 11]]
     left_turn_colors = [ORDERED_COLORS[i] for i in [2, 3, 4, 6, 7, 8]]
@@ -147,9 +156,13 @@ class TriangleFlea(Flea):
         else:
             raise Exception('Too many colors. Triangle Flea only supports 12 colors.')
 
-@RegisterFlea('1d_flea')
-class OneDimensionalFlea(Flea):
-    """A flea meant for one dimension."""
+@RegisterFlea('1d_visit_flea')
+class OneDimensionalVisitorFlea(Flea):
+    """A flea which visits all squares in one dimension.
+
+    num_colors = 2
+    square_name = "end_color_square"
+    """
 
     def __init__(self, *args, **kwargs):
         super(OneDimensionalFlea, self).__init__(*args, **kwargs)
@@ -162,6 +175,22 @@ class OneDimensionalFlea(Flea):
         if self.square.color == 'white':
             self.rotate_right()
             self.rotate_right()
+
+@RegisterFlea('2d_visit_flea')
+class TwoDimensionalFlea(Flea):
+    """A flea which visits all squares in two dimensions.
+
+    num_colors = 3
+    square_name = "end_color_square"
+    """
+
+    def rotate(self):
+        # Rotates right for white, left for black,
+        # no rotation for third color
+        if self.square.color == 'white':
+            self.rotate_right()
+        elif self.square.color == 'black':
+            self.rotate_left()
 
 @RegisterFlea('kyle_flea')
 class KyleFlea(Flea):

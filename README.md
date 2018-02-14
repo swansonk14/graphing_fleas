@@ -38,7 +38,8 @@ A number of optional arguments can be passed, including:
 * `flea_col` - The initial column of the first flea. -1 to start in the center horizontally.
 * `num_fleas` - The number of fleas to simulate.
 * `visited` - Add this flag to add an X to indicate which squares have been visited.
-* `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key.
+* `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key. May be in scientific notation (ex. 1e5).
+* `print_frequency` - The number of steps between each printing of the step number to the terminal. May be in scientific notation (ex. 1e5).
 * `delay` - The number of milliseconds of delay between each step of the simulation.
 * `pause` - Add this flag to start the game in a paused state.
 

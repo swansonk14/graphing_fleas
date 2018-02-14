@@ -108,6 +108,12 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         self.image = pygame.transform.rotate(self.image, -90)
         self.direction = self.right_direction[self.direction]
 
+    def rotate_180(self):
+        """Rotates the Flea 180 degrees."""
+
+        self.rotate_right()
+        self.rotate_right()
+
     def move(self):
         """Moves the Flea."""
 
@@ -200,8 +206,16 @@ class TwoDimensionalVisitorFlea(Flea):
 class KyleFlea(Flea):
     """Does whatever Kyle wants it to do."""
 
+    num_colors = 3
+    cycle_size = 2
+
     def rotate(self):
-        pass
+        if self.square.color == 'white':
+            self.rotate_180()
+        elif self.square.color == 'black':
+            self.rotate_left()
+        elif self.square.color == 'red':
+            self.rotate_right()
 
 @RegisterFlea('magdalen_flea')
 class MagdalenFlea(Flea):

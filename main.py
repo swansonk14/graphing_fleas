@@ -5,6 +5,22 @@ from board import Board
 from flea import get_flea, FLEA_CLASSES
 from text import Text
 
+def format_step(step, threshold=10000):
+    """Formats step to be in scientific notation once it exceeds the threshold.
+
+    Arguments:
+        step(int): Step number.
+        threshold(int): The step number above which to use scientific notation.
+
+    Returns:
+        A string with step either as an int or in scientific notation.
+    """
+
+    if step >= threshold:
+        return '{:.2e}'.format(step)
+    
+    return str(step)
+
 def run_simulation(num_rows,
                    num_cols,
                    flea_class,
@@ -13,6 +29,7 @@ def run_simulation(num_rows,
                    num_fleas,
                    visited,
                    display_frequency,
+                   print_frequency,
                    delay,
                    pause):
     """Runs a graphing fleas simulation.
@@ -29,6 +46,7 @@ def run_simulation(num_rows,
         visited(bool): True to add an X to indicate which squares have been visited.
         display_frequency(int): How many steps between each update of the display.
             -1 to update manually upon pressing "d" key.
+        print_frequency(int): How often to print the step to the terminal.
         delay(int): The number of milliseconds of delay between each step.
         pause(bool): True to start the game in a paused state.
     """
@@ -65,20 +83,21 @@ def run_simulation(num_rows,
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     pause = not pause
-                    text.update("Step {}{}".format(step, ', PAUSED' if pause else ''))
+                    text.update("Step {}{}".format(format_step(step), ', PAUSED' if pause else ''))
                 elif event.key == pygame.K_d:
-                    text.update("Step {}{}".format(step, ', PAUSED' if pause else ''))
+                    text.update("Step {}{}".format(format_step(step), ', PAUSED' if pause else ''))
                     board.draw()
         if quit:
             break
 
         # Take step
         if not pause:
-            print("Step {}".format(step))
+            if step % print_frequency == 0:
+                print("Step {}".format(format_step(step)))
 
             # Update text displaying step number
             if display_frequency != -1 and step % display_frequency == 0:
-                text.update("Step {}".format(step))
+                text.update("Step {}".format(format_step(step)))
 
             # Rotate fleas
             board.rotate_fleas()
@@ -112,7 +131,8 @@ if __name__ == '__main__':
     parser.add_argument('--flea_col', type=int, default=-1, help='Initial column of first flea (-1 for center of board horizontally)')
     parser.add_argument('--num_fleas', type=int, default=1, help='Number of Fleas')
     parser.add_argument('--visited', action='store_true', default=False, help='Add an X to indicate which squares have been visited')
-    parser.add_argument('--display_frequency', type=int, default=1, help='How often to update the display (-1 to update only on pressing "d" key)')
+    parser.add_argument('--display_frequency', type=str, default='1', help='How often to update the display (-1 to update only on pressing "d" key; may be in scientific notation)')
+    parser.add_argument('--print_frequency', type=str, default='1e5', help='How often to print the step to the terminal (may be in scientific notation)')
     parser.add_argument('--delay', type=int, default=0, help='Number of milliseconds between steps')
     parser.add_argument('--pause', action='store_true', default=False, help='Start the game in a paused state')
     args = parser.parse_args()
@@ -122,6 +142,9 @@ if __name__ == '__main__':
 
     flea_class = get_flea(args.flea_name)
 
+    display_frequency = int(float(args.display_frequency))
+    print_frequency = int(float(args.print_frequency))
+
     run_simulation(args.num_rows,
                    args.num_cols,
                    flea_class,
@@ -129,6 +152,7 @@ if __name__ == '__main__':
                    args.flea_col,
                    args.num_fleas,
                    args.visited,
-                   args.display_frequency,
+                   display_frequency,
+                   print_frequency,
                    args.delay,
                    args.pause)

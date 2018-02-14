@@ -5,7 +5,7 @@ from helpers import column_to_pixel, row_to_pixel
 class Square(pygame.sprite.Sprite):
     """A Square represents a colored location that a flea can move to."""
 
-    def __init__(self, row, col, num_colors, cycle_size=None):
+    def __init__(self, row, col, num_colors, cycle_size=None, visited=False):
         """Initializes the Square.
 
         Arguments:
@@ -15,7 +15,8 @@ class Square(pygame.sprite.Sprite):
                 Max is the number of colors in COLORS in constants.py.
             cycle_size(int): The number of colors to cycle at the end of the list
                 of colors. Must be less than or equal to num_colors.
-                (None to cycle through all the colors.) 
+                (None to cycle through all the colors.)
+            visited(bool): True to add an X to indicate which squares have been visited.
         """
 
         super(Square, self).__init__()
@@ -24,6 +25,7 @@ class Square(pygame.sprite.Sprite):
         self.col = col
         self.num_colors = num_colors
         self.cycle_size = cycle_size if cycle_size is not None else num_colors
+        self.visited = visited
 
         # Initialize colors
         self.colors = ORDERED_COLORS[:self.num_colors]
@@ -58,16 +60,11 @@ class Square(pygame.sprite.Sprite):
         self.color = self.next_color[self.color]
         self.image.fill(COLORS[self.color])
 
-class VisitedSquare(Square):
-    """The VisitedSquare adds an indicator once a Flea has reached the square."""
+        if self.visited:
+            top_left = (self.rect.x, self.rect.y)
+            top_right = (self.rect.x + get_width(), self.rect.y)
+            bottom_left = (self.rect.x, self.rect.y + get_height())
+            bottom_right = (self.rect.x + get_width(), self.rect.y + get_height())
 
-    def change_color(self):
-        super(VisitedSquare, self).change_color()
-
-        top_left = (self.rect.x, self.rect.y)
-        top_right = (self.rect.x + get_width(), self.rect.y)
-        bottom_left = (self.rect.x, self.rect.y + get_height())
-        bottom_right = (self.rect.x + get_width(), self.rect.y + get_height())
-
-        pygame.draw.line(self.image, COLORS['gray'], (0, 0), (get_width(), get_height()))
-        pygame.draw.line(self.image, COLORS['gray'], (get_width(), 0), (0, get_height()))
+            pygame.draw.line(self.image, COLORS['gray'], (0, 0), (get_width(), get_height()))
+            pygame.draw.line(self.image, COLORS['gray'], (get_width(), 0), (0, get_height()))

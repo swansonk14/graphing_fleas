@@ -1,7 +1,6 @@
 import pygame
 from abc import ABCMeta, abstractmethod
 from constants import DIRECTIONS, ORDERED_COLORS, get_width, get_height
-from square import Square, VisitedSquare
 
 FLEA_CLASSES = {}
 
@@ -36,7 +35,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     """A Flea represents a flea which can move on the Board and change the color of Squares.
 
     Flea is an abstract class. Subclasses must define the
-    num_colors, cycle_size, and square_class properties
+    num_colors and cycle_size properties and
     must implement the rotate method, which decides how
     the Flea will rotate based on which color Square
     it is currently on.
@@ -48,10 +47,6 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
 
     @abstractmethod
     def cycle_size(self):
-        pass
-
-    @abstractmethod
-    def square_class(self):
         pass
 
     @abstractmethod
@@ -142,7 +137,6 @@ class LangtonsFlea(Flea):
 
     num_colors = 2
     cycle_size = 2
-    square_class = Square
 
     def rotate(self):
         if self.square.color == 'white':
@@ -156,7 +150,6 @@ class TriangleFlea(Flea):
 
     num_colors = 12
     cycle_size = 12
-    square_class = Square
 
     right_turn_colors = [ORDERED_COLORS[i] for i in [0, 1, 5, 9, 10, 11]]
     left_turn_colors = [ORDERED_COLORS[i] for i in [2, 3, 4, 6, 7, 8]]
@@ -175,7 +168,6 @@ class OneDimensionalVisitorFlea(Flea):
 
     num_colors = 2
     cycle_size = 1
-    square_class = Square
 
     def __init__(self, *args, **kwargs):
         super(OneDimensionalVisitorFlea, self).__init__(*args, **kwargs)
@@ -195,7 +187,6 @@ class TwoDimensionalVisitorFlea(Flea):
 
     num_colors = 3
     cycle_size = 1
-    square_class = Square
 
     def rotate(self):
         # Rotates right for white, left for black,

@@ -3,7 +3,6 @@ import pygame
 from constants import COLORS, MARGIN_TOP, MARGIN_SIDE, set_width, set_height, get_width, get_height
 from board import Board
 from flea import get_flea, FLEA_CLASSES
-from square import get_square, SQUARE_CLASSES
 from text import Text
 
 def run_simulation(num_rows,
@@ -12,8 +11,6 @@ def run_simulation(num_rows,
                    flea_row,
                    flea_col,
                    num_fleas,
-                   square_class,
-                   num_colors,
                    display_frequency,
                    delay,
                    pause):
@@ -28,8 +25,6 @@ def run_simulation(num_rows,
         flea_col(int): The initial column of the first flea.
             -1 to start in the center horizontally.
         num_fleas(int): The number of Fleas to create.
-        square_class(class): The class of th Squares to create.
-        num_colors(int): The number of colors each square can take on.
         display_frequency(int): How many steps between each update of the display.
             -1 to update manually upon pressing "d" key.
         delay(int): The number of milliseconds of delay between each step.
@@ -49,9 +44,7 @@ def run_simulation(num_rows,
                   flea_class,
                   flea_row,
                   flea_col,
-                  num_fleas,
-                  square_class,
-                  num_colors)
+                  num_fleas)
     board.draw()
 
     text = Text(screen, board)
@@ -115,8 +108,6 @@ if __name__ == '__main__':
     parser.add_argument('--flea_row', type=int, default=-1, help='Initial row of first flea (-1 for center of board vertically)')
     parser.add_argument('--flea_col', type=int, default=-1, help='Initial column of first flea (-1 for center of board horizontally)')
     parser.add_argument('--num_fleas', type=int, default=1, help='Number of Fleas')
-    parser.add_argument('--square_name', type=str, default='square', help='The name of the class of Square to create. Options: {}'.format(', '.join(SQUARE_CLASSES.keys())))
-    parser.add_argument('--num_colors', type=int, default=2, help='Number of square colors (min = 1, max = {})'.format(len(COLORS)))
     parser.add_argument('--display_frequency', type=int, default=1, help='How often to update the display (-1 to update only on pressing "d" key)')
     parser.add_argument('--delay', type=int, default=0, help='Number of milliseconds between steps')
     parser.add_argument('--pause', action='store_true', default=False, help='Start the game in a paused state')
@@ -126,7 +117,6 @@ if __name__ == '__main__':
     set_height(args.height)
 
     flea_class = get_flea(args.flea_name)
-    square_class = get_square(args.square_name)
 
     run_simulation(args.num_rows,
                    args.num_cols,
@@ -134,8 +124,6 @@ if __name__ == '__main__':
                    args.flea_row,
                    args.flea_col,
                    args.num_fleas,
-                   square_class,
-                   args.num_colors,
                    args.display_frequency,
                    args.delay,
                    args.pause)

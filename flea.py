@@ -1,6 +1,7 @@
 import pygame
 from abc import ABCMeta, abstractmethod
 from constants import DIRECTIONS, ORDERED_COLORS, get_width, get_height
+from square import Square, VisitedSquare
 
 FLEA_CLASSES = {}
 
@@ -34,10 +35,28 @@ def get_flea(flea_name):
 class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     """A Flea represents a flea which can move on the Board and change the color of Squares.
 
-    Flea is an abstract class. Subclasses must implement the
-    rotate method, which decides how the Flea will rotate
-    based on which color Square it is currently on.
+    Flea is an abstract class. Subclasses must define the
+    num_colors, cycle_size, and square_class properties
+    must implement the rotate method, which decides how
+    the Flea will rotate based on which color Square
+    it is currently on.
     """
+
+    @abstractmethod
+    def num_colors(self):
+        pass
+
+    @abstractmethod
+    def cycle_size(self):
+        pass
+
+    @abstractmethod
+    def square_class(self):
+        pass
+
+    @abstractmethod
+    def rotate(self):
+        pass
 
     def __init__(self, board, row, col, direction='up'):
         """Initializes the Flea.
@@ -94,12 +113,6 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         self.image = pygame.transform.rotate(self.image, -90)
         self.direction = self.right_direction[self.direction]
 
-    @abstractmethod
-    def rotate(self):
-        """Rotates the Flea based on the color of the Square the Flea is on."""
-
-        pass
-
     def move(self):
         """Moves the Flea."""
 
@@ -125,11 +138,11 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
 
 @RegisterFlea('langtons_flea')
 class LangtonsFlea(Flea):
-    """Langton's ant in flea form (https://en.wikipedia.org/wiki/Langton%27s_ant).
+    """Langton's ant in flea form (https://en.wikipedia.org/wiki/Langton%27s_ant)."""
 
     num_colors = 2
-    square_name = "square"
-    """
+    cycle_size = 2
+    square_class = Square
 
     def rotate(self):
         if self.square.color == 'white':
@@ -139,11 +152,11 @@ class LangtonsFlea(Flea):
 
 @RegisterFlea('triangle_flea')
 class TriangleFlea(Flea):
-    """RRLLLRLLLRRR flea.
+    """RRLLLRLLLRRR flea."""
 
     num_colors = 12
-    square_name = "square"
-    """
+    cycle_size = 12
+    square_class = Square
 
     right_turn_colors = [ORDERED_COLORS[i] for i in [0, 1, 5, 9, 10, 11]]
     left_turn_colors = [ORDERED_COLORS[i] for i in [2, 3, 4, 6, 7, 8]]
@@ -158,14 +171,14 @@ class TriangleFlea(Flea):
 
 @RegisterFlea('1d_visit_flea')
 class OneDimensionalVisitorFlea(Flea):
-    """A flea which visits all squares in one dimension.
+    """A flea which visits all squares in one dimension."""
 
     num_colors = 2
-    square_name = "end_color_square"
-    """
+    cycle_size = 1
+    square_class = Square
 
     def __init__(self, *args, **kwargs):
-        super(OneDimensionalFlea, self).__init__(*args, **kwargs)
+        super(OneDimensionalVisitorFlea, self).__init__(*args, **kwargs)
 
         # Start facing right
         self.rotate_right()
@@ -178,11 +191,11 @@ class OneDimensionalVisitorFlea(Flea):
 
 @RegisterFlea('2d_visit_flea')
 class TwoDimensionalVisitorFlea(Flea):
-    """A flea which visits all squares in two dimensions.
+    """A flea which visits all squares in two dimensions."""
 
     num_colors = 3
-    square_name = "end_color_square"
-    """
+    cycle_size = 1
+    square_class = Square
 
     def rotate(self):
         # Rotates right for white, left for black,

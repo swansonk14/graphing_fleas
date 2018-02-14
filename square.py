@@ -2,46 +2,20 @@ import pygame
 from constants import COLORS, ORDERED_COLORS, get_width, get_height
 from helpers import column_to_pixel, row_to_pixel
 
-SQUARE_CLASSES = {}
-
-def RegisterSquare(square_class):
-    def decorator(cls):
-        SQUARE_CLASSES[square_class] = cls
-        return cls
-
-    return decorator
-
-def get_square(square_name):
-    """Gets the Square class from the SQUARE_CLASSES.
-
-    Arguments:
-        square_name(str): The name of the class of Square to get.
-
-    Returns:
-        The class corresponding to the Square name provided.
-    """
-
-    if square_name not in SQUARE_CLASSES:
-        raise Exception(
-            'Square class "{}" not in SQUARE_CLASSES. '.format(square_name) +
-            'Available Squares are {}'.format(SQUARE_CLASSES.keys()))
-
-    square_class = SQUARE_CLASSES[square_name]
-
-    return square_class
-
-
-@RegisterSquare('square')
 class Square(pygame.sprite.Sprite):
     """A Square represents a colored location that a flea can move to."""
 
-    def __init__(self, row, col, num_colors):
+    def __init__(self, row, col, num_colors, cycle_size=None):
         """Initializes the Square.
 
         Arguments:
             row(int): The number of the row where this Square is located.
             col(int): The number of the column where this Square is located.
             num_colors(int): The number of possible colors this Square can take on.
+                Max is the number of colors in COLORS in constants.py.
+            cycle_size(int): The number of colors to cycle at the end of the list
+                of colors. Must be less than or equal to num_colors.
+                (None to cycle through all the colors.) 
         """
 
         super(Square, self).__init__()
@@ -49,6 +23,7 @@ class Square(pygame.sprite.Sprite):
         self.row = row
         self.col = col
         self.num_colors = num_colors
+        self.cycle_size = cycle_size if cycle_size is not None else num_colors
 
         # Initialize colors
         self.colors = ORDERED_COLORS[:self.num_colors]
@@ -67,9 +42,11 @@ class Square(pygame.sprite.Sprite):
         current color to the next color."""
 
         self.next_color = {
-            self.colors[i]: self.colors[(i+1) % len(self.colors)]
-            for i in range(len(self.colors))
+            self.colors[i]: self.colors[i+1]
+            for i in range(len(self.colors) - 1)
         }
+        last_color = self.colors[-1]
+        self.next_color[last_color] = self.colors[-self.cycle_size]
 
     def change_color(self):
         """Changes the color of the Square.
@@ -81,7 +58,6 @@ class Square(pygame.sprite.Sprite):
         self.color = self.next_color[self.color]
         self.image.fill(COLORS[self.color])
 
-@RegisterSquare('visited_square')
 class VisitedSquare(Square):
     """The VisitedSquare adds an indicator once a Flea has reached the square."""
 
@@ -95,16 +71,3 @@ class VisitedSquare(Square):
 
         pygame.draw.line(self.image, COLORS['gray'], (0, 0), (get_width(), get_height()))
         pygame.draw.line(self.image, COLORS['gray'], (get_width(), 0), (0, get_height()))
-
-@RegisterSquare('end_color_square')
-class EndColorSquare(Square):
-    """The EndColorSquare cycles through the colors until it
-    reaches the final color, which never changes."""
-
-    def initialize_next_color_map(self):
-        self.next_color = {
-            self.colors[i]: self.colors[i+1]
-            for i in range(len(self.colors) - 1)
-        }
-        last_color = self.colors[-1]
-        self.next_color[last_color] = last_color

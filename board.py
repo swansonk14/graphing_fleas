@@ -14,9 +14,7 @@ class Board:
                  flea_class,
                  flea_row,
                  flea_col,
-                 num_fleas,
-                 square_class,
-                 num_colors):
+                 num_fleas):
         """Initializes the Board.
 
         Arguments:
@@ -29,8 +27,6 @@ class Board:
             flea_col(int): The initial column of the first flea.
                 -1 to start in the center horizontally.
             num_fleas(int): The number of Fleas to create.
-            square_class(class): The class of the Squares to create.
-            num_colors(int): The number of possible colors each Square can take on.
         """
 
         self.screen = screen
@@ -40,8 +36,6 @@ class Board:
         self.flea_row = flea_row if flea_row != -1 else num_rows // 2
         self.flea_col = flea_col if flea_col != -1 else num_cols // 2
         self.num_fleas = num_fleas
-        self.square_class = square_class
-        self.num_colors = num_colors
 
         self.squares = pygame.sprite.Group()
         self.board = []
@@ -51,7 +45,7 @@ class Board:
             row_squares = []
 
             for col in range(self.num_cols):
-                square = self.square_class(row, col, self.num_colors)
+                square = self.flea_class.square_class(row, col, self.flea_class.num_colors, self.flea_class.cycle_size)
                 self.squares.add(square)
                 row_squares.append(square)
 

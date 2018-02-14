@@ -37,30 +37,19 @@ A number of optional arguments can be passed, including:
 * `flea_row` - The initial row of the first flea. -1 to start in the center vertically.
 * `flea_col` - The initial column of the first flea. -1 to start in the center horizontally.
 * `num_fleas` - The number of fleas to simulate.
-* `square_name` - The name of the type of square to use. Different squares follow different rules.
-* `num_colors` - The number of colors each square can take on.
+* `visited` - Add this flag to add an X to indicate which squares have been visited.
 * `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key.
 * `delay` - The number of milliseconds of delay between each step of the simulation.
 * `pause` - Add this flag to start the game in a paused state.
 
 ## Examples
 
-### Multi-color Langton's Ant
-
-Langton's Ant on squares with 5 colors.
-
-```
-python main.py --num_rows 75 --num_cols 150 --width 20 --height 20 --flea_name langtons_flea --num_fleas 20 --num_colors 5
-```
-
-![Alt Text](images/multi_color_langtons_flea.gif)
-
 ### RRLLLRLLLRRR
 
 Langton's Ant with 12 colors. Rotations left or right correspond to the rule RRLLLRLLLRRR for the 12 colors.
 
 ```
-python main.py --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_name triangle_flea --num_fleas 1 --num_colors 12 --display_frequency 5000 --flea_row 30
+python main.py --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_name triangle_flea --num_fleas 1 --display_frequency 5000 --flea_row 30
 ```
 
 ![Alt Text](images/triangle_flea.gif)
@@ -70,7 +59,7 @@ python main.py --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_name tr
 A one-dimensional flea visiting all squares, 2 colors.
 
 ```
-python main.py --flea_name 1d_visit_flea --delay 50 --num_rows 1 --num_cols 15 --width 100 --height 100 --square_name end_color_square
+python main.py --flea_name 1d_visit_flea --delay 50 --num_rows 1 --num_cols 15 --width 100 --height 100
 ```
 
 ![Alt Text](images/1d_visit_flea.gif)
@@ -80,7 +69,7 @@ python main.py --flea_name 1d_visit_flea --delay 50 --num_rows 1 --num_cols 15 -
 A two-dimensional flea visiting all squares, 3 colors.
 
 ```
-python main.py --flea_name 2d_visit_flea --num_rows 320 --num_cols 600 --width 5 --height 5 --square_name end_color_square --num_colors 3 --display_frequency 7000 --flea_row 200
+python main.py --flea_name 2d_visit_flea --num_rows 320 --num_cols 600 --width 5 --height 5 --display_frequency 7000 --flea_row 200
 ```
 
 ![Alt Text](images/2d_visit_flea.gif)

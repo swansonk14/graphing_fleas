@@ -158,15 +158,12 @@ class TriangleFlea(Flea):
     cycle_size = 12
 
     right_turn_colors = [ORDERED_COLORS[i] for i in [0, 1, 5, 9, 10, 11]]
-    left_turn_colors = [ORDERED_COLORS[i] for i in [2, 3, 4, 6, 7, 8]]
 
     def rotate(self):
         if self.square.color in self.right_turn_colors:
             self.rotate_right()
-        elif self.square.color in self.left_turn_colors:
-            self.rotate_left()
         else:
-            raise Exception('Too many colors. Triangle Flea only supports 12 colors.')
+            self.rotate_left()
 
 @RegisterFlea('1d_visit_flea')
 class OneDimensionalVisitorFlea(Flea):
@@ -206,13 +203,15 @@ class TwoDimensionalVisitorFlea(Flea):
 class KyleFlea(Flea):
     """Does whatever Kyle wants it to do."""
 
-    num_colors = 42
-    cycle_size = 42
-
-    right_turn_colors = [ORDERED_COLORS[i] for i in range(0, len(ORDERED_COLORS), 2)]
-    left_turn_colors = [ORDERED_COLORS[i] for i in range(1, len(ORDERED_COLORS), 2)]
+    num_colors = 4
+    cycle_size = 2
 
     def rotate(self):
+        if self.square.color == self.colors[0]:
+            self.rotate_right()
+        elif self.square.color == self.colors[1]:
+            self.rotate_left()
+
         if self.square.color in self.right_turn_colors:
             self.rotate_right()
         elif self.square.color in self.left_turn_colors:

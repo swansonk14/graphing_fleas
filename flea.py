@@ -203,19 +203,14 @@ class TwoDimensionalVisitorFlea(Flea):
 class KyleFlea(Flea):
     """Does whatever Kyle wants it to do."""
 
-    num_colors = 4
-    cycle_size = 2
+    num_colors = 3
+    cycle_size = 1
 
     def rotate(self):
-        if self.square.color == self.colors[0]:
+        if self.square.color == self.square.colors[0]:
+            self.rotate_180()
+        elif self.square.color == self.square.colors[1]:
             self.rotate_right()
-        elif self.square.color == self.colors[1]:
-            self.rotate_left()
-
-        if self.square.color in self.right_turn_colors:
-            self.rotate_right()
-        elif self.square.color in self.left_turn_colors:
-            self.rotate_left()
 
 @RegisterFlea('magdalen_flea')
 class MagdalenFlea(Flea):

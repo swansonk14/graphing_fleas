@@ -24,9 +24,9 @@ def format_step(step, threshold=10000):
 def run_simulation(num_rows,
                    num_cols,
                    flea_class,
-                   flea_row,
-                   flea_col,
                    num_fleas,
+                   flea_rows,
+                   flea_cols,
                    visited,
                    display_frequency,
                    print_frequency,
@@ -38,11 +38,13 @@ def run_simulation(num_rows,
         num_rows(int): Number of rows in the board.
         num_cols(int): Number of columns in the board.
         flea_class(class): The class of the Fleas to create.
-        flea_row(int): The initial row of the first flea.
-            -1 to start in the center vertically.
-        flea_col(int): The initial column of the first flea.
-            -1 to start in the center horizontally.
         num_fleas(int): The number of Fleas to create.
+        flea_rows(int): The initial rows of the fleas.
+            (-1 to start in the center vertically.
+             Unspecified fleas will be placed randomly.)
+        flea_cols(int): The initial columns of the fleas.
+            (-1 to start in the center horizontally.
+             Unspecified fleas will be placed randomly.)
         visited(bool): True to add an X to indicate which squares have been visited.
         display_frequency(int): How many steps between each update of the display.
             -1 to update manually upon pressing "d" key.
@@ -62,9 +64,9 @@ def run_simulation(num_rows,
                   num_rows,
                   num_cols,
                   flea_class,
-                  flea_row,
-                  flea_col,
                   num_fleas,
+                  flea_rows,
+                  flea_cols,
                   visited)
     board.draw()
 
@@ -127,9 +129,9 @@ if __name__ == '__main__':
     parser.add_argument('--width', type=int, default=75, help='Width of each square (in pixels)')
     parser.add_argument('--height', type=int, default=75, help='Height of each square (in pixels)')
     parser.add_argument('--flea_name', type=str, default='langtons_flea', help='The name of the class of Flea to create. Options: {}'.format(', '.join(FLEA_CLASSES.keys())))
-    parser.add_argument('--flea_row', type=int, default=-1, help='Initial row of first flea (-1 for center of board vertically)')
-    parser.add_argument('--flea_col', type=int, default=-1, help='Initial column of first flea (-1 for center of board horizontally)')
     parser.add_argument('--num_fleas', type=int, default=1, help='Number of Fleas')
+    parser.add_argument('--flea_rows', type=int, nargs='+', default=[-1], help='Initial row of fleas (-1 for center of board vertically; unspecified fleas will be placed randomly)')
+    parser.add_argument('--flea_cols', type=int, nargs='+', default=[-1], help='Initial column of fleas (-1 for center of board horizontally; unspecified fleas will be placed randomly)')
     parser.add_argument('--visited', action='store_true', default=False, help='Add an X to indicate which squares have been visited')
     parser.add_argument('--display_frequency', type=str, default='1', help='How often to update the display (-1 to update only on pressing "d" key; may be in scientific notation)')
     parser.add_argument('--print_frequency', type=str, default='1e5', help='How often to print the step to the terminal (may be in scientific notation)')
@@ -148,9 +150,9 @@ if __name__ == '__main__':
     run_simulation(args.num_rows,
                    args.num_cols,
                    flea_class,
-                   args.flea_row,
-                   args.flea_col,
                    args.num_fleas,
+                   args.flea_rows,
+                   args.flea_cols,
                    args.visited,
                    display_frequency,
                    print_frequency,

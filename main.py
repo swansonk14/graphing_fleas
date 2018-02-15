@@ -5,21 +5,24 @@ from board import Board
 from flea import get_flea, FLEA_CLASSES
 from text import Text
 
-def format_step(step, threshold=10000):
-    """Formats step to be in scientific notation once it exceeds the threshold.
+def format_message(step, pause, threshold=10000):
+    """Format message to display on top of screen.
 
     Arguments:
         step(int): Step number.
+        pause(bool): True if the game is paused.
         threshold(int): The step number above which to use scientific notation.
 
     Returns:
-        A string with step either as an int or in scientific notation.
+        A string with the step number and paused if the game is paused.
     """
 
     if step >= threshold:
-        return '{:.2e}'.format(step)
+        step = '{:.2e}'.format(step)
+
+    message = "Step {}{}".format(step, ', PAUSED' if pause else '')
     
-    return str(step)
+    return message
 
 def run_simulation(num_rows,
                    num_cols,
@@ -79,6 +82,8 @@ def run_simulation(num_rows,
     quit = False
     step = 0
     while True:
+        advance = False
+
         # Check for key and mouse hits
         for event in pygame.event.get():
             # Check for quit
@@ -89,12 +94,16 @@ def run_simulation(num_rows,
                 # Check for pause
                 if event.key == pygame.K_SPACE:
                     pause = not pause
-                    text.update("Step {}{}".format(format_step(step), ', PAUSED' if pause else ''))
+                    text.update(format_message(step, pause))
                 
                 # Check for display
                 elif event.key == pygame.K_d:
-                    text.update("Step {}{}".format(format_step(step), ', PAUSED' if pause else ''))
+                    text.update(format_message(step, pause))
                     board.draw()
+
+                # Check for advance
+                elif event.key == pygame.K_RIGHT:
+                    advance = True
 
             # Check for mouse click to set initial squares
             elif step == 0 and event.type == pygame.MOUSEBUTTONUP:
@@ -111,14 +120,14 @@ def run_simulation(num_rows,
             break
 
         # Take step
-        if not pause:
+        if not pause or advance:
             # Print step to terminal
             if step % print_frequency == 0:
-                print("Step {}".format(format_step(step)))
+                print(format_message(step, pause))
 
             # Update text displaying step number
             if display_frequency != -1 and step % display_frequency == 0:
-                text.update("Step {}".format(format_step(step)))
+                text.update(format_message(step, pause))
 
             # Rotate fleas
             board.rotate_fleas()

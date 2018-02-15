@@ -75,25 +75,44 @@ def run_simulation(num_rows,
 
     pygame.time.delay(500)
 
+    # Main loop
     quit = False
     step = 0
     while True:
-        # Check for quit or pause
+        # Check for key and mouse hits
         for event in pygame.event.get():
+            # Check for quit
             if event.type == pygame.QUIT:
                 quit = True
+
             elif event.type == pygame.KEYDOWN:
+                # Check for pause
                 if event.key == pygame.K_SPACE:
                     pause = not pause
                     text.update("Step {}{}".format(format_step(step), ', PAUSED' if pause else ''))
+                
+                # Check for display
                 elif event.key == pygame.K_d:
                     text.update("Step {}{}".format(format_step(step), ', PAUSED' if pause else ''))
                     board.draw()
+
+            # Check for mouse click to set initial squares
+            elif step == 0 and event.type == pygame.MOUSEBUTTONUP:
+                mouse_pos = pygame.mouse.get_pos()
+                clicked_squares = [square for square in board.squares if square.rect.collidepoint(mouse_pos)]
+                
+                for square in clicked_squares:
+                    square.change_color()
+
+                board.draw()
+
+        # Break loop if quit
         if quit:
             break
 
         # Take step
         if not pause:
+            # Print step to terminal
             if step % print_frequency == 0:
                 print("Step {}".format(format_step(step)))
 

@@ -35,10 +35,10 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     """A Flea represents a flea which can move on the Board and change the color of Squares.
 
     Flea is an abstract class. Subclasses must define the
-    num_colors (and optionally cycle_size) properties and
-    must implement the rotate method, which decides how
-    the Flea will rotate based on which color Square
-    it is currently on.
+    num_colors property and must implement the rotate method,
+    which decides how the Flea will rotate based on which color
+    Square it is currently on. Fleas may optionally define the
+    cycle_size and color_map properties.
     """
 
     @abstractmethod
@@ -46,6 +46,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         pass
 
     cycle_size = None
+    color_map = None
 
     @abstractmethod
     def rotate(self):
@@ -135,7 +136,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
             self.image = pygame.transform.rotate(self.image, 90)
 
 
-@RegisterFlea('langtons_flea')
+@RegisterFlea('langtons')
 class LangtonsFlea(Flea):
     """Langton's ant in flea form (https://en.wikipedia.org/wiki/Langton%27s_ant)."""
 
@@ -147,7 +148,7 @@ class LangtonsFlea(Flea):
         else:
             self.rotate_left()
 
-@RegisterFlea('triangle_flea')
+@RegisterFlea('triangle')
 class TriangleFlea(Flea):
     """RRLLLRLLLRRR flea."""
 
@@ -161,7 +162,7 @@ class TriangleFlea(Flea):
         else:
             self.rotate_left()
 
-@RegisterFlea('1d_visit_flea')
+@RegisterFlea('1d_visit')
 class OneDimensionalVisitorFlea(Flea):
     """A flea which visits all squares in one dimension."""
 
@@ -180,7 +181,7 @@ class OneDimensionalVisitorFlea(Flea):
             self.rotate_right()
             self.rotate_right()
 
-@RegisterFlea('2d_visit_flea')
+@RegisterFlea('2d_visit')
 class TwoDimensionalVisitorFlea(Flea):
     """A flea which visits all squares in two dimensions."""
 
@@ -195,26 +196,64 @@ class TwoDimensionalVisitorFlea(Flea):
         elif self.square.color == 'black':
             self.rotate_left()
 
-@RegisterFlea('kyle_flea')
+@RegisterFlea('bit_flipper')
+class BitFlipper(Flea):
+    """Flips the bits of a binary numbers.
+
+    Requires initial setup of the board.
+    Let 0 = colors[0], 1 = colors[1], etc.
+    and let L indicate the initial location
+    of the flea facing left (the flea starts
+    on a colors[5] square).
+
+    55
+    544444444L
+    6011000110
+    3222222222
+    33
+
+    -->
+    55
+    555555555L
+    6011000110
+    3333333333
+    33
+    """
+
+    num_colors = 7
+    color_map = {
+        ORDERED_COLORS[i]: ORDERED_COLORS[j]
+        for i,j in {
+            0: 1,
+            1: 0,
+            2: 3,
+            3: 3,
+            4: 5,
+            5: 5
+        }.items()
+    }
+
+    def rotate(self):
+        if self.square.color in [ORDERED_COLORS[2], ORDERED_COLORS[5]]:
+            self.rotate_right()
+        elif self.square.color in [ORDERED_COLORS[3], ORDERED_COLORS[4]]:
+            self.rotate_left()
+
+@RegisterFlea('kyle')
 class KyleFlea(Flea):
     """Does whatever Kyle wants it to do."""
 
-    num_colors = 2
-
     def rotate(self):
-        if self.square.color == 'white':
-            self.rotate_right()
-        else:
-            self.rotate_left()
+        pass
 
-@RegisterFlea('magdalen_flea')
+@RegisterFlea('magdalen')
 class MagdalenFlea(Flea):
     """Does whatever Magdalen wants it to do."""
 
     def rotate(self):
         pass
 
-@RegisterFlea('thomas_flea')
+@RegisterFlea('thomas')
 class ThomasFlea(Flea):
     """Does whatever Thomas wants it to do."""
 

@@ -23,7 +23,7 @@ The simulation can be paused and resumed by pressing the space bar.
 
 The default simulates [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant).
 
-![Alt Text](images/langtons_flea.gif)
+![Alt Text](images/langtons.gif)
 
 ## Arguments
 
@@ -51,34 +51,46 @@ A number of optional arguments can be passed, including:
 Langton's Ant with 12 colors. Rotations left or right correspond to the rule RRLLLRLLLRRR for the 12 colors.
 
 ```
-python main.py --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_name triangle_flea --num_fleas 1 --display_frequency 5000 --flea_row 30
+python main.py --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_name triangle_flea --num_fleas 1 --display_frequency 5000 --flea_rows 30
 ```
 
-![Alt Text](images/triangle_flea.gif)
+![Alt Text](images/triangle.gif)
 
-### 1D visit flea
+### 1D visit
 
 A one-dimensional flea visiting all squares, 2 colors.
 
 ```
-python main.py --flea_name 1d_visit_flea --delay 50 --num_rows 1 --num_cols 15 --width 100 --height 100
+python main.py --flea_name 1d_visit --delay 50 --num_rows 1 --num_cols 15 --width 100 --height 100
 ```
 
-![Alt Text](images/1d_visit_flea.gif)
+![Alt Text](images/1d_visit.gif)
 
-### 2D visit flea
+### 2D visit
 
 A two-dimensional flea visiting all squares, 3 colors.
 
 ```
-python main.py --flea_name 2d_visit_flea --num_rows 320 --num_cols 600 --width 5 --height 5 --display_frequency 7000 --flea_row 200
+python main.py --flea_name 2d_visit --num_rows 320 --num_cols 600 --width 5 --height 5 --display_frequency 7000 --flea_rows 200
 ```
 
-![Alt Text](images/2d_visit_flea.gif)
+![Alt Text](images/2d_visit.gif)
 
 **Remark:** Below is an image of the same flea on squares with 4 colors instead of 3. All the white squares have not been touched by the flea, all the black squares have been touched once, the red squares twice, and the green squares three or more times. The pattern below indicates that the flea works by circling around the border of the diamond and traveling up and down the green highway but never again touching any of the red squares.
 
-![Alt Text](images/2d_visit_flea_4_colors.png)
+![Alt Text](images/2d_visit_4_colors.png)
+
+### Bit flipper
+
+A flea which flips the bits of a binary number.
+
+Note: Requires manual placement of initial colors.
+
+```
+python main.py --flea_name bit_flipper --pause --num_rows 5 --num_cols 8 --flea_cols 7 --flea_rows 3 --init_direction left --delay 100
+```
+
+![Alt Text](images/bit_flipper.gif)
 
 ## Authors
 Kyle Swanson, Magdalen Dobson, Thomas Sturm

@@ -5,7 +5,13 @@ from helpers import column_to_pixel, row_to_pixel
 class Square(pygame.sprite.Sprite):
     """A Square represents a colored location that a flea can move to."""
 
-    def __init__(self, row, col, num_colors, cycle_size=None, visited=False):
+    def __init__(self,
+                 row,
+                 col,
+                 num_colors,
+                 cycle_size=None,
+                 color_map=None,
+                 visited=False):
         """Initializes the Square.
 
         Arguments:
@@ -16,6 +22,9 @@ class Square(pygame.sprite.Sprite):
             cycle_size(int): The number of colors to cycle at the end of the list
                 of colors. Must be less than or equal to num_colors.
                 (None to cycle through all the colors.)
+            color_map(dict): A map from each color to the next color in the sequence.
+                If None, the default color_map will be initialized in
+                the method initialize_color_map.
             visited(bool): True to add an X to indicate which squares have been visited.
         """
 
@@ -24,13 +33,21 @@ class Square(pygame.sprite.Sprite):
         self.row = row
         self.col = col
         self.num_colors = num_colors
-        self.cycle_size = cycle_size if cycle_size is not None else num_colors
+        self.cycle_size = cycle_size
         self.visited = visited
 
         # Initialize colors
         self.colors = ORDERED_COLORS[:self.num_colors]
-        self.initialize_color_maps()
         self.color = self.colors[0]
+        self.color_map = color_map if color_map is not None else self.initialize_color_map()
+        self.next_color_map = {
+            self.colors[i]: self.colors[(i+1) % len(self.colors)]
+            for i in range(len(self.colors))
+        }
+        self.previous_color_map = {
+            self.colors[i]: self.colors[(i-1) % len(self.colors)]
+            for i in range(len(self.colors))
+        }
 
         # Initialize square image
         self.image = pygame.Surface((get_width(), get_height()))
@@ -39,53 +56,45 @@ class Square(pygame.sprite.Sprite):
         self.rect.x = column_to_pixel(self.col)
         self.rect.y = row_to_pixel(self.row)
 
-    def initialize_color_maps(self):
-        """Initializes self.next_color_map and self.previous_color_map, which
-        map from each color to the next or prevous color, respectively.
+    def initialize_color_map(self):
+        """Initializes a map from each color to the next color in the sequence.
 
-        If there are n colors total, self.next_color_map maps
-        each color i to color i+1. Additionally, it maps the
-        last color (color n) to color (n - self.cycle_size).
+        color_map maps each color i to color i+1.
+        Additionally, it maps the last color (color n) to
+        color (n - self.cycle_size). If self.cycle_size is None,
+        then it maps from color n to color 1 (equivalent to
+        self.cycle_size = n).
+
+        Ex. n = 5, cycle size = None
+
+        1 --> 2 --> 3 --> 4 --> 5 --> 1
 
         Ex. n = 5, cycle size = 4
 
         1 --> 2 --> 3 --> 4 --> 5 --> 2
 
-        self.previous_color_map maps each color i to color i-1.
-        Additionally, it maps the first color (color 1) to
-        itself. It ignores the cycle size.
-
-        Ex. n = 5
-
-        5 --> 4 --> 3 --> 2 --> 1 --> 1
+        Returns:
+            A dictionary mapping each color to the next color.
         """
 
-        first_color = self.colors[0]
         last_color = self.colors[-1]
+        cycle_size = self.cycle_size if self.cycle_size is not None else len(self.colors)
 
-        # Next color map
-        self.next_color_map = {
+        color_map = {
             self.colors[i]: self.colors[i+1]
             for i in range(len(self.colors) - 1)
         }
-        self.next_color_map[last_color] = self.colors[-self.cycle_size]
+        color_map[last_color] = self.colors[-cycle_size]
 
-        # Previous color map
-        self.previous_color_map = {
-            self.colors[i]: self.colors[i-1]
-            for i in range(1, len(self.colors))
-        }
-        self.previous_color_map[first_color] = first_color
+        return color_map
 
-    def next_color(self):
-        """Changes the color of the Square to the next color.
+    def change_color(self):
+        """Changes the color of the Square to the next color according to self.color_map.
 
-        The next color is specified by the map self.next_color_map
-        defined in the __init__ method. Also adds an X after
-        changing the color if self.visited is True.
+        Additionally, adds an X in the square if self.visited is True.
         """
 
-        self.color = self.next_color_map[self.color]
+        self.color = self.color_map[self.color]
         self.image.fill(COLORS[self.color])
 
         if self.visited:
@@ -97,12 +106,14 @@ class Square(pygame.sprite.Sprite):
             pygame.draw.line(self.image, COLORS['gray'], (0, 0), (get_width(), get_height()))
             pygame.draw.line(self.image, COLORS['gray'], (get_width(), 0), (0, get_height()))
 
-    def previous_color(self):
-        """Changes the color of the Square to the previous color.
+    def next_color(self):
+        """Changes the color of the Square to the next color."""
 
-        The previous color is specified by the map self.previous_color_map
-        defined in the __init__ method.
-        """
+        self.color = self.next_color_map[self.color]
+        self.image.fill(COLORS[self.color])
+
+    def previous_color(self):
+        """Changes the color of the Square to the previous color."""
 
         self.color = self.previous_color_map[self.color]
         self.image.fill(COLORS[self.color])

@@ -53,7 +53,12 @@ class Board:
             row_squares = []
 
             for col in range(self.num_cols):
-                square = Square(row, col, self.flea_class.num_colors, self.flea_class.cycle_size, self.visited)
+                square = Square(row,
+                                col,
+                                self.flea_class.num_colors,
+                                self.flea_class.cycle_size,
+                                self.flea_class.color_map,
+                                self.visited)
                 self.squares.add(square)
                 row_squares.append(square)
 
@@ -62,7 +67,10 @@ class Board:
         # Initialize fleas (first is centered, others are random)
         self.fleas = pygame.sprite.Group()
         for i in range(self.num_fleas):
-            self.fleas.add(self.flea_class(self, self.flea_rows[i], self.flea_cols[i], self.init_directions[i]))
+            self.fleas.add(self.flea_class(self,
+                                           self.flea_rows[i],
+                                           self.flea_cols[i],
+                                           self.init_directions[i]))
 
     def initialize_flea_locs(self, flea_rows, flea_cols):
         """Determines the initial rows and columns of the fleas.
@@ -130,7 +138,7 @@ class Board:
         """Changes the color of the Squares under the Fleas."""
 
         for flea in self.fleas.sprites():
-            flea.square.next_color()
+            flea.square.change_color()
 
     def move_fleas(self):
         """Moves all Fleas."""

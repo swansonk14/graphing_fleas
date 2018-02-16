@@ -110,7 +110,7 @@ def run_simulation(num_rows,
                     advance = True
 
             # Check for mouse click to set initial squares
-            elif step == 0 and event.type == pygame.MOUSEBUTTONUP:
+            elif pause and event.type == pygame.MOUSEBUTTONUP:
                 click_type = 'right' if event.button == 3 else 'left'
                 mouse_pos = pygame.mouse.get_pos()
                 clicked_squares = [square for square in board.squares if square.rect.collidepoint(mouse_pos)]
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     parser.add_argument('--num_cols', type=int, default=20, help='Number of columns')
     parser.add_argument('--width', type=int, default=75, help='Width of each square (in pixels)')
     parser.add_argument('--height', type=int, default=75, help='Height of each square (in pixels)')
-    parser.add_argument('--flea_name', type=str, default='langtons_flea', help='The name of the class of Flea to create. Options: {}'.format(', '.join(FLEA_CLASSES.keys())))
+    parser.add_argument('--flea_name', type=str, default='langtons', help='The name of the class of Flea to create. Options: {}'.format(', '.join(FLEA_CLASSES.keys())))
     parser.add_argument('--num_fleas', type=int, default=1, help='Number of Fleas')
     parser.add_argument('--flea_rows', type=int, nargs='+', default=[-1], help='Initial row of fleas (-1 for center of board vertically; unspecified fleas will be placed randomly)')
     parser.add_argument('--flea_cols', type=int, nargs='+', default=[-1], help='Initial column of fleas (-1 for center of board horizontally; unspecified fleas will be placed randomly)')

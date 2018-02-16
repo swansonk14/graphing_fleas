@@ -87,7 +87,7 @@ A flea which flips the bits of a binary number.
 Note: Requires manual placement of initial colors.
 
 ```
-python main.py --flea_name bit_flipper --pause --num_rows 5 --num_cols 8 --flea_cols 7 --flea_rows 3 --init_direction left --delay 100
+python main.py --flea_name bit_flipper --pause --num_rows 5 --num_cols 10 --flea_cols 8 --flea_rows 3 --init_direction left --delay 100
 ```
 
 ![Alt Text](images/bit_flipper.gif)

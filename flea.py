@@ -113,6 +113,11 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         self.rotate_right()
         self.rotate_right()
 
+    def stop(self):
+        """Stops the Flea."""
+
+        self.direction = 'stop'
+
     def move(self):
         """Moves the Flea."""
 
@@ -206,46 +211,67 @@ class BitFlipper(Flea):
     of the flea facing left (the flea starts
     on a color 2 square).
 
-    5500000000
-    5444444444
-    6011000110
-    322222222L
-    3300000000
+    Goes straight on 0 and 1.
+    Turns right on 2.
+    Turns left on 3.
+    Stops on 4.
+
+    4333333333
+    4011000110
+    422222222L
 
     -->
 
-    5500000000
-    555555555L
-    6011000110
-    3333333333
-    3300000000
+    L444444444
+    4011000110
+    4444444444
     """
 
-    num_colors = 7
+    num_colors = 5
     color_map = {
         ORDERED_COLORS[i]: ORDERED_COLORS[j]
         for i,j in {
             0: 1,
             1: 0,
-            2: 3,
-            3: 3,
-            4: 5,
-            5: 5
+            2: 4,
+            3: 4,
+            4: 4,
         }.items()
     }
 
     def rotate(self):
-        if self.square.color in [ORDERED_COLORS[2], ORDERED_COLORS[5]]:
+        if self.square.color == ORDERED_COLORS[2]:
             self.rotate_right()
-        elif self.square.color in [ORDERED_COLORS[3], ORDERED_COLORS[4]]:
+        elif self.square.color == ORDERED_COLORS[3]:
             self.rotate_left()
+        elif self.square.color == ORDERED_COLORS[4]:
+            self.stop()
 
 @RegisterFlea('kyle')
 class KyleFlea(Flea):
     """Does whatever Kyle wants it to do."""
 
+    num_colors = 5
+    color_map = {
+        ORDERED_COLORS[i]: ORDERED_COLORS[j]
+        for i,j in {
+            0: 1,
+            1: 0,
+            2: 4,
+            3: 4,
+            4: 4,
+        }.items()
+    }
+
     def rotate(self):
-        pass
+        if self.square.color == ORDERED_COLORS[1]:
+            self.rotate_180()
+        elif self.square.color == ORDERED_COLORS[2]:
+            self.rotate_right()
+        elif self.square.color == ORDERED_COLORS[3]:
+            self.rotate_left()
+        elif self.square.color == ORDERED_COLORS[4]:
+            self.stop()
 
 @RegisterFlea('magdalen')
 class MagdalenFlea(Flea):

@@ -35,7 +35,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     """A Flea represents a flea which can move on the Board and change the color of Squares.
 
     Flea is an abstract class. Subclasses must define the
-    num_colors and cycle_size properties and
+    num_colors (and optionally cycle_size) properties and
     must implement the rotate method, which decides how
     the Flea will rotate based on which color Square
     it is currently on.
@@ -45,9 +45,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     def num_colors(self):
         pass
 
-    @abstractmethod
-    def cycle_size(self):
-        pass
+    cycle_size = None
 
     @abstractmethod
     def rotate(self):
@@ -142,7 +140,6 @@ class LangtonsFlea(Flea):
     """Langton's ant in flea form (https://en.wikipedia.org/wiki/Langton%27s_ant)."""
 
     num_colors = 2
-    cycle_size = 2
 
     def rotate(self):
         if self.square.color == 'white':
@@ -155,7 +152,6 @@ class TriangleFlea(Flea):
     """RRLLLRLLLRRR flea."""
 
     num_colors = 12
-    cycle_size = 12
 
     right_turn_colors = [ORDERED_COLORS[i] for i in [0, 1, 5, 9, 10, 11]]
 
@@ -203,14 +199,13 @@ class TwoDimensionalVisitorFlea(Flea):
 class KyleFlea(Flea):
     """Does whatever Kyle wants it to do."""
 
-    num_colors = 3
-    cycle_size = 1
+    num_colors = 2
 
     def rotate(self):
-        if self.square.color == self.square.colors[0]:
-            self.rotate_180()
-        elif self.square.color == self.square.colors[1]:
+        if self.square.color == 'white':
             self.rotate_right()
+        else:
+            self.rotate_left()
 
 @RegisterFlea('magdalen_flea')
 class MagdalenFlea(Flea):

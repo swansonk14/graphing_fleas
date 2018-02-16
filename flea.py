@@ -201,23 +201,24 @@ class BitFlipper(Flea):
     """Flips the bits of a binary numbers.
 
     Requires initial setup of the board.
-    Let 0 = colors[0], 1 = colors[1], etc.
+    Let 0 = 0th color, 1 = 1st color, etc.
     and let L indicate the initial location
     of the flea facing left (the flea starts
-    on a colors[5] square).
+    on a color 2 square).
 
-    55
-    544444444L
+    5500000000
+    5444444444
     6011000110
-    3222222222
-    33
+    322222222L
+    3300000000
 
     -->
-    55
+
+    5500000000
     555555555L
     6011000110
     3333333333
-    33
+    3300000000
     """
 
     num_colors = 7

@@ -111,11 +111,15 @@ def run_simulation(num_rows,
 
             # Check for mouse click to set initial squares
             elif step == 0 and event.type == pygame.MOUSEBUTTONUP:
+                click_type = 'right' if event.button == 3 else 'left'
                 mouse_pos = pygame.mouse.get_pos()
                 clicked_squares = [square for square in board.squares if square.rect.collidepoint(mouse_pos)]
                 
                 for square in clicked_squares:
-                    square.change_color()
+                    if click_type == 'left':
+                        square.next_color()
+                    elif click_type == 'right':
+                        square.previous_color()
 
                 board.draw()
 

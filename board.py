@@ -130,7 +130,7 @@ class Board:
         """Changes the color of the Squares under the Fleas."""
 
         for flea in self.fleas.sprites():
-            flea.square.change_color()
+            flea.square.next_color()
 
     def move_fleas(self):
         """Moves all Fleas."""

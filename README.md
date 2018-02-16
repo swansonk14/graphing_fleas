@@ -37,6 +37,7 @@ A number of optional arguments can be passed, including:
 * `num_fleas` - The number of fleas to simulate.
 * `flea_rows` - The initial rows of the fleas. -1 to start in the center vertically. Unspecified fleas will be placed randomly.
 * `flea_cols` - The initial columns of the fleas. -1 to start in the center horizontally. Unspecified fleas will be placed randomly.
+* `init_directions` - Initial directions of the fleas. Unspecified fleas will start facing up.
 * `visited` - Add this flag to add an X to indicate which squares have been visited.
 * `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key. May be in scientific notation (ex. 1e5).
 * `print_frequency` - The number of steps between each printing of the step number to the terminal. May be in scientific notation (ex. 1e5).

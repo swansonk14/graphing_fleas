@@ -53,14 +53,14 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     def rotate(self):
         pass
 
-    def __init__(self, board, row, col, direction='up'):
+    def __init__(self, board, row, col, init_direction='up'):
         """Initializes the Flea.
 
         Arguments:
             board(Board): The Board the Flea will be on.
             row(int): The row number where the Flea will start.
             col(int): The column number where the Flea will start.
-            direction(str): The initial direction of the Flea.
+            init_direction(str): The initial direction of the Flea.
         """
 
         super(Flea, self).__init__()
@@ -70,7 +70,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         self.board = board
         self.row = row
         self.col = col
-        self.direction = direction
+        self.direction = init_direction
 
         self.square = self.board.get_square(self.row, self.col)
         self.rect = self.square.rect

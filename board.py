@@ -15,6 +15,7 @@ class Board:
                  num_fleas,
                  flea_rows,
                  flea_cols,
+                 init_directions,
                  visited):
         """Initializes the Board.
 
@@ -24,12 +25,14 @@ class Board:
             num_cols(int): The number of columns in the Board.
             flea_class(class): The class of the Fleas to create.
             num_fleas(int): The number of Fleas to create.
-            flea_rows(int): The initial rows of the fleas.
+            flea_rows(list): The initial rows of the fleas.
                 (-1 to start in the center vertically.
                  Unspecified fleas will be placed randomly.)
-            flea_cols(int): The initial columns of the fleas.
+            flea_cols(list): The initial columns of the fleas.
                 (-1 to start in the center horizontally.
                  Unspecified fleas will be placed randomly.)
+            init_directions(list): The initial directions of the fleas.
+                (Uspecified fleas will start facing up.)
             visited(bool): True to add an X to indicate which squares have been visited.
         """
 
@@ -39,6 +42,7 @@ class Board:
         self.flea_class = flea_class
         self.num_fleas = num_fleas
         self.flea_rows, self.flea_cols = self.initialize_flea_locs(flea_rows, flea_cols)
+        self.init_directions = self.initialize_flea_directions(init_directions)
         self.visited = visited
 
         self.squares = pygame.sprite.Group()
@@ -58,16 +62,16 @@ class Board:
         # Initialize fleas (first is centered, others are random)
         self.fleas = pygame.sprite.Group()
         for i in range(self.num_fleas):
-            self.fleas.add(self.flea_class(self, self.flea_rows[i], self.flea_cols[i]))
+            self.fleas.add(self.flea_class(self, self.flea_rows[i], self.flea_cols[i], self.init_directions[i]))
 
     def initialize_flea_locs(self, flea_rows, flea_cols):
-        """Determines the initial rows and columns for the fleas.
+        """Determines the initial rows and columns of the fleas.
 
         Arguments:
-            flea_rows(int): The initial rows of the fleas.
+            flea_rows(list): The initial rows of the fleas.
                 (-1 to start in the center vertically.
                  Unspecified fleas will be placed randomly.)
-            flea_cols(int): The initial columns of the fleas.
+            flea_cols(list): The initial columns of the fleas.
                 (-1 to start in the center horizontally.
                  Unspecified fleas will be placed randomly.)
 
@@ -86,6 +90,22 @@ class Board:
         flea_cols += [random.randint(0, self.num_cols - 1) for _ in range(self.num_fleas - len(flea_cols))]
 
         return flea_rows, flea_cols
+
+    def initialize_flea_directions(self, init_directions):
+        """Determines the initial directions of the fleas.
+
+        Arguments:
+            init_directions(list): The initial directions of the fleas.
+                (Uspecified fleas will start facing up.)
+
+        Returns:
+            A list of strings containing the initial directions
+            of the fleas.
+        """
+
+        init_directions += ['up' for _ in range(self.num_fleas - len(init_directions))]
+
+        return init_directions
 
     def get_square(self, row, col):
         """Gets the Square in a given row and column.

@@ -205,16 +205,15 @@ class TwoDimensionalVisitorFlea(Flea):
 class BitFlipper(Flea):
     """Flips the bits of a binary numbers.
 
-    Requires initial setup of the board.
-    Let 0 = 0th color, 1 = 1st color, etc.
-    and let L indicate the initial location
-    of the flea facing left (the flea starts
-    on a color 2 square).
+    Color 0: straight
+    Color 1: straight
+    Color 2: right
+    Color 3: left
+    Color 4: stop
 
-    Goes straight on 0 and 1.
-    Turns right on 2.
-    Turns left on 3.
-    Stops on 4.
+    Example:
+
+    The flea starts facing left (L) on a 2.
 
     4333333333
     4011000110
@@ -225,6 +224,8 @@ class BitFlipper(Flea):
     L444444444
     4011000110
     4444444444
+
+    The flea ends facing left (L) on a 4.
     """
 
     num_colors = 5
@@ -247,9 +248,44 @@ class BitFlipper(Flea):
         elif self.square.color == ORDERED_COLORS[4]:
             self.stop()
 
-@RegisterFlea('kyle')
-class KyleFlea(Flea):
-    """Does whatever Kyle wants it to do."""
+@RegisterFlea('add_one')
+class AddOneFlea(Flea):
+    """Adds one to a binary number.
+
+    Requires initial setup of the board.
+    To add 1 to an n-digit binary number,
+    write the number on the board and precede
+    the number by a 0. The row above the number
+    should be all 3s and the row below the number
+    should be all 2s. Add a column of 4s preceding
+    the number and the rows of 3s and 2s to stop the
+    flea.
+
+    Color 0: 180 degrees
+    Color 1: straight
+    Color 2: right
+    Color 3: left
+    Color 4: stop
+
+    Example:
+
+    Let's say the binary number we want to add
+    one to is 100111011.
+
+    The flea starts facing left (L) on a 2.
+
+    43333333333
+    40100111011
+    4222222222L
+
+    -->
+
+    43333333344
+    40100111100
+    42222222D44
+
+    The flea ends facing down (D) in a 4.
+    """
 
     num_colors = 5
     color_map = {
@@ -264,7 +300,7 @@ class KyleFlea(Flea):
     }
 
     def rotate(self):
-        if self.square.color == ORDERED_COLORS[1]:
+        if self.square.color == ORDERED_COLORS[0]:
             self.rotate_180()
         elif self.square.color == ORDERED_COLORS[2]:
             self.rotate_right()
@@ -272,6 +308,13 @@ class KyleFlea(Flea):
             self.rotate_left()
         elif self.square.color == ORDERED_COLORS[4]:
             self.stop()
+
+@RegisterFlea('kyle')
+class KyleFlea(Flea):
+    """Does whatever Kyle wants it to do."""
+
+    def rotate(self):
+        pass
 
 @RegisterFlea('magdalen')
 class MagdalenFlea(Flea):

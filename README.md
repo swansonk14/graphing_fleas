@@ -102,7 +102,6 @@ A flea which adds 1 to a binary number.
 
 ```
 python main.py --config configs/add_one.json
-
 ```
 
 ![Alt Text](images/add_one.gif)

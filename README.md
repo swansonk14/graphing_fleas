@@ -48,6 +48,8 @@ A number of optional arguments can be passed, including:
 * `delay` - The number of milliseconds of delay between each step of the simulation.
 * `pause` - Add this flag to start the game in a paused state.
 
+Additionally, whenever the game is paused, the squares may be clicked to change their color. A left click advances to the next color while a right click reverts to the previous color.
+
 ## Examples
 
 ### RRLLLRLLLRRR

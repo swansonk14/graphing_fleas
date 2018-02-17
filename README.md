@@ -39,14 +39,14 @@ A number of optional arguments can be passed, including:
 * `height` - The height (in pixels) of each square in the grid.
 * `flea_name` - The name of the type of flea to simulate. Different fleas follow different rules.
 * `num_fleas` - The number of fleas to simulate.
-* `flea_rows` - The initial rows of the fleas. -1 to start in the center vertically. Unspecified fleas will be placed randomly.
-* `flea_cols` - The initial columns of the fleas. -1 to start in the center horizontally. Unspecified fleas will be placed randomly.
+* `flea_rows` - The initial rows of the fleas. -1 to start in the center vertically. Unspecified fleas will be placed randomly (except for the first, which will be placed in the center).
+* `flea_cols` - The initial columns of the fleas. -1 to start in the center horizontally. Unspecified fleas will be placed randomly (except for the first, which will be placed in the center).
 * `init_directions` - Initial directions of the fleas. Unspecified fleas will start facing up.
-* `visited` - Add this flag to add an X to indicate which squares have been visited.
+* `visited` - Add this flag to mark an X in squares which have been visited.
 * `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key. May be in scientific notation (ex. 1e5).
 * `print_frequency` - The number of steps between each printing of the step number to the terminal. May be in scientific notation (ex. 1e5).
 * `delay` - The number of milliseconds of delay between each step of the simulation.
-* `pause` - Add this flag to start the game in a paused state.
+* `pause` - Add this flag to start the game in the paused state.
 
 Additionally, whenever the game is paused, the squares may be clicked to change their color. A left click advances to the next color while a right click reverts to the previous color.
 

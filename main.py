@@ -166,14 +166,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Process config (if there is one) and update args
-    if args.config is not None:
-        process_config(args)
-    else:
-        args.square_colors = None
+    process_config(args)
 
+    # Set width and height
     set_width(args.width)
     set_height(args.height)
 
+    # Get flea class
     args.flea_class = get_flea(args.flea_name)
 
     # Convert to float then int to allow for scientific notation

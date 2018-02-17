@@ -398,8 +398,25 @@ class TwosComplementFlea(Flea):
 class KyleFlea(Flea):
     """Does whatever Kyle wants it to do."""
 
+    num_colors = 6
+    color_map = {
+        0: 0,
+        1: 0,
+        2: 3,
+        3: 4,
+        4: 3,
+        5: 5
+    }
+
     def rotate(self):
-        pass
+        color = self.square.color
+
+        if color in [1, 3, 4]:
+            self.rotate_180()
+        elif color == 2:
+            self.rotate_right()
+        elif color == 5:
+            self.stop()
 
 @RegisterFlea('magdalen')
 class MagdalenFlea(Flea):

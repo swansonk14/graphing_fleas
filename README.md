@@ -91,7 +91,7 @@ python main.py --flea_name 2d_visit --num_rows 320 --num_cols 600 --width 5 --he
 A flea which flips the bits of a binary number.
 
 ```
-python main.py --flea_name bit_flipper --pause --num_rows 5 --num_cols 10 --flea_cols 8 --flea_rows 3 --init_direction left --delay 100
+python main.py --config configs/bit_flipper.json
 ```
 
 ![Alt Text](images/bit_flipper.gif)
@@ -101,7 +101,8 @@ python main.py --flea_name bit_flipper --pause --num_rows 5 --num_cols 10 --flea
 A flea which adds 1 to a binary number.
 
 ```
-python main.py --flea_name add_one --pause --num_rows 5 --num_cols 10 --flea_cols 8 --flea_rows 3 --init_direction left --delay 100
+python main.py --config configs/add_one.json
+
 ```
 
 ![Alt Text](images/add_one.gif)
@@ -111,7 +112,7 @@ python main.py --flea_name add_one --pause --num_rows 5 --num_cols 10 --flea_col
 A flea which computes the two's complement of a binary number.
 
 ```
-python main.py --flea_name twos_complement --pause --num_rows 5 --num_cols 10 --flea_cols 8 --flea_rows 3 --init_direction left --delay 100
+python main.py --config configs/twos_complement.json
 ```
 
 ![Alt Text](images/twos_complement.gif)

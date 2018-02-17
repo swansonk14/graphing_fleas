@@ -1,8 +1,8 @@
 import argparse
-import json
 import pygame
 from constants import COLORS, MARGIN_TOP, MARGIN_SIDE, set_width, set_height, get_width, get_height
 from board import Board
+from config import process_config
 from flea import get_flea, FLEA_CLASSES
 from helpers import format_message
 from text import Text
@@ -165,6 +165,12 @@ if __name__ == '__main__':
     parser.add_argument('--pause', action='store_true', default=False, help='Start the game in a paused state')
     args = parser.parse_args()
 
+    # Process config (if there is one) and update args
+    if args.config is not None:
+        process_config(args)
+    else:
+        args.square_colors = None
+
     set_width(args.width)
     set_height(args.height)
 
@@ -173,9 +179,6 @@ if __name__ == '__main__':
     # Convert to float then int to allow for scientific notation
     args.display_frequency = int(float(args.display_frequency))
     args.print_frequency = int(float(args.print_frequency))
-
-    # Process config if there is one
-    process_config(args)
 
     run_simulation(args.num_rows,
                    args.num_cols,

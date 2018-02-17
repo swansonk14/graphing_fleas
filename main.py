@@ -3,26 +3,8 @@ import pygame
 from constants import COLORS, MARGIN_TOP, MARGIN_SIDE, set_width, set_height, get_width, get_height
 from board import Board
 from flea import get_flea, FLEA_CLASSES
+from helpers import format_message
 from text import Text
-
-def format_message(step, pause, threshold=10000):
-    """Format message to display on top of screen.
-
-    Arguments:
-        step(int): Step number.
-        pause(bool): True if the game is paused.
-        threshold(int): The step number above which to use scientific notation.
-
-    Returns:
-        A string with the step number and paused if the game is paused.
-    """
-
-    if step >= threshold:
-        step = '{:.2e}'.format(step)
-
-    message = "Step {}{}".format(step, ', PAUSED' if pause else '')
-    
-    return message
 
 def run_simulation(num_rows,
                    num_cols,

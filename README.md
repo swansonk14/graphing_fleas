@@ -4,6 +4,10 @@ Simulates the movement of fleas on a 2-dimensional grid. The fleas rotate depend
 
 Note: Requires Python 3.
 
+## Authors
+
+Kyle Swanson, Magdalen Dobson, Thomas Sturm
+
 ## Installation
 
 ```
@@ -99,6 +103,3 @@ python main.py --flea_name add_one --pause --num_rows 5 --num_cols 10 --flea_col
 ```
 
 ![Alt Text](images/add_one.gif)
-
-## Authors
-Kyle Swanson, Magdalen Dobson, Thomas Sturm

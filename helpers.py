@@ -36,3 +36,22 @@ def row_column_to_pixels(row_num, col_num):
     """
 
     return (column_to_pixel(col_num), row_to_pixel(row_num))
+
+def format_message(step, pause, threshold=10000):
+    """Format message to display on top of screen.
+
+    Arguments:
+        step(int): Step number.
+        pause(bool): True if the game is paused.
+        threshold(int): The step number above which to use scientific notation.
+
+    Returns:
+        A string with the step number and paused if the game is paused.
+    """
+
+    if step >= threshold:
+        step = '{:.2e}'.format(step)
+
+    message = "Step {}{}".format(step, ', PAUSED' if pause else '')
+    
+    return message

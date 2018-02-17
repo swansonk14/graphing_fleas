@@ -318,12 +318,40 @@ class TwosComplementFlea(Flea):
     """Performs two's complement on a binary number.
 
     Flips the bits and then adds one.
+
+    Color 0: straight
+    Color 1: straight
+    Color 2: 180 degrees
+    Color 3: right
+    Color 4: left
+    Color 5: right
+    Color 6: left
+    Color 7: straight
+    Color 8: stop
     """
 
-    num_colors = 5
+    num_colors = 9
     color_map = {
-
+        0: 1,
+        1: 2,
+        2: 1,
+        3: 5,
+        4: 6,
+        5: 8,
+        6: 8,
+        7: 7,
+        8: 8
     }
+
+    def rotate(self):
+        if self.square.color == 2:
+            self.rotate_180()
+        elif self.square.color in [3, 5]:
+            self.rotate_right()
+        elif self.square.color in [4, 6]:
+            self.rotate_left()
+        elif self.square.color == 8:
+            self.stop()
 
 @RegisterFlea('kyle')
 class KyleFlea(Flea):

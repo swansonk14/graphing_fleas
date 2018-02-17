@@ -105,3 +105,13 @@ python main.py --flea_name add_one --pause --num_rows 5 --num_cols 10 --flea_col
 ```
 
 ![Alt Text](images/add_one.gif)
+
+### Two's complement
+
+A flea which computes the two's complement of a binary number.
+
+```
+python main.py --flea_name twos_complement --pause --num_rows 5 --num_cols 10 --flea_cols 8 --flea_rows 3 --init_direction left --delay 100
+```
+
+![Alt Text](images/twos_complement.gif)

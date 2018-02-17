@@ -4,10 +4,10 @@ from constants import DIRECTIONS, get_width, get_height
 
 FLEA_CLASSES = {}
 
-def RegisterFlea(flea_class):
-    def decorator(cls):
-        FLEA_CLASSES[flea_class] = cls
-        return cls
+def RegisterFlea(flea_name):
+    def decorator(flea_class):
+        FLEA_CLASSES[flea_name] = flea_class
+        return flea_class
 
     return decorator
 

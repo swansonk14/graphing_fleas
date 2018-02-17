@@ -60,7 +60,7 @@ def run_simulation(num_rows,
     board.draw()
 
     text = Text(screen, board)
-    text.update("Step 0{}".format(', PAUSED' if pause else ''))
+    text.update(format_message(0, pause))
 
     pygame.time.delay(500)
 
@@ -163,6 +163,7 @@ if __name__ == '__main__':
 
     flea_class = get_flea(args.flea_name)
 
+    # Convert to float then int to allow for scientific notation
     display_frequency = int(float(args.display_frequency))
     print_frequency = int(float(args.print_frequency))
 

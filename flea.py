@@ -277,7 +277,8 @@ class AddOneFlea(Flea):
     Example:
 
     Let's say the binary number we want to add
-    one to is 100111011.
+    one to is 100111011. Note in the following
+    that we precede the number with a 0.
 
     The flea starts facing left (L) on a 2.
 
@@ -291,7 +292,7 @@ class AddOneFlea(Flea):
     40100111100
     42222222D44
 
-    The flea ends facing down (D) in a 4.
+    The flea ends facing down (D) on a 4.
     """
 
     num_colors = 5
@@ -319,6 +320,9 @@ class TwosComplementFlea(Flea):
 
     Flips the bits and then adds one.
 
+    Requires initial setup of the board.
+    (See example below.)
+
     Color 0: straight
     Color 1: straight
     Color 2: 180 degrees
@@ -328,6 +332,43 @@ class TwosComplementFlea(Flea):
     Color 6: left
     Color 7: straight
     Color 8: stop
+
+    Example:
+
+    Let's say the binary number we want to compute
+    the two's complement of is 100111010. Note in the
+    following that we precede the number with a 1.
+
+    The flea starts facing left (L) on a 3.
+
+    577777777775
+    544444444445
+    811001110108
+    6333333333L6
+    677777777776
+
+    --> (bit flip stage)
+
+    577777777775
+    544444444445
+    822112221218
+    6D5555555556
+    677777777776
+
+    The flea is now facing down (D) on a 3.
+
+    --> (add one stage)
+
+    577777777775
+    544444444U85
+    822112221128
+    855555555588
+    877777777778
+
+    The flea ends facing up (U) on an 8.
+
+    Note that in the end, 1s still represents
+    a 1s but 2s now represent 0s.
     """
 
     num_colors = 9

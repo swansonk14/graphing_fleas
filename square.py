@@ -9,6 +9,7 @@ class Square(pygame.sprite.Sprite):
                  row,
                  col,
                  num_colors,
+                 init_color=0,
                  cycle_size=None,
                  color_map=None,
                  visited=False):
@@ -19,6 +20,7 @@ class Square(pygame.sprite.Sprite):
             col(int): The number of the column where this Square is located.
             num_colors(int): The number of possible colors this Square can take on.
                 Max is the number of colors in COLORS in constants.py.
+            init_color(int): The initial color of this Square.
             cycle_size(int): The number of colors to cycle at the end of the list
                 of colors. Must be less than or equal to num_colors.
                 (None to cycle through all the colors.)
@@ -33,11 +35,11 @@ class Square(pygame.sprite.Sprite):
         self.row = row
         self.col = col
         self.num_colors = num_colors
+        self.color = init_color
         self.cycle_size = cycle_size
         self.visited = visited
 
-        # Initialize colors
-        self.color = 0
+        # Initialize color map
         self.color_map = color_map if color_map is not None else self.initialize_color_map()
 
         # Initialize square image

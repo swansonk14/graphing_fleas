@@ -16,6 +16,7 @@ class Board:
                  flea_rows,
                  flea_cols,
                  init_directions,
+                 square_colors,
                  visited):
         """Initializes the Board.
 
@@ -33,6 +34,9 @@ class Board:
                  Unspecified fleas will be placed randomly.)
             init_directions(list): The initial directions of the fleas.
                 (Uspecified fleas will start facing up.)
+            square_colors(list): Initial configuration of the colors of the squares.
+                (list of list of ints representing square colors.)
+                If None, all squares are initialized to color 0.
             visited(bool): True to add an X to indicate which squares have been visited.
         """
 
@@ -43,6 +47,7 @@ class Board:
         self.num_fleas = num_fleas
         self.flea_rows, self.flea_cols = self.initialize_flea_locs(flea_rows, flea_cols)
         self.init_directions = self.initialize_flea_directions(init_directions)
+        self.square_colors = self.initialize_square_colors(square_colors)
         self.visited = visited
 
         self.squares = pygame.sprite.Group()
@@ -56,6 +61,7 @@ class Board:
                 square = Square(row,
                                 col,
                                 self.flea_class.num_colors,
+                                self.square_colors[row][col],
                                 self.flea_class.cycle_size,
                                 self.flea_class.color_map,
                                 self.visited)
@@ -114,6 +120,24 @@ class Board:
         init_directions += ['up' for _ in range(self.num_fleas - len(init_directions))]
 
         return init_directions
+
+    def initialize_square_colors(self, square_colors):
+        """Determine the initial square colors.
+
+        Arguments:
+            square_colors(list): Initial configuration of the colors of the squares.
+                (list of list of ints representing square colors.)
+                If None, all squares are initialized to color 0.
+
+        Returns:
+            A list of lists containing the initial colors of all
+            squares on the board.
+        """
+
+        if square_colors is None:
+            square_colors = [[0] * self.num_cols] * self.num_rows
+
+        return square_colors
 
     def get_square(self, row, col):
         """Gets the Square in a given row and column.

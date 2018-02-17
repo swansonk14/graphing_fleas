@@ -1,4 +1,5 @@
 import argparse
+import json
 import pygame
 from constants import COLORS, MARGIN_TOP, MARGIN_SIDE, set_width, set_height, get_width, get_height
 from board import Board
@@ -13,6 +14,7 @@ def run_simulation(num_rows,
                    flea_rows,
                    flea_cols,
                    init_directions,
+                   square_colors,
                    visited,
                    display_frequency,
                    print_frequency,
@@ -33,6 +35,9 @@ def run_simulation(num_rows,
              Unspecified fleas will be placed randomly.)
         init_directions(list): The initial directions of the fleas.
             (Uspecified fleas will start facing up.)
+        square_colors(list): Initial configuration of the colors of the squares.
+            (list of list of ints representing square colors.)
+            If None, all squares are initialized to color 0.
         visited(bool): True to add an X to indicate which squares have been visited.
         display_frequency(int): How many steps between each update of the display.
             -1 to update manually upon pressing "d" key.
@@ -56,6 +61,7 @@ def run_simulation(num_rows,
                   flea_rows,
                   flea_cols,
                   init_directions,
+                  square_colors,
                   visited)
     board.draw()
 
@@ -151,6 +157,7 @@ if __name__ == '__main__':
     parser.add_argument('--flea_rows', type=int, nargs='+', default=[-1], help='Initial row of fleas (-1 for center of board vertically; unspecified fleas will be placed randomly)')
     parser.add_argument('--flea_cols', type=int, nargs='+', default=[-1], help='Initial column of fleas (-1 for center of board horizontally; unspecified fleas will be placed randomly)')
     parser.add_argument('--init_directions', type=str, nargs='+', default=['up'], help='Initial directions of the fleas (unspecified fleas will start facing up)')
+    parser.add_argument('--config', type=str, help='Path to JSON file containing initial configuration of the board')
     parser.add_argument('--visited', action='store_true', default=False, help='Add an X to indicate which squares have been visited')
     parser.add_argument('--display_frequency', type=str, default='1', help='How often to update the display (-1 to update only on pressing "d" key; may be in scientific notation)')
     parser.add_argument('--print_frequency', type=str, default='1e5', help='How often to print the step to the terminal (may be in scientific notation)')
@@ -161,21 +168,25 @@ if __name__ == '__main__':
     set_width(args.width)
     set_height(args.height)
 
-    flea_class = get_flea(args.flea_name)
+    args.flea_class = get_flea(args.flea_name)
 
     # Convert to float then int to allow for scientific notation
-    display_frequency = int(float(args.display_frequency))
-    print_frequency = int(float(args.print_frequency))
+    args.display_frequency = int(float(args.display_frequency))
+    args.print_frequency = int(float(args.print_frequency))
+
+    # Process config if there is one
+    process_config(args)
 
     run_simulation(args.num_rows,
                    args.num_cols,
-                   flea_class,
+                   args.flea_class,
                    args.num_fleas,
                    args.flea_rows,
                    args.flea_cols,
                    args.init_directions,
+                   args.square_colors,
                    args.visited,
-                   display_frequency,
-                   print_frequency,
+                   args.display_frequency,
+                   args.print_frequency,
                    args.delay,
                    args.pause)

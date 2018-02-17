@@ -1,6 +1,6 @@
 import pygame
 from abc import ABCMeta, abstractmethod
-from constants import DIRECTIONS, ORDERED_COLORS, get_width, get_height
+from constants import DIRECTIONS, get_width, get_height
 
 FLEA_CLASSES = {}
 
@@ -143,12 +143,16 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
 
 @RegisterFlea('langtons')
 class LangtonsFlea(Flea):
-    """Langton's ant in flea form (https://en.wikipedia.org/wiki/Langton%27s_ant)."""
+    """Langton's ant in flea form (https://en.wikipedia.org/wiki/Langton%27s_ant).
+
+    Color 0: right
+    Color 1: left
+    """
 
     num_colors = 2
 
     def rotate(self):
-        if self.square.color == 'white':
+        if self.square.color == 0:
             self.rotate_right()
         else:
             self.rotate_left()
@@ -159,7 +163,7 @@ class TriangleFlea(Flea):
 
     num_colors = 12
 
-    right_turn_colors = [ORDERED_COLORS[i] for i in [0, 1, 5, 9, 10, 11]]
+    right_turn_colors = [0, 1, 5, 9, 10, 11]
 
     def rotate(self):
         if self.square.color in self.right_turn_colors:
@@ -169,7 +173,11 @@ class TriangleFlea(Flea):
 
 @RegisterFlea('1d_visit')
 class OneDimensionalVisitorFlea(Flea):
-    """A flea which visits all squares in one dimension."""
+    """A flea which visits all squares in one dimension.
+
+    Color 0: 180 degrees
+    Color 1: straight
+    """
 
     num_colors = 2
     cycle_size = 1
@@ -181,24 +189,26 @@ class OneDimensionalVisitorFlea(Flea):
         self.rotate_right()
 
     def rotate(self):
-        # Rotate 180 on white, no rotation on black
-        if self.square.color == 'white':
+        if self.square.color == 0:
             self.rotate_right()
             self.rotate_right()
 
 @RegisterFlea('2d_visit')
 class TwoDimensionalVisitorFlea(Flea):
-    """A flea which visits all squares in two dimensions."""
+    """A flea which visits all squares in two dimensions.
+
+    Color 0: right
+    Color 1: left
+    Color 2: straight
+    """
 
     num_colors = 3
     cycle_size = 1
 
     def rotate(self):
-        # Rotates right for white, left for black,
-        # no rotation for third color
-        if self.square.color == 'white':
+        if self.square.color == 0:
             self.rotate_right()
-        elif self.square.color == 'black':
+        elif self.square.color == 1:
             self.rotate_left()
 
 @RegisterFlea('bit_flipper')
@@ -230,22 +240,19 @@ class BitFlipper(Flea):
 
     num_colors = 5
     color_map = {
-        ORDERED_COLORS[i]: ORDERED_COLORS[j]
-        for i,j in {
-            0: 1,
-            1: 0,
-            2: 4,
-            3: 4,
-            4: 4,
-        }.items()
+        0: 1,
+        1: 0,
+        2: 4,
+        3: 4,
+        4: 4,
     }
 
     def rotate(self):
-        if self.square.color == ORDERED_COLORS[2]:
+        if self.square.color == 2:
             self.rotate_right()
-        elif self.square.color == ORDERED_COLORS[3]:
+        elif self.square.color == 3:
             self.rotate_left()
-        elif self.square.color == ORDERED_COLORS[4]:
+        elif self.square.color == 4:
             self.stop()
 
 @RegisterFlea('add_one')
@@ -289,25 +296,34 @@ class AddOneFlea(Flea):
 
     num_colors = 5
     color_map = {
-        ORDERED_COLORS[i]: ORDERED_COLORS[j]
-        for i,j in {
-            0: 1,
-            1: 0,
-            2: 4,
-            3: 4,
-            4: 4,
-        }.items()
+        0: 1,
+        1: 0,
+        2: 4,
+        3: 4,
+        4: 4,
     }
 
     def rotate(self):
-        if self.square.color == ORDERED_COLORS[0]:
+        if self.square.color == 0:
             self.rotate_180()
-        elif self.square.color == ORDERED_COLORS[2]:
+        elif self.square.color == 2:
             self.rotate_right()
-        elif self.square.color == ORDERED_COLORS[3]:
+        elif self.square.color == 3:
             self.rotate_left()
-        elif self.square.color == ORDERED_COLORS[4]:
+        elif self.square.color == 4:
             self.stop()
+
+@RegisterFlea('twos_complement')
+class TwosComplementFlea(Flea):
+    """Performs two's complement on a binary number.
+
+    Flips the bits and then adds one.
+    """
+
+    num_colors = 5
+    color_map = {
+
+    }
 
 @RegisterFlea('kyle')
 class KyleFlea(Flea):

@@ -26,7 +26,7 @@ def get_width():
 def get_height():
     return height
 
-COLORS = {
+COLOR_MAP = {
     'white': (255, 255, 255),
     'black': (0, 0, 0),
     'red': (255, 0, 0),
@@ -1156,3 +1156,5 @@ ORDERED_COLORS = [
     'gray37',
     'springgreen1'
 ]
+
+COLORS = [COLOR_MAP[color] for color in ORDERED_COLORS]

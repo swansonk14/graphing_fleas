@@ -1,6 +1,6 @@
 import pygame
 import random
-from constants import COLORS
+from constants import COLOR_MAP
 from helpers import row_column_to_pixels
 from square import Square
 
@@ -153,13 +153,13 @@ class Board:
         for row in range(self.num_rows + 1):
             left = row_column_to_pixels(row, 0)
             right = row_column_to_pixels(row, self.num_cols)
-            pygame.draw.line(self.screen, COLORS['gray'], left, right)
+            pygame.draw.line(self.screen, COLOR_MAP['gray'], left, right)
 
         # Draw vertical lines
         for col in range(self.num_cols + 1):
             top = row_column_to_pixels(0, col)
             bottom = row_column_to_pixels(self.num_rows, col)
-            pygame.draw.line(self.screen, COLORS['gray'], top, bottom)
+            pygame.draw.line(self.screen, COLOR_MAP['gray'], top, bottom)
 
     def draw(self):
         """Draws the Board including the Squares, grid, and Fleas."""

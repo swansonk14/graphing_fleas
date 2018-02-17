@@ -1,5 +1,5 @@
 import pygame
-from constants import COLORS, ORDERED_COLORS, get_width, get_height
+from constants import COLORS, get_width, get_height
 from helpers import column_to_pixel, row_to_pixel
 
 class Square(pygame.sprite.Sprite):
@@ -37,17 +37,8 @@ class Square(pygame.sprite.Sprite):
         self.visited = visited
 
         # Initialize colors
-        self.colors = ORDERED_COLORS[:self.num_colors]
-        self.color = self.colors[0]
+        self.color = 0
         self.color_map = color_map if color_map is not None else self.initialize_color_map()
-        self.next_color_map = {
-            self.colors[i]: self.colors[(i+1) % len(self.colors)]
-            for i in range(len(self.colors))
-        }
-        self.previous_color_map = {
-            self.colors[i]: self.colors[(i-1) % len(self.colors)]
-            for i in range(len(self.colors))
-        }
 
         # Initialize square image
         self.image = pygame.Surface((get_width(), get_height()))
@@ -67,24 +58,20 @@ class Square(pygame.sprite.Sprite):
 
         Ex. n = 5, cycle size = None
 
-        1 --> 2 --> 3 --> 4 --> 5 --> 1
+        0 --> 1 --> 2 --> 3 --> 4 --> 0
 
         Ex. n = 5, cycle size = 4
 
-        1 --> 2 --> 3 --> 4 --> 5 --> 2
+        0 --> 1 --> 2 --> 3 --> 4 --> 1
 
         Returns:
             A dictionary mapping each color to the next color.
         """
 
-        last_color = self.colors[-1]
-        cycle_size = self.cycle_size if self.cycle_size is not None else len(self.colors)
+        cycle_size = self.cycle_size if self.cycle_size is not None else self.num_colors
 
-        color_map = {
-            self.colors[i]: self.colors[i+1]
-            for i in range(len(self.colors) - 1)
-        }
-        color_map[last_color] = self.colors[-cycle_size]
+        color_map = {i: i+1 for i in range(self.num_colors - 1)}
+        color_map[self.num_colors - 1] = self.num_colors - cycle_size
 
         return color_map
 
@@ -109,11 +96,11 @@ class Square(pygame.sprite.Sprite):
     def next_color(self):
         """Changes the color of the Square to the next color."""
 
-        self.color = self.next_color_map[self.color]
+        self.color = (self.color + 1) % self.num_colors
         self.image.fill(COLORS[self.color])
 
     def previous_color(self):
         """Changes the color of the Square to the previous color."""
 
-        self.color = self.previous_color_map[self.color]
+        self.color = (self.color - 1) % self.num_colors
         self.image.fill(COLORS[self.color])

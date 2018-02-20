@@ -68,7 +68,7 @@ def run_simulation(num_rows,
     text = Text(screen, board)
     text.update(format_message(0, pause))
 
-    pygame.time.delay(500)
+    pygame.time.wait(500)
 
     # Main loop
     quit = False
@@ -130,7 +130,7 @@ def run_simulation(num_rows,
 
             if display_frequency != -1 and step % display_frequency == 0:
                 board.draw()
-                pygame.time.delay(delay)
+                pygame.time.wait(delay)
 
             # Change square colors
             board.change_square_colors()
@@ -140,7 +140,7 @@ def run_simulation(num_rows,
             
             if display_frequency != -1 and step % display_frequency == 0:
                 board.draw()
-                pygame.time.delay(delay)
+                pygame.time.wait(delay)
 
             step += 1
 

@@ -394,29 +394,61 @@ class TwosComplementFlea(Flea):
         elif self.square.color == 8:
             self.stop()
 
-@RegisterFlea('kyle')
-class KyleFlea(Flea):
-    """Does whatever Kyle wants it to do."""
+@RegisterFlea('adder')
+class AdderFlea(Flea):
+    """Adds two binary numbers.
 
-    num_colors = 6
+    Digit colors
+    Color 0: straight
+    Color 1: 180
+
+    Sum colors
+    Color 2: 180
+    Color 3: right
+    Color 4: left
+    Color 5: 180
+    Color 6: 180
+
+    Directional colors
+    Color 6: right
+    Color 7: right
+    Color 8: straight
+    Color 9: stop
+    """
+
+    num_colors = 11
     color_map = {
         0: 0,
         1: 0,
         2: 3,
         3: 4,
-        4: 3,
-        5: 5
+        4: 5,
+        5: 6,
+        6: 6,
+        7: 9,
+        8: 8,
+        9: 9,
+        10: 10
     }
 
     def rotate(self):
         color = self.square.color
 
-        if color in [1, 3, 4]:
+        if color in [1, 2, 5, 6]:
             self.rotate_180()
-        elif color == 2:
+        elif color in [3, 7, 8]:
             self.rotate_right()
-        elif color == 5:
+        elif color == 4:
+            self.rotate_left()
+        elif color == 10:
             self.stop()
+
+@RegisterFlea('kyle')
+class KyleFlea(Flea):
+    """Does whatever Kyle wants it to do."""
+
+    def rotate(self):
+        pass
 
 @RegisterFlea('magdalen')
 class MagdalenFlea(Flea):

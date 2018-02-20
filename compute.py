@@ -79,6 +79,8 @@ def twos_complement(x):
 
     Flips the bits and then adds one.
 
+    In the end, 3 is 0 and 1 is 1.
+
     5777...775
     5444...445
     80xx...xx8
@@ -124,9 +126,48 @@ def twos_complement(x):
 def add(x, y):
     """Sets up an AdderFlea to add x and y.
 
-    10
+    In the end, 2 is 0 and 3 is 1.
 
+    555...556
+    8xx...xx7
+    8yy...yy7
+    555...556
+    222...228
     """
+
+    length = max(len(x), len(y))
+
+    num_rows = 5
+    num_cols = length + 2
+
+    square_colors = np.zeros((num_rows, num_cols), dtype=int)
+    square_colors[0, :-1] = 5
+    square_colors[0, -1] = 6
+    square_colors[1, 0] = 8
+    square_colors[1, 1:-1] = [0] * (length - len(x)) + [int(digit) for digit in x]
+    square_colors[1, -1] = 7
+    square_colors[2, 0] = 8
+    square_colors[2, 1:-1] = [0] * (length - len(y)) + [int(digit) for digit in y]
+    square_colors[2, -1] = 7
+    square_colors[3, :-1] = 5
+    square_colors[3, -1] = 6
+    square_colors[4, :-1] = 2
+    square_colors[4, -1] = 8
+
+
+    set_width(75)
+    set_height(75)
+
+    run_simulation(num_rows=num_rows,
+                   num_cols=num_cols,
+                   flea_class=AdderFlea,
+                   num_fleas=1,
+                   flea_rows=[3],
+                   flea_cols=[-2],
+                   init_directions=['left'],
+                   square_colors=square_colors.tolist(),
+                   delay=100,
+                   pause=True)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

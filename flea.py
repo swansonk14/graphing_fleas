@@ -368,7 +368,7 @@ class TwosComplementFlea(Flea):
     The flea ends facing up (U) on an 8.
 
     Note that in the end, 1s still represents
-    a 1s but 2s now represent 0s.
+    1s but 2s now represent 0s.
     """
 
     num_colors = 9
@@ -408,6 +408,10 @@ class AdderFlea(Flea):
     Color 4: left
     Color 5: 180
     Color 6: 180
+
+    Colors 2, 5 = 0
+    Colors 3, 6 = 1
+    Color 4 never stays
 
     Directional colors
     Color 6: right

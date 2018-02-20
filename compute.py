@@ -13,20 +13,19 @@ def bit_flip(x):
     """Sets up a BitFlipperFlea to flip the bits of x.
 
     Square colors
-    433...334
-    4xx...xx4
-    422...224
+    433...33
+    4xx...xx
+    422...22
     """
 
     num_rows = 3
-    num_cols = len(x) + 2
+    num_cols = len(x) + 1
 
     square_colors = np.zeros((num_rows, num_cols), dtype=int)
     square_colors[:, 0] = 4
-    square_colors[:, -1] = 4
-    square_colors[0, 1:-1] = 3
-    square_colors[1, 1:-1] = [int(digit) for digit in x]
-    square_colors[2, 1:-1] = 2
+    square_colors[0, 1:] = 3
+    square_colors[1, 1:] = [int(digit) for digit in x]
+    square_colors[2, 1:] = 2
 
     set_width(75)
     set_height(75)
@@ -36,7 +35,7 @@ def bit_flip(x):
                    flea_class=BitFlipperFlea,
                    num_fleas=1,
                    flea_rows=[2],
-                   flea_cols=[-2],
+                   flea_cols=[-1],
                    init_directions=['left'],
                    square_colors=square_colors.tolist(),
                    delay=100,
@@ -45,20 +44,18 @@ def bit_flip(x):
 def add_one(x):
     """Sets up an AddOneFlea to add one to x.
 
-    4333...334
-    40xx...xx4
-    4222...224
+    333...33
+    0xx...xx
+    222...22
     """
 
     num_rows = 3
-    num_cols = len(x) + 3
+    num_cols = len(x) + 1
 
     square_colors = np.zeros((num_rows, num_cols), dtype=int)
-    square_colors[:, 0] = 4
-    square_colors[:, -1] = 4
-    square_colors[0, 1:-1] = 3
-    square_colors[1, 2:-1] = [int(digit) for digit in x]
-    square_colors[2, 1:-1] = 2
+    square_colors[0] = 3
+    square_colors[1, 1:] = [int(digit) for digit in x]
+    square_colors[2] = 2
 
     set_width(75)
     set_height(75)
@@ -68,7 +65,7 @@ def add_one(x):
                    flea_class=AddOneFlea,
                    num_fleas=1,
                    flea_rows=[2],
-                   flea_cols=[-2],
+                   flea_cols=[-1],
                    init_directions=['left'],
                    square_colors=square_colors.tolist(),
                    delay=100,

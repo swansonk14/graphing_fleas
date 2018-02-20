@@ -6,5 +6,6 @@
     "flea_rows": [2],
     "flea_cols": [-1],
     "init_directions": ["left"],
-    "delay": 100
+    "delay": 100,
+    "pause": true
 }

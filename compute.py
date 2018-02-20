@@ -18,7 +18,10 @@ def bit_flip(x):
     422...224
     """
 
-    square_colors = np.zeros((3, len(x) + 2), dtype=int)
+    num_rows = 3
+    num_cols = len(x) + 2
+
+    square_colors = np.zeros((num_rows, num_cols), dtype=int)
     square_colors[:, 0] = 4
     square_colors[:, -1] = 4
     square_colors[0, 1:-1] = 3
@@ -28,8 +31,8 @@ def bit_flip(x):
     set_width(75)
     set_height(75)
 
-    run_simulation(num_rows=square_colors.shape[0],
-                   num_cols=square_colors.shape[1],
+    run_simulation(num_rows=num_rows,
+                   num_cols=num_cols,
                    flea_class=BitFlipperFlea,
                    num_fleas=1,
                    flea_rows=[2],
@@ -47,7 +50,10 @@ def add_one(x):
     4222...224
     """
 
-    square_colors = np.zeros((3, len(x) + 3), dtype=int)
+    num_rows = 3
+    num_cols = len(x) + 3
+
+    square_colors = np.zeros((num_rows, num_cols), dtype=int)
     square_colors[:, 0] = 4
     square_colors[:, -1] = 4
     square_colors[0, 1:-1] = 3
@@ -57,8 +63,8 @@ def add_one(x):
     set_width(75)
     set_height(75)
 
-    run_simulation(num_rows=square_colors.shape[0],
-                   num_cols=square_colors.shape[1],
+    run_simulation(num_rows=num_rows,
+                   num_cols=num_cols,
                    flea_class=AddOneFlea,
                    num_fleas=1,
                    flea_rows=[2],
@@ -69,7 +75,51 @@ def add_one(x):
                    pause=True)
 
 def twos_complement(x):
-    pass
+    """Sets up a TwosComplementFlea to compute the twos complement of x.
+
+    Flips the bits and then adds one.
+
+    5777...775
+    5444...445
+    80xx...xx8
+    6333...336
+    6777...776
+    """
+
+    num_rows = 5
+    num_cols = len(x) + 3
+
+    square_colors = np.zeros((num_rows, num_cols), dtype=int)
+    square_colors[0, 0] = 5
+    square_colors[0, 1:-1] = 7
+    square_colors[0, -1] = 5
+    square_colors[1, 0] = 5
+    square_colors[1, 1:-1] = 4
+    square_colors[1, -1] = 5
+    square_colors[2, 0] = 8
+    square_colors[2, 1] = 0
+    square_colors[2, 2:-1] = [int(digit) for digit in x]
+    square_colors[2, -1] = 8
+    square_colors[3, 0] = 6
+    square_colors[3, 1:-1] = 3
+    square_colors[3, -1] = 6
+    square_colors[4, 0] = 6
+    square_colors[4, 1:-1] = 7
+    square_colors[4, -1] = 6
+
+    set_width(75)
+    set_height(75)
+
+    run_simulation(num_rows=num_rows,
+                   num_cols=num_cols,
+                   flea_class=TwosComplementFlea,
+                   num_fleas=1,
+                   flea_rows=[3],
+                   flea_cols=[-2],
+                   init_directions=['left'],
+                   square_colors=square_colors.tolist(),
+                   delay=100,
+                   pause=True)
 
 def add(x, y):
     pass

@@ -6,7 +6,7 @@
                       [6, 3, 3, 3, 3, 3, 3, 3, 3, 6],
                       [6, 7, 7, 7, 7, 7, 7, 7, 7, 6]],
     "flea_rows": [3],
-    "flea_cols": [8],
+    "flea_cols": [-2],
     "init_directions": ["left"],
     "delay": 100
 }

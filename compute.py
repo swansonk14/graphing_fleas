@@ -128,7 +128,7 @@ def add(x, y):
 
     In the end, 2 is 0 and 3 is 1.
 
-    555...556
+    855...556
     8xx...xx7
     8yy...yy7
     555...556
@@ -141,7 +141,8 @@ def add(x, y):
     num_cols = length + 2
 
     square_colors = np.zeros((num_rows, num_cols), dtype=int)
-    square_colors[0, :-1] = 5
+    square_colors[0, 0] = 8
+    square_colors[0, 1:-1] = 5
     square_colors[0, -1] = 6
     square_colors[1, 0] = 8
     square_colors[1, 1:-1] = [0] * (length - len(x)) + [int(digit) for digit in x]
@@ -153,7 +154,6 @@ def add(x, y):
     square_colors[3, -1] = 6
     square_colors[4, :-1] = 2
     square_colors[4, -1] = 8
-
 
     set_width(75)
     set_height(75)

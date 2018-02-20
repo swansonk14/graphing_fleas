@@ -108,10 +108,28 @@ python main.py --config configs/add_one.json
 
 ### Two's complement
 
-A flea which computes the two's complement of a binary number.
+A flea which computes the two's complement of a binary number. Computing two's complement involves first flipping the bits and then adding one. Note: In the end result, red represents 0 and black represents 1.
 
 ```
 python main.py --config configs/twos_complement.json
 ```
 
 ![Alt Text](images/twos_complement.gif)
+
+## Adder
+
+A flea which adds two binary numbers. In this example, 187 + 154 = 341, or in binary,
+
+```
+  10111011
+ +10011010
+=101010101
+```
+
+Note: In the end result, red represents 0 and green represents 1.
+
+```
+python main.py --config configs/adder.json
+```
+
+![Alt Text](images/adder.gif)

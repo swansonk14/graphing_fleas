@@ -122,7 +122,11 @@ def twos_complement(x):
                    pause=True)
 
 def add(x, y):
-    pass
+    """Sets up an AdderFlea to add x and y.
+
+    10
+
+    """
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

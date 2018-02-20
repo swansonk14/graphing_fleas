@@ -27,10 +27,10 @@ class Board:
             flea_class(class): The class of the Fleas to create.
             num_fleas(int): The number of Fleas to create.
             flea_rows(list): The initial rows of the fleas.
-                (-1 to start in the center vertically.
+                (None to start in the center vertically.
                  Unspecified fleas will be placed randomly.)
             flea_cols(list): The initial columns of the fleas.
-                (-1 to start in the center horizontally.
+                (None to start in the center horizontally.
                  Unspecified fleas will be placed randomly.)
             init_directions(list): The initial directions of the fleas.
                 (Uspecified fleas will start facing up.)
@@ -83,10 +83,10 @@ class Board:
 
         Arguments:
             flea_rows(list): The initial rows of the fleas.
-                (-1 to start in the center vertically.
+                (None to start in the center vertically.
                  Unspecified fleas will be placed randomly.)
             flea_cols(list): The initial columns of the fleas.
-                (-1 to start in the center horizontally.
+                (None to start in the center horizontally.
                  Unspecified fleas will be placed randomly.)
 
         Returns:
@@ -95,9 +95,9 @@ class Board:
             the initial columns of the fleas.
         """
 
-        # Replace -1 with center
-        flea_rows = [flea_row if flea_row != -1 else self.num_rows // 2 for flea_row in flea_rows]
-        flea_cols = [flea_col if flea_col != -1 else self.num_cols // 2 for flea_col in flea_cols]
+        # Replace None with center
+        flea_rows = [flea_row if flea_row is not None else self.num_rows // 2 for flea_row in flea_rows]
+        flea_cols = [flea_col if flea_col is not None else self.num_cols // 2 for flea_col in flea_cols]
 
         # Fill in remaining fleas with random
         flea_rows += [random.randint(0, self.num_rows - 1)] * (self.num_fleas - len(flea_rows))

@@ -406,45 +406,41 @@ class AdderFlea(Flea):
     Color 2: 180
     Color 3: right
     Color 4: left
-    Color 5: 180
-    Color 6: 180
 
-    Colors 2, 5 = 0
-    Colors 3, 6 = 1
+    Colors 2 = 0
+    Colors 3 = 1
     Color 4 never stays
 
     Directional colors
+    Color 5: right
     Color 6: right
-    Color 7: right
-    Color 8: straight
-    Color 9: stop
+    Color 7: straight
+    Color 8: stop
     """
 
-    num_colors = 11
+    num_colors = 9
     color_map = {
         0: 0,
         1: 0,
         2: 3,
         3: 4,
-        4: 5,
-        5: 6,
+        4: 2,
+        5: 7,
         6: 6,
-        7: 9,
-        8: 8,
-        9: 9,
-        10: 10
+        7: 7,
+        8: 8
     }
 
     def rotate(self):
         color = self.square.color
 
-        if color in [1, 2, 5, 6]:
+        if color in [1, 2]:
             self.rotate_180()
-        elif color in [3, 7, 8]:
+        elif color in [3, 5, 6]:
             self.rotate_right()
         elif color == 4:
             self.rotate_left()
-        elif color == 10:
+        elif color == 8:
             self.stop()
 
 @RegisterFlea('kyle')

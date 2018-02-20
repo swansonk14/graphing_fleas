@@ -28,10 +28,10 @@ def run_simulation(num_rows,
         flea_class(class): The class of the Fleas to create.
         num_fleas(int): The number of Fleas to create.
         flea_rows(list): The initial rows of the fleas.
-            (-1 to start in the center vertically.
+            (None to start in the center vertically.
              Unspecified fleas will be placed randomly.)
         flea_cols(list): The initial columns of the fleas.
-            (-1 to start in the center horizontally.
+            (None to start in the center horizontally.
              Unspecified fleas will be placed randomly.)
         init_directions(list): The initial directions of the fleas.
             (Uspecified fleas will start facing up.)
@@ -154,8 +154,8 @@ if __name__ == '__main__':
     parser.add_argument('--height', type=int, default=75, help='Height of each square (in pixels)')
     parser.add_argument('--flea_name', type=str, default='langtons', help='The name of the class of Flea to create. Options: {}'.format(', '.join(FLEA_CLASSES.keys())))
     parser.add_argument('--num_fleas', type=int, default=1, help='Number of Fleas')
-    parser.add_argument('--flea_rows', type=int, nargs='+', default=[-1], help='Initial row of fleas (-1 for center of board vertically; unspecified fleas will be placed randomly)')
-    parser.add_argument('--flea_cols', type=int, nargs='+', default=[-1], help='Initial column of fleas (-1 for center of board horizontally; unspecified fleas will be placed randomly)')
+    parser.add_argument('--flea_rows', type=int, nargs='+', default=[None], help='Initial row of fleas (None for center of board vertically; unspecified fleas will be placed randomly)')
+    parser.add_argument('--flea_cols', type=int, nargs='+', default=[None], help='Initial column of fleas (None for center of board horizontally; unspecified fleas will be placed randomly)')
     parser.add_argument('--init_directions', type=str, nargs='+', default=['up'], help='Initial directions of the fleas (unspecified fleas will start facing up)')
     parser.add_argument('--config', type=str, help='Path to JSON file containing initial configuration of the board')
     parser.add_argument('--visited', action='store_true', default=False, help='Add an X to indicate which squares have been visited')

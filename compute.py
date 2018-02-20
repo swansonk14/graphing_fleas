@@ -40,7 +40,33 @@ def bit_flip(x):
                    pause=True)
 
 def add_one(x):
-    pass
+    """Sets up an AddOneFlea to add one to x.
+
+    4333...334
+    40xx...xx4
+    4222...224
+    """
+
+    square_colors = np.zeros((3, len(x) + 3), dtype=int)
+    square_colors[:, 0] = 4
+    square_colors[:, -1] = 4
+    square_colors[0, 1:-1] = 3
+    square_colors[1, 2:-1] = [int(digit) for digit in x]
+    square_colors[2, 1:-1] = 2
+
+    set_width(75)
+    set_height(75)
+
+    run_simulation(num_rows=square_colors.shape[0],
+                   num_cols=square_colors.shape[1],
+                   flea_class=AddOneFlea,
+                   num_fleas=1,
+                   flea_rows=[2],
+                   flea_cols=[-2],
+                   init_directions=['left'],
+                   square_colors=square_colors.tolist(),
+                   delay=100,
+                   pause=True)
 
 def twos_complement(x):
     pass

@@ -100,8 +100,8 @@ class Board:
         flea_cols = [flea_col if flea_col != -1 else self.num_cols // 2 for flea_col in flea_cols]
 
         # Fill in remaining fleas with random
-        flea_rows += [random.randint(0, self.num_rows - 1) for _ in range(self.num_fleas - len(flea_rows))]
-        flea_cols += [random.randint(0, self.num_cols - 1) for _ in range(self.num_fleas - len(flea_cols))]
+        flea_rows += [random.randint(0, self.num_rows - 1)] * (self.num_fleas - len(flea_rows))
+        flea_cols += [random.randint(0, self.num_cols - 1)] * (self.num_fleas - len(flea_cols))
 
         return flea_rows, flea_cols
 
@@ -117,7 +117,7 @@ class Board:
             of the fleas.
         """
 
-        init_directions += ['up' for _ in range(self.num_fleas - len(init_directions))]
+        init_directions += ['up'] * (self.num_fleas - len(init_directions))
 
         return init_directions
 

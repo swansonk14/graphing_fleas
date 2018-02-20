@@ -1,9 +1,43 @@
 import argparse
+import json
+
+import numpy as np
+
+from constants import set_width, set_height
+from flea import BitFlipperFlea, AddOneFlea, TwosComplementFlea, AdderFlea
+from main import run_simulation
 
 __all__ = ['bit_flip', 'add_one', 'twos_complement', 'add']
 
 def bit_flip(x):
-    pass
+    """Sets up a BitFlipperFlea to flip the bits of x.
+
+    Square colors
+    433...334
+    4xx...xx4
+    422...224
+    """
+
+    square_colors = np.zeros((3, len(x) + 2), dtype=int)
+    square_colors[:, 0] = 4
+    square_colors[:, -1] = 4
+    square_colors[0, 1:-1] = 3
+    square_colors[1, 1:-1] = [int(digit) for digit in x]
+    square_colors[2, 1:-1] = 2
+
+    set_width(75)
+    set_height(75)
+
+    run_simulation(num_rows=square_colors.shape[0],
+                   num_cols=square_colors.shape[1],
+                   flea_class=BitFlipperFlea,
+                   num_fleas=1,
+                   flea_rows=[2],
+                   flea_cols=[-2],
+                   init_directions=['left'],
+                   square_colors=square_colors.tolist(),
+                   delay=100,
+                   pause=True)
 
 def add_one(x):
     pass
@@ -22,10 +56,10 @@ if __name__ == '__main__':
     parser.add_argument('--input_2', type=str, help='Second input')
     args = parser.parse_args()
 
-    # Parse inputs into ints using base
-    args.input_1 = int(args.input_1, args.base)
+    # Convert inputs to binary strings
+    args.input_1 = '{:b}'.format(int(args.input_1, args.base))
     if args.input_2:
-        args.input_2 = int(args.input_2, args.base)
+        args.input_2 = '{:b}'.format(int(args.input_2, args.base))
 
     # Select compute type to perform
     if args.compute_type == 'bit_flip':

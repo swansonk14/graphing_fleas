@@ -212,7 +212,7 @@ class TwoDimensionalVisitorFlea(Flea):
             self.rotate_left()
 
 @RegisterFlea('bit_flipper')
-class BitFlipper(Flea):
+class BitFlipperFlea(Flea):
     """Flips the bits of a binary numbers.
 
     Color 0: straight

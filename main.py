@@ -15,11 +15,11 @@ def run_simulation(num_rows,
                    flea_cols,
                    init_directions,
                    square_colors,
-                   visited,
-                   display_frequency,
-                   print_frequency,
-                   delay,
-                   pause):
+                   visited=False,
+                   display_frequency=1,
+                   print_frequency=1e5,
+                   delay=0,
+                   pause=False):
     """Runs a graphing fleas simulation.
 
     Arguments:

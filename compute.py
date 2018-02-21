@@ -170,23 +170,20 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--compute_type', type=str, required=True, help='Type of compute to perform. Options: {}'.format(__all__))
     parser.add_argument('--base', type=int, default=2, help='Base in which inputs will be entered')
-    parser.add_argument('--input_1', type=str, required=True, help='First input')
-    parser.add_argument('--input_2', type=str, help='Second input')
+    parser.add_argument('--inputs', type=str, nargs='+', required=True, help='Inputs')
     args = parser.parse_args()
 
     # Convert inputs to binary strings
-    args.input_1 = '{:b}'.format(int(args.input_1, args.base))
-    if args.input_2:
-        args.input_2 = '{:b}'.format(int(args.input_2, args.base))
+    args.inputs = ['{:b}'.format(int(inp, args.base)) for inp in args.inputs]
 
     # Select compute type to perform
     if args.compute_type == 'bit_flip':
-        bit_flip(args.input_1)
+        bit_flip(args.inputs[0])
     elif args.compute_type == 'add_one':
-        add_one(args.input_1)
+        add_one(args.inputs[0])
     elif args.compute_type == 'twos_complement':
-        twos_complement(args.input_1)
+        twos_complement(args.inputs[0])
     elif args.compute_type == 'add':
-        add(args.input_1, args.input_2)
+        add(args.inputs[0], args.inputs[1])
     else:
         print('Error: compute type must be one of {}'.format(__all__))

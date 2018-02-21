@@ -177,13 +177,13 @@ if __name__ == '__main__':
     args.inputs = ['{:b}'.format(int(inp, args.base)) for inp in args.inputs]
 
     # Select compute type to perform
-    if args.compute_type == 'bit_flip':
+    if args.compute == 'bit_flip':
         bit_flip(args.inputs[0])
-    elif args.compute_type == 'add_one':
+    elif args.compute == 'add_one':
         add_one(args.inputs[0])
-    elif args.compute_type == 'twos_complement':
+    elif args.compute == 'twos_complement':
         twos_complement(args.inputs[0])
-    elif args.compute_type == 'add':
+    elif args.compute == 'add':
         add(args.inputs[0], args.inputs[1])
     else:
         print('Error: compute type must be one of {}'.format(__all__))

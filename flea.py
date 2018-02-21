@@ -129,7 +129,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     def set_image(self):
         """Sets the image of the Flea and orients it correctly."""
 
-        self.image = pygame.image.load('images/flea.jpg')
+        self.image = pygame.image.load('images/flea.png')
         self.image = pygame.transform.scale(self.image, (get_width(), get_height()))
 
         # Rotate if necessary

@@ -168,7 +168,7 @@ def add(x, y):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--compute_type', type=str, required=True, help='Type of compute to perform. Options: {}'.format(__all__))
+    parser.add_argument('--compute', type=str, required=True, help='Type of compute to perform. Options: {}'.format(__all__))
     parser.add_argument('--base', type=int, default=2, help='Base in which inputs will be entered')
     parser.add_argument('--inputs', type=str, nargs='+', required=True, help='Inputs')
     args = parser.parse_args()

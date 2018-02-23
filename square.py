@@ -1,21 +1,24 @@
 import pygame
-from constants import COLORS, get_width, get_height
+from constants import COLORS, COLOR_MAP, get_width, get_height
 from helpers import column_to_pixel, row_to_pixel
 
 class Square(pygame.sprite.Sprite):
     """A Square represents a colored location that a flea can move to."""
 
     def __init__(self,
+                 board,
                  row,
                  col,
                  num_colors,
                  init_color=0,
                  cycle_size=None,
                  color_map=None,
-                 visited=False):
+                 visited=False,
+                 coordinates=False):
         """Initializes the Square.
 
         Arguments:
+            board(Board): The Board the Square will be a part of.
             row(int): The number of the row where this Square is located.
             col(int): The number of the column where this Square is located.
             num_colors(int): The number of possible colors this Square can take on.
@@ -28,16 +31,20 @@ class Square(pygame.sprite.Sprite):
                 If None, the default color_map will be initialized in
                 the method initialize_color_map.
             visited(bool): True to add an X to indicate which squares have been visited.
+            coordinates(bool): True to add coordinates to squares.
         """
 
         super(Square, self).__init__()
 
+        self.board = board
         self.row = row
         self.col = col
         self.num_colors = num_colors
         self.color = init_color
         self.cycle_size = cycle_size
         self.visited = visited
+        self.coordinates = coordinates
+        self.origin = (self.board.flea_rows[0], self.board.flea_cols[0])
 
         # Initialize color map
         self.color_map = color_map if color_map is not None else self.initialize_color_map()
@@ -48,6 +55,9 @@ class Square(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = column_to_pixel(self.col)
         self.rect.y = row_to_pixel(self.row)
+
+        if self.coordinates:
+            self.add_coordinates()
 
     def initialize_color_map(self):
         """Initializes a map from each color to the next color in the sequence.
@@ -77,6 +87,32 @@ class Square(pygame.sprite.Sprite):
 
         return color_map
 
+    def add_visited(self):
+        """Adds an X in the square."""
+
+        top_left = (self.rect.x, self.rect.y)
+        top_right = (self.rect.x + get_width(), self.rect.y)
+        bottom_left = (self.rect.x, self.rect.y + get_height())
+        bottom_right = (self.rect.x + get_width(), self.rect.y + get_height())
+
+        pygame.draw.line(self.image, COLOR_MAP['gray'], (0, 0), (get_width(), get_height()))
+        pygame.draw.line(self.image, COLOR_MAP['gray'], (get_width(), 0), (0, get_height()))
+
+    def add_coordinates(self):
+        """Adds coordinates to the square."""
+
+        if self.board.num_rows == 1:
+            message = '{}'.format(self.col - self.origin[1])
+        elif self.board.num_cols == 1:
+            message = '{}'.format(self.row - self.origin[0])
+        else:
+            message = '({},{})'.format(self.row - self.origin[0], self.col - self.origin[1])
+
+        font = pygame.font.Font(None, min(get_width(), get_height()) // 3)
+        text = font.render(message, True, COLOR_MAP['black'], COLOR_MAP['white'])
+        text_rect = text.get_rect(center=(get_width() // 2, get_height() // 2))
+        self.image.blit(text, text_rect)
+
     def change_color(self):
         """Changes the color of the Square to the next color according to self.color_map.
 
@@ -87,13 +123,10 @@ class Square(pygame.sprite.Sprite):
         self.image.fill(COLORS[self.color])
 
         if self.visited:
-            top_left = (self.rect.x, self.rect.y)
-            top_right = (self.rect.x + get_width(), self.rect.y)
-            bottom_left = (self.rect.x, self.rect.y + get_height())
-            bottom_right = (self.rect.x + get_width(), self.rect.y + get_height())
+            self.add_visited()
 
-            pygame.draw.line(self.image, COLORS['gray'], (0, 0), (get_width(), get_height()))
-            pygame.draw.line(self.image, COLORS['gray'], (get_width(), 0), (0, get_height()))
+        if self.coordinates:
+            self.add_coordinates()
 
     def next_color(self):
         """Changes the color of the Square to the next color."""

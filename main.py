@@ -15,8 +15,9 @@ def run_simulation(num_rows,
                    flea_cols,
                    init_directions,
                    square_colors,
-                   visited=False,
                    image='flea.png',
+                   visited=False,
+                   coordinates=False,
                    display_frequency=1,
                    print_frequency=1e5,
                    delay=0,
@@ -39,8 +40,9 @@ def run_simulation(num_rows,
         square_colors(list): Initial configuration of the colors of the squares.
             (list of list of ints representing square colors.)
             If None, all squares are initialized to color 0.
-        visited(bool): True to add an X to indicate which squares have been visited.
         image(str): Name of image file in images directory to use as the flea image.
+        visited(bool): True to add an X to indicate which squares have been visited.
+        coordinates(bool): True to add coordinates to squares.
         display_frequency(int): How many steps between each update of the display.
             -1 to update manually upon pressing "d" key.
         print_frequency(int): How often to print the step to the terminal.
@@ -64,8 +66,9 @@ def run_simulation(num_rows,
                   flea_cols,
                   init_directions,
                   square_colors,
+                  image,
                   visited,
-                  image)
+                  coordinates)
     board.draw()
 
     text = Text(screen, board)
@@ -161,8 +164,9 @@ if __name__ == '__main__':
     parser.add_argument('--flea_cols', type=int, nargs='+', default=[None], help='Initial column of fleas (None for center of board horizontally; unspecified fleas will be placed randomly)')
     parser.add_argument('--init_directions', type=str, nargs='+', default=['up'], help='Initial directions of the fleas (unspecified fleas will start facing up)')
     parser.add_argument('--config', type=str, help='Path to JSON file containing initial configuration of the board')
-    parser.add_argument('--visited', action='store_true', default=False, help='Add an X to indicate which squares have been visited')
     parser.add_argument('--image', type=str, default='flea.png', help='Name of image file in images directory to use as the flea image. Current options: "flea.png", "arrow.png"')
+    parser.add_argument('--visited', action='store_true', default=False, help='Add an X to indicate which squares have been visited')
+    parser.add_argument('--coordinates', action='store_true', default=False, help='Display coordinates in squares')
     parser.add_argument('--display_frequency', type=str, default='1', help='How often to update the display (-1 to update only on pressing "d" key; may be in scientific notation)')
     parser.add_argument('--print_frequency', type=str, default='1e5', help='How often to print the step to the terminal (may be in scientific notation)')
     parser.add_argument('--delay', type=int, default=0, help='Number of milliseconds between steps')
@@ -191,8 +195,9 @@ if __name__ == '__main__':
                    args.flea_cols,
                    args.init_directions,
                    args.square_colors,
-                   args.visited,
                    args.image,
+                   args.visited,
+                   args.coordinates,
                    args.display_frequency,
                    args.print_frequency,
                    args.delay,

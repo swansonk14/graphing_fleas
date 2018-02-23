@@ -17,8 +17,9 @@ class Board:
                  flea_cols,
                  init_directions,
                  square_colors,
+                 image,
                  visited,
-                 image):
+                 coordinates):
         """Initializes the Board.
 
         Arguments:
@@ -38,8 +39,9 @@ class Board:
             square_colors(list): Initial configuration of the colors of the squares.
                 (list of list of ints representing square colors.)
                 If None, all squares are initialized to color 0.
-            visited(bool): True to add an X to indicate which squares have been visited.
             image(str): Name of image file in images directory to use as the flea image.
+            visited(bool): True to add an X to indicate which squares have been visited.
+            coordinates(bool): True to add coordinates to squares.
         """
 
         self.screen = screen
@@ -50,8 +52,9 @@ class Board:
         self.flea_rows, self.flea_cols = self.initialize_flea_locs(flea_rows, flea_cols)
         self.init_directions = self.initialize_flea_directions(init_directions)
         self.square_colors = self.initialize_square_colors(square_colors)
-        self.visited = visited
         self.image = image
+        self.visited = visited
+        self.coordinates = coordinates
 
         self.squares = pygame.sprite.Group()
         self.board = []
@@ -61,13 +64,15 @@ class Board:
             row_squares = []
 
             for col in range(self.num_cols):
-                square = Square(row,
+                square = Square(self,
+                                row,
                                 col,
                                 self.flea_class.num_colors,
                                 self.square_colors[row][col],
                                 self.flea_class.cycle_size,
                                 self.flea_class.color_map,
-                                self.visited)
+                                self.visited,
+                                self.coordinates)
                 self.squares.add(square)
                 row_squares.append(square)
 
@@ -102,6 +107,10 @@ class Board:
         # Replace None with center
         flea_rows = [flea_row if flea_row is not None else self.num_rows // 2 for flea_row in flea_rows]
         flea_cols = [flea_col if flea_col is not None else self.num_cols // 2 for flea_col in flea_cols]
+
+        # Replace negative with positive
+        flea_rows = [flea_row if flea_row >= 0 else self.num_rows + flea_row for flea_row in flea_rows]
+        flea_cols = [flea_col if flea_col >= 0 else self.num_cols + flea_col for flea_col in flea_cols]
 
         # Fill in remaining fleas with random
         flea_rows += [random.randint(0, self.num_rows - 1)] * (self.num_fleas - len(flea_rows))

@@ -42,8 +42,9 @@ A number of optional arguments can be passed, including:
 * `flea_rows` - The initial rows of the fleas. None to start in the center vertically. Unspecified fleas will be placed randomly (except for the first, which will be placed in the center).
 * `flea_cols` - The initial columns of the fleas. None to start in the center horizontally. Unspecified fleas will be placed randomly (except for the first, which will be placed in the center).
 * `init_directions` - Initial directions of the fleas. Unspecified fleas will start facing up.
-* `visited` - Add this flag to mark an X in squares which have been visited.
 * `image` - The name of the image file in the `images` directory to use as the flea image. Current options: "flea.png" (default), "arrow.png".
+* `visited` - Add this flag to mark an X in squares which have been visited.
+* `coordinates` - Add this flag to display the coordinates of the squares. Coordinates are relative to the first flea's initial location, which is considered the origin (0,0).
 * `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key. May be in scientific notation (ex. 1e5).
 * `print_frequency` - The number of steps between each printing of the step number to the terminal. May be in scientific notation (ex. 1e5).
 * `delay` - The number of milliseconds of delay between each step of the simulation.

@@ -52,7 +52,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     def rotate(self):
         pass
 
-    def __init__(self, board, row, col, init_direction='up'):
+    def __init__(self, board, row, col, init_direction='up', image='flea.png'):
         """Initializes the Flea.
 
         Arguments:
@@ -60,6 +60,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
             row(int): The row number where the Flea will start.
             col(int): The column number where the Flea will start.
             init_direction(str): The initial direction of the Flea.
+            image(str): Name of image file in images directory to use as the flea image.
         """
 
         super(Flea, self).__init__()
@@ -70,6 +71,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
         self.row = row
         self.col = col
         self.direction = init_direction
+        self.image_name = image
 
         self.square = self.board.get_square(self.row, self.col)
         self.rect = self.square.rect
@@ -129,7 +131,7 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     def set_image(self):
         """Sets the image of the Flea and orients it correctly."""
 
-        self.image = pygame.image.load('images/flea.png')
+        self.image = pygame.image.load('images/{}'.format(self.image_name))
         self.image = pygame.transform.scale(self.image, (get_width(), get_height()))
 
         # Rotate if necessary

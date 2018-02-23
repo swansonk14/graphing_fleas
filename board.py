@@ -17,7 +17,8 @@ class Board:
                  flea_cols,
                  init_directions,
                  square_colors,
-                 visited):
+                 visited,
+                 image):
         """Initializes the Board.
 
         Arguments:
@@ -38,6 +39,7 @@ class Board:
                 (list of list of ints representing square colors.)
                 If None, all squares are initialized to color 0.
             visited(bool): True to add an X to indicate which squares have been visited.
+            image(str): Name of image file in images directory to use as the flea image.
         """
 
         self.screen = screen
@@ -49,6 +51,7 @@ class Board:
         self.init_directions = self.initialize_flea_directions(init_directions)
         self.square_colors = self.initialize_square_colors(square_colors)
         self.visited = visited
+        self.image = image
 
         self.squares = pygame.sprite.Group()
         self.board = []
@@ -76,7 +79,8 @@ class Board:
             self.fleas.add(self.flea_class(self,
                                            self.flea_rows[i],
                                            self.flea_cols[i],
-                                           self.init_directions[i]))
+                                           self.init_directions[i],
+                                           self.image))
 
     def initialize_flea_locs(self, flea_rows, flea_cols):
         """Determines the initial rows and columns of the fleas.

@@ -31,7 +31,7 @@ def get_flea(flea_name):
     return flea_class
 
 
-class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
+class Flea(pygame.sprite.Sprite):
     """A Flea represents a flea which can move on the Board and change the color of Squares.
 
     Flea is an abstract class. Subclasses must define the
@@ -40,6 +40,8 @@ class Flea(pygame.sprite.Sprite, metaclass=ABCMeta):
     Square it is currently on. Fleas may optionally define the
     cycle_size and color_map properties.
     """
+
+    __metaclass__ = ABCMeta
 
     @abstractmethod
     def num_colors(self):

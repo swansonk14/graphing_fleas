@@ -1,6 +1,6 @@
 # Graphing Fleas
 
-The Graphing Fleas Simulator simulates the movement of fleas on a grid and represents an extension of [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant). As with Langton's Ant, each flea rotates depending on the color of the grid square it is currently on, and the colors of the grid squares change when the flea visits them. Unlike Langton's Ant, which simulates a single ant on a grid with just two colors, the Graphing Fleas Simulator allows for an arbitrary number of fleas and colors and provides significant flexibility when designing the rules which govern how squares change colors and how fleas rotate.
+The Graphing Fleas Simulator simulates the movement of fleas on a grid in the manner of [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant). As with Langton's Ant, each flea rotates depending on the color of the grid square it is currently on, and the colors of the grid squares change when the flea visits them. However, unlike Langton's Ant, which simulates a single ant on a grid with just two colors, the Graphing Fleas Simulator can simulate an arbitrary number of fleas and colors and provides significant flexibility when designing the rules which govern how the squares change colors and how the fleas rotate.
 
 ## Authors
 
@@ -10,14 +10,15 @@ Additional mathematical insight from Magdalen Dobson and Thomas Sturm
 
 ## Installation
 
-Note: Requires Python 3.
-
 ```
 git clone https://github.com/swansonk14/graphing_fleas.git
 pip install -r requirements.txt
 ```
 
-## Running the simulation
+## Simulating fleas
+
+
+### Running the simulation
 
 The simulator can be run with:
 
@@ -25,43 +26,41 @@ The simulator can be run with:
 python main.py
 ```
 
-The default simulation is [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant), which is a single flea on a grid with two colors: black and white. The flea rotates 90 degrees clockwise on a white square and 90 degrees counterclockwise on a black square.
+The default simulation is [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant), which is a single flea on a grid with two colors: black and white. The flea rotates 90° clockwise on a white square and 90° counterclockwise on a black square.
 
 ![Alt Text](images/langtons.gif)
 
-## Arguments
+### Arguments
 
-A number of optional arguments can be passed, including:
+A number of optional arguments can be passed in, including:
 
-* `config` - The path to a JSON file containing an initial board configuration and some or all of the following flags.
+* `config` - The path to a JSON file containing an initial board configuration and some or all of the following arguments.
 * `num_rows` - The number of rows in the grid.
 * `num_cols` - The number of columns in the grid.
 * `width` - The width (in pixels) of each square in the grid.
 * `height` - The height (in pixels) of each square in the grid.
-* `flea_name` - The name of the type of flea to simulate. Different fleas follow different rules.
+* `flea_name` - The name of the type of flea to simulate.
 * `num_fleas` - The number of fleas to simulate.
-* `flea_rows` - The initial rows of the fleas. None to start in the center vertically. Unspecified fleas will be placed randomly (except for the first, which will be placed in the center).
-* `flea_cols` - The initial columns of the fleas. None to start in the center horizontally. Unspecified fleas will be placed randomly (except for the first, which will be placed in the center).
-* `init_directions` - The initial directions of the fleas. Unspecified fleas will start facing up.
+* `flea_rows` - The initial rows of the fleas. Fleas with unspecified rows will be placed in random rows (except for the first flea, which will be placed in the center vertically).
+* `flea_cols` - The initial columns of the fleas. Fleas with unspecified columns will be placed in random columns (except for the first flea, which will be placed in the center horizontally).
+* `init_directions` - The initial directions of the fleas. Fleas with unspecified initial directions will start facing up.
 * `image` - The name of the image file in the `images` directory to use as the flea image. Current options: "flea.png" (default), "arrow.png".
-* `visited` - Add this flag to mark an X in squares which have been visited.
-* `coordinates` - Add this flag to display the coordinates of the squares. Coordinates are relative to the first flea's initial location, which is considered the origin (0,0).
-* `display_frequency` - The number of steps between each update of the board display. -1 to update on command by pressing the "d" key. May be in scientific notation (ex. 1e5).
-* `print_frequency` - The number of steps between each printing of the step number to the terminal. May be in scientific notation (ex. 1e5).
+* `visited` - Add this flag to mark an X in squares which have been visited by a flea.
+* `coordinates` - Add this flag to display the coordinates of the squares. Coordinates are relative to the first flea's initial location, which is (0,0).
+* `display_frequency` - The number of steps between each update of the board display. Use -1 to only update on command (by pressing the "d" key). This number may be in scientific notation (ex. 1e5).
+* `print_frequency` - The number of steps between each printing of the step number to the terminal. This number may be in scientific notation (ex. 1e5).
 * `delay` - The number of milliseconds of delay between each step of the simulation.
 * `pause` - Add this flag to start the game in the paused state.
 
-## Commands
+### Commands
 
 Press the space bar to pause and resume the game.
 
-While the game is paused, the squares may be clicked to change their color. A left click advances to the next color while a right click reverts to the previous color.
-
-While the game is paused, pressing the right arrow key will advance the simulation by a single step.
+While the game is paused, the squares may be clicked to change their color. A left click advances to the next color while a right click reverts to the previous color. Additionally, pressing the right arrow key will advance the simulation by a single step.
 
 If the game is running with a display frequency not equal to 1 (meaning the display is not updated on every step), the display may be manually updated at any point by pressing the "d" key.
 
-## Designing custom fleas
+### Designing custom fleas
 
 Custom fleas can be defined in `flea.py`. All custom fleas should be classes which subclass the `Flea` class. Furthermore, the decorator `RegisterFlea('<flea_name>')` should be added to the class, which will make it possible to simulate this flea by running `main.py` with the `--flea_name <flea_name>` flag. All custom fleas must define the `num_colors` property and the `rotate` method. The `num_colors` property is the number of colors that squares on the grid can take on. The `rotate` method rotates the flea depending on the color of the square it is currently on.
 
@@ -102,6 +101,8 @@ python main.py --flea_name 2d_visit --num_rows 320 --num_cols 600 --width 5 --he
 ## Computing with fleas
 
 Certain computations can be peformed by fleas, given the right set of colors and rules. Additionally, the board must pre-set the colors of certain squares to provide the flea with input in the appropriate format. The `compute.py` script automatically pre-sets the board for several different computations when given input(s) and then simulates the computation.
+
+### Running a computation
 
 To perform a computation, run:
 

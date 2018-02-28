@@ -154,6 +154,7 @@ def run_simulation(num_rows,
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
+    parser.add_argument('--config', type=str, help='Path to JSON file containing initial configuration of the board')
     parser.add_argument('--num_rows', type=int, default=20, help='Number of rows')
     parser.add_argument('--num_cols', type=int, default=20, help='Number of columns')
     parser.add_argument('--width', type=int, default=75, help='Width of each square (in pixels)')
@@ -163,7 +164,6 @@ if __name__ == '__main__':
     parser.add_argument('--flea_rows', type=int, nargs='+', default=[None], help='Initial row of fleas (None for center of board vertically; unspecified fleas will be placed randomly)')
     parser.add_argument('--flea_cols', type=int, nargs='+', default=[None], help='Initial column of fleas (None for center of board horizontally; unspecified fleas will be placed randomly)')
     parser.add_argument('--init_directions', type=str, nargs='+', default=['up'], help='Initial directions of the fleas (unspecified fleas will start facing up)')
-    parser.add_argument('--config', type=str, help='Path to JSON file containing initial configuration of the board')
     parser.add_argument('--image', type=str, default='flea.png', help='Name of image file in images directory to use as the flea image. Current options: "flea.png", "arrow.png"')
     parser.add_argument('--visited', action='store_true', default=False, help='Add an X to indicate which squares have been visited')
     parser.add_argument('--coordinates', action='store_true', default=False, help='Display coordinates in squares')

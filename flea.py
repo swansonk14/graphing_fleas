@@ -444,24 +444,3 @@ class AdderFlea(Flea):
             self.rotate_left()
         elif color == 8:
             self.stop()
-
-@RegisterFlea('kyle')
-class KyleFlea(Flea):
-    """Does whatever Kyle wants it to do."""
-
-    def rotate(self):
-        pass
-
-@RegisterFlea('magdalen')
-class MagdalenFlea(Flea):
-    """Does whatever Magdalen wants it to do."""
-
-    def rotate(self):
-        pass
-
-@RegisterFlea('thomas')
-class ThomasFlea(Flea):
-    """Does whatever Thomas wants it to do."""
-
-    def rotate(self):
-        pass

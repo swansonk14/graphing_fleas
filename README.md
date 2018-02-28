@@ -1,6 +1,6 @@
 # Graphing Fleas
 
-Simulates the movement of fleas on a 2-dimensional grid. The fleas rotate depending on the color of the square they are currently on. The squares change color when fleas land on them.
+The Graphing Fleas Simulator simulates the movement of fleas on a grid and represents an extension of [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant). As with Langton's Ant, each flea rotates depending on the color of the grid square it is currently on, and the colors of the grid squares change when the flea visits them. Unlike Langton's Ant, which simulates a single ant on a grid with just two colors, the Graphing Fleas Simulator allows for an arbitrary number of fleas and colors and provides significant flexibility when designing the rules which govern how squares change colors and how fleas rotate.
 
 ## Authors
 
@@ -19,13 +19,13 @@ pip install -r requirements.txt
 
 ## Running the simulation
 
-The simulation can be run with:
+The simulator can be run with:
 
 ```
 python main.py
 ```
 
-The default simulates [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant).
+The default simulation is [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant), which is a single flea on a grid with two colors: black and white. The flea rotates 90 degrees clockwise on a white square and 90 degrees counterclockwise on a black square.
 
 ![Alt Text](images/langtons.gif)
 
@@ -33,6 +33,7 @@ The default simulates [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_
 
 A number of optional arguments can be passed, including:
 
+* `config` - The path to a JSON file containing an initial board configuration and some or all of the following flags.
 * `num_rows` - The number of rows in the grid.
 * `num_cols` - The number of columns in the grid.
 * `width` - The width (in pixels) of each square in the grid.
@@ -41,7 +42,7 @@ A number of optional arguments can be passed, including:
 * `num_fleas` - The number of fleas to simulate.
 * `flea_rows` - The initial rows of the fleas. None to start in the center vertically. Unspecified fleas will be placed randomly (except for the first, which will be placed in the center).
 * `flea_cols` - The initial columns of the fleas. None to start in the center horizontally. Unspecified fleas will be placed randomly (except for the first, which will be placed in the center).
-* `init_directions` - Initial directions of the fleas. Unspecified fleas will start facing up.
+* `init_directions` - The initial directions of the fleas. Unspecified fleas will start facing up.
 * `image` - The name of the image file in the `images` directory to use as the flea image. Current options: "flea.png" (default), "arrow.png".
 * `visited` - Add this flag to mark an X in squares which have been visited.
 * `coordinates` - Add this flag to display the coordinates of the squares. Coordinates are relative to the first flea's initial location, which is considered the origin (0,0).
@@ -60,9 +61,15 @@ While the game is paused, pressing the right arrow key will advance the simulati
 
 If the game is running with a display frequency not equal to 1 (meaning the display is not updated on every step), the display may be manually updated at any point by pressing the "d" key.
 
-## Simulation Examples
+## Designing custom fleas
 
-### Triangle
+Custom fleas can be defined in `flea.py`. All custom fleas should be classes which subclass the `Flea` class. Furthermore, the decorator `RegisterFlea('<flea_name>')` should be added to the class, which will make it possible to simulate this flea by running `main.py` with the `--flea_name <flea_name>` flag. All custom fleas must define the `num_colors` property and the `rotate` method. The `num_colors` property is the number of colors that squares on the grid can take on. The `rotate` method rotates the flea depending on the color of the square it is currently on.
+
+By default, the square colors cycle and loop back to the beginning (ex. `0 --> 1 --> 2 --> 0`). However, the `cycle_size` property can be defined to indicate the size of the color cycle. For instance, if `num_colors = 3` and `cycle_size = 2`, then the colors would progress as follows: `0 --> 1 --> 2 --> 1` with the size 2 cycle of `1 --> 2 --> 1` at the end. For even more fine grained control of how the square colors change, the `color_map` property can be defined, which is a dictionary which maps each color to the next color. See `flea.py` for code examples.
+
+### Examples
+
+#### Triangle
 
 Langton's Ant with 12 colors, which builds an infinitely growing triangle. Rotations left or right correspond to the rules RRLLLRLLLRRR for the 12 colors.
 
@@ -72,7 +79,7 @@ python main.py --flea_name triangle --num_rows 300 --num_cols 600 --width 5 --he
 
 ![Alt Text](images/triangle.gif)
 
-### 1D visit
+#### 1D visit
 
 A one-dimensional flea visiting all squares on a grid with 2 colors.
 
@@ -82,7 +89,7 @@ python main.py --flea_name 1d_visit --num_rows 1 --num_cols 15 --width 100 --hei
 
 ![Alt Text](images/1d_visit.gif)
 
-### 2D visit
+#### 2D visit
 
 A two-dimensional flea visiting all squares on a grid with 3 colors.
 
@@ -90,39 +97,62 @@ A two-dimensional flea visiting all squares on a grid with 3 colors.
 python main.py --flea_name 2d_visit --num_rows 320 --num_cols 600 --width 5 --height 5 --flea_rows 200 --display_frequency 7000 
 ```
 
-### Bit flipper
+## Computing with fleas
 
-A flea which flips the bits of a binary number.
+Certain computations can be peformed by fleas, given the right set of colors and rules. Additionally, the board must pre-set the colors of certain squares to provide the flea with input in the appropriate format. The `compute.py` script automatically pre-sets the board for several different computations when given input(s) and then simulates the computation.
+
+To perform a computation, run:
 
 ```
-python main.py --config configs/bit_flipper.json
+python compute.py --compute <compute_type> --inputs <list_of_inputs>
+```
+
+Currently the following computation types are available:
+
+* `bit_flip` - Flips the bits of an integer. Takes one input.
+* `add_one` - Adds one to an integer. Takes one input.
+* `twos_complement` - Computes the [two's complement](https://en.wikipedia.org/wiki/Two%27s_complement) of an integer. Takes one input.
+* `add` - Adds two integers. Takes two inputs.
+
+Additionally, the optional flag `--base` may be provided to indicate the base in which the `inputs` are being provided. The default is base 2.
+
+### Examples
+
+#### Bit flip
+
+A flea which flips the bits of an integer.
+
+```
+python compute.py --compute bit_flip --inputs 101011001
 ```
 
 ![Alt Text](images/bit_flipper.gif)
 
-### Add one
+#### Add one
 
-A flea which adds 1 to a binary number.
+A flea which adds 1 to an integer.
 
 ```
-python main.py --config configs/add_one.json
+python compute.py --compute add_one --inputs 0110101111
 ```
 
 ![Alt Text](images/add_one.gif)
 
-### Two's complement
+#### Two's complement
 
-A flea which computes the two's complement of a binary number. Computing two's complement involves first flipping the bits and then adding one. Note: In the end result, red represents 0 and black represents 1.
+A flea which computes the two's complement of an integer. Computing the two's complement involves first flipping the bits and then adding one.
+
+Note: In the end result, red represents 0 and black represents 1.
 
 ```
-python main.py --config configs/twos_complement.json
+python compute.py --compute twos_complement --inputs 01011000
 ```
 
 ![Alt Text](images/twos_complement.gif)
 
-## Adder
+#### Add
 
-A flea which adds two binary numbers. In this example, 187 + 154 = 341, or in binary,
+A flea which adds two binary numbers. In this example, 187 + 154 = 341, or in binary:
 
 ```
   10111011
@@ -133,7 +163,7 @@ A flea which adds two binary numbers. In this example, 187 + 154 = 341, or in bi
 Note: In the end result, red represents 0 and green represents 1.
 
 ```
-python main.py --config configs/adder.json
+python compute.py --compute add --base 10 --inputs 187 154
 ```
 
 ![Alt Text](images/adder.gif)

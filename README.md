@@ -194,4 +194,4 @@ python compute.py --compute add --base 10 --inputs 187 154
 
 ## References
 
-This simulator was inspired by the Graphing Fleas project from 18.821 - Project Laboratory in Mathematics, taught by Haynes Miller in spring 2018.
+This simulator was inspired by the Graphing Fleas project from the MIT class [18.821 - Project Laboratory in Mathematics](http://math.mit.edu/classes/18.821/), taught by Haynes Miller in spring 2018.

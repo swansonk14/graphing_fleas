@@ -8,6 +8,26 @@ Code written by Kyle Swanson
 
 Additional mathematical insight from Magdalen Dobson and Thomas Sturm
 
+## Table of Contents
+
+* [Installation](#installation)
+* [Simulating fleas](#simulating-fleas)
+    * [Running the simulation](#running-the-simulation)
+    * [Arguments](#arguments)
+    * [Commands](#commands)
+    * [Designing custom fleas](#designing-custom-fleas)
+    * [Examples](#examples)
+        * [Triangle](#triangle)
+        * [1D visit](#1d-visit)
+        * [2D visit](#2d-visit)
+* [Computing with fleas](#computing-with-fleas)
+    * [Running a computation](#running-a-computation)
+    * [Examples](#examples-1)
+        * [Bit flip](#bit-flip)
+        * [Add one](#add-one)
+        * [Two's complement](#twos-complement)
+        * [Add](#add)
+
 ## Installation
 
 ```

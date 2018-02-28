@@ -97,6 +97,8 @@ A two-dimensional flea visiting all squares on a grid with 3 colors.
 python main.py --flea_name 2d_visit --num_rows 320 --num_cols 600 --width 5 --height 5 --flea_rows 200 --display_frequency 7000 
 ```
 
+![Alt Text](images/2d_visit.gif)
+
 ## Computing with fleas
 
 Certain computations can be peformed by fleas, given the right set of colors and rules. Additionally, the board must pre-set the colors of certain squares to provide the flea with input in the appropriate format. The `compute.py` script automatically pre-sets the board for several different computations when given input(s) and then simulates the computation.

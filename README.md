@@ -48,7 +48,7 @@ python main.py
 
 The default simulation is [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant), which is a single flea on a grid with two colors: black and white. The flea rotates 90° clockwise on a white square and 90° counterclockwise on a black square.
 
-![Alt Text](images/langtons.gif)
+![Alt Text](gifs/langtons.gif)
 
 ### Arguments
 
@@ -96,7 +96,7 @@ Langton's Ant with 12 colors, which builds an infinitely growing triangle. Rotat
 python main.py --flea_name triangle --num_rows 300 --num_cols 600 --width 5 --height 5 --flea_rows 30 --display_frequency 5000
 ```
 
-![Alt Text](images/triangle.gif)
+![Alt Text](gifs/triangle.gif)
 
 #### 1D visit
 
@@ -106,7 +106,7 @@ A one-dimensional flea visiting all squares on a grid with 2 colors.
 python main.py --flea_name 1d_visit --num_rows 1 --num_cols 15 --width 100 --height 100 --delay 50
 ```
 
-![Alt Text](images/1d_visit.gif)
+![Alt Text](gifs/1d_visit.gif)
 
 #### 2D visit
 
@@ -116,7 +116,7 @@ A two-dimensional flea visiting all squares on a grid with 3 colors.
 python main.py --flea_name 2d_visit --num_rows 320 --num_cols 600 --width 5 --height 5 --flea_rows 200 --display_frequency 7000 
 ```
 
-![Alt Text](images/2d_visit.gif)
+![Alt Text](gifs/2d_visit.gif)
 
 ## Computing with fleas
 
@@ -149,7 +149,7 @@ A flea which flips the bits of an integer.
 python compute.py --compute bit_flip --inputs 101011001
 ```
 
-![Alt Text](images/bit_flipper.gif)
+![Alt Text](gifs/bit_flipper.gif)
 
 #### Add one
 
@@ -159,7 +159,7 @@ A flea which adds 1 to an integer.
 python compute.py --compute add_one --inputs 0110101111
 ```
 
-![Alt Text](images/add_one.gif)
+![Alt Text](gifs/add_one.gif)
 
 #### Two's complement
 
@@ -171,7 +171,7 @@ Note: In the end result, red represents 0 and black represents 1.
 python compute.py --compute twos_complement --inputs 01011000
 ```
 
-![Alt Text](images/twos_complement.gif)
+![Alt Text](gifs/twos_complement.gif)
 
 #### Add
 
@@ -189,4 +189,4 @@ Note: In the end result, red represents 0 and green represents 1.
 python compute.py --compute add --base 10 --inputs 187 154
 ```
 
-![Alt Text](images/adder.gif)
+![Alt Text](gifs/adder.gif)

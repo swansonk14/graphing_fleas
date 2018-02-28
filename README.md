@@ -27,6 +27,7 @@ Additional mathematical insight from Magdalen Dobson and Thomas Sturm
         * [Add one](#add-one)
         * [Two's complement](#twos-complement)
         * [Add](#add)
+* [References](#references)
 
 ## Installation
 
@@ -190,3 +191,7 @@ python compute.py --compute add --base 10 --inputs 187 154
 ```
 
 ![Alt Text](gifs/adder.gif)
+
+## References
+
+This simulator was inspired by the Graphing Fleas project from 18.821 - Project Laboratory in Mathematics, taught by Haynes Miller in spring 2018.

@@ -1,6 +1,6 @@
 # Graphing Fleas
 
-The Graphing Fleas Simulator simulates the movement of fleas on a grid in the manner of [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant). As with Langton's Ant, each flea rotates depending on the color of the grid square it is currently on, and the colors of the grid squares change when the flea visits them. However, unlike Langton's Ant, which simulates a single ant on a grid with just two colors, the Graphing Fleas Simulator can simulate an arbitrary number of fleas and colors and provides significant flexibility when designing the rules which govern how the squares change colors and how the fleas rotate.
+The Graphing Fleas Simulator simulates the movement of fleas on a grid in the manner of [Langton's Ant](https://en.wikipedia.org/wiki/Langton%27s_ant), a 2-dimensional [universal Turing Machine](https://en.wikipedia.org/wiki/Universal_Turing_machine). As with Langton's Ant, each flea rotates depending on the color of the grid square it is currently on, and the colors of the grid squares change when the flea visits them. However, unlike Langton's Ant, which simulates a single ant on a grid with just two colors, the Graphing Fleas Simulator can simulate an arbitrary number of fleas and colors and provides significant flexibility when designing the rules which govern how the squares change colors and how the fleas rotate.
 
 ## Authors
 

@@ -68,6 +68,7 @@ A number of optional arguments can be passed in, including:
 * `image` - The name of the image file in the `images` directory to use as the flea image. Current options: "flea.png" (default), "arrow.png".
 * `visited` - Add this flag to mark an X in squares which have been visited by a flea.
 * `coordinates` - Add this flag to display the coordinates of the squares. Coordinates are relative to the first flea's initial location, which is (0,0).
+* `hide_grid` - Add this flag to hide the grid lines between squares on the grid. Useful for large grids.
 * `display_frequency` - The number of steps between each update of the board display. Use -1 to only update on command (by pressing the "d" key). This number may be in scientific notation (ex. 1e5).
 * `print_frequency` - The number of steps between each printing of the step number to the terminal. This number may be in scientific notation (ex. 1e5).
 * `delay` - The number of milliseconds of delay between each step of the simulation.

@@ -19,7 +19,8 @@ class Board:
                  square_colors,
                  image,
                  visited,
-                 coordinates):
+                 coordinates,
+                 hide_grid):
         """Initializes the Board.
 
         Arguments:
@@ -42,6 +43,7 @@ class Board:
             image(str): Name of image file in images directory to use as the flea image.
             visited(bool): True to add an X to indicate which squares have been visited.
             coordinates(bool): True to add coordinates to squares.
+            hide_grid(bool): True to hide the grid lines.
         """
 
         self.screen = screen
@@ -55,6 +57,7 @@ class Board:
         self.image = image
         self.visited = visited
         self.coordinates = coordinates
+        self.hide_grid = hide_grid
 
         self.squares = pygame.sprite.Group()
         self.board = []
@@ -202,6 +205,7 @@ class Board:
         """Draws the Board including the Squares, grid, and Fleas."""
 
         self.squares.draw(self.screen)
-        self.draw_grid()
+        if not self.hide_grid:
+            self.draw_grid()
         self.fleas.draw(self.screen)
         pygame.display.flip()

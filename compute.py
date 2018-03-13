@@ -27,9 +27,6 @@ def bit_flip(x):
     square_colors[1, 1:] = [int(digit) for digit in x]
     square_colors[2, 1:] = 2
 
-    set_width(75)
-    set_height(75)
-
     run_simulation(num_rows=num_rows,
                    num_cols=num_cols,
                    flea_class=BitFlipperFlea,
@@ -56,9 +53,6 @@ def add_one(x):
     square_colors[0] = 3
     square_colors[1, 1:] = [int(digit) for digit in x]
     square_colors[2] = 2
-
-    set_width(75)
-    set_height(75)
 
     run_simulation(num_rows=num_rows,
                    num_cols=num_cols,
@@ -106,9 +100,6 @@ def twos_complement(x):
     square_colors[4, 1:-1] = 7
     square_colors[4, -1] = 6
 
-    set_width(75)
-    set_height(75)
-
     run_simulation(num_rows=num_rows,
                    num_cols=num_cols,
                    flea_class=TwosComplementFlea,
@@ -152,9 +143,6 @@ def add(x, y):
     square_colors[4, :-1] = 2
     square_colors[4, -1] = 8
 
-    set_width(75)
-    set_height(75)
-
     run_simulation(num_rows=num_rows,
                    num_cols=num_cols,
                    flea_class=AdderFlea,
@@ -171,7 +159,14 @@ if __name__ == '__main__':
     parser.add_argument('--compute', type=str, required=True, help='Type of compute to perform. Options: {}'.format(__all__))
     parser.add_argument('--base', type=int, default=2, help='Base in which inputs will be entered')
     parser.add_argument('--inputs', type=str, nargs='+', required=True, help='Inputs')
+    parser.add_argument('--width', type=int, default=200, help='Width of each square (in pixels)')
+    parser.add_argument('--height', type=int, default=200, help='Height of each square (in pixels)')
+
     args = parser.parse_args()
+
+    # Set width and height
+    set_width(args.width)
+    set_height(args.height)
 
     # Convert inputs to binary strings
     args.inputs = ['{:b}'.format(int(inp, args.base)) for inp in args.inputs]

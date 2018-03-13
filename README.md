@@ -141,6 +141,8 @@ Currently the following computation types are available:
 
 Additionally, the optional flag `--base` may be provided to indicate the base in which the `inputs` are being provided. The default is base 2.
 
+The width and height of each square can be set with `--width` and `--height`.
+
 ### Examples
 
 #### Bit flip

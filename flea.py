@@ -446,3 +446,14 @@ class AdderFlea(Flea):
             self.rotate_left()
         elif color == 8:
             self.stop()
+
+@RegisterFlea('guider')
+class GuiderFlea(AdderFlea):
+    """Guides a flea along an abitrary path.
+
+    Uses the same color scheme as the adder flea
+    but squares don't change color.
+    """
+
+    num_colors = 9
+    color_map = {i: i for i in range(num_colors)}

@@ -1,0 +1,14 @@
+{
+    "flea_name": "guider",
+    "square_colors": [[0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 4, 3, 3, 3, 3, 3, 0],
+                      [0, 4, 0, 1, 1, 0, 1, 0],
+                      [0, 4, 2, 2, 2, 2, 2, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0]],
+    "flea_rows": [3],
+    "flea_cols": [6],
+    "init_directions": ["left"],
+    "image": "arrow.png",
+    "delay": 100,
+    "pause": true
+}

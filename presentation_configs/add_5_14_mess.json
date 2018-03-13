@@ -15,5 +15,7 @@
     "init_directions": ["up"],
     "image": "arrow.png",
     "delay": 100,
-    "pause": true
+    "pause": true,
+    "width": 150,
+    "height": 150
 }

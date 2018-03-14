@@ -4,7 +4,7 @@ import json
 import numpy as np
 
 from constants import set_width, set_height
-from flea import BitFlipperFlea, AddOneFlea, TwosComplementFlea, AdderFlea
+from flea import BitFlipperFlea, AddOneFlea, TwosComplementFlea, AdderFlea, AdderFastFlea
 from main import run_simulation
 
 __all__ = ['bit_flip', 'add_one', 'twos_complement', 'add']
@@ -112,7 +112,7 @@ def twos_complement(x):
                    pause=True)
 
 def add(x, y):
-    """Sets up an AdderFlea to add x and y.
+    """Sets up an AdderFlea to add x and y in O(n^2) time.
 
     In the end, 2 is 0 and 3 is 1.
 
@@ -154,6 +154,46 @@ def add(x, y):
                    delay=100,
                    pause=True)
 
+def add_fast(x, y):
+    """Sets up an AdderFastFlea to add x and y in O(n) time.
+
+    In the end, 2 is 0 and 3 is 1.
+
+    86666...6666
+    8x7x7...7x7x
+    8y7y7...7y7y
+    55555...5555
+    22020...0202
+    """
+
+    length = max(len(x), len(y))
+
+    num_rows = 5
+    num_cols = 2 * length + 1
+
+    square_colors = np.zeros((num_rows, num_cols), dtype=int)
+    square_colors[0, 0] = 8
+    square_colors[0, 1:] = 6
+    square_colors[1, 0] = 8
+    square_colors[1, 1::2] = 7
+    square_colors[1, 2::2] = [0] * (length - len(x)) + [int(digit) for digit in x]
+    square_colors[2, 0] = 8
+    square_colors[2, 1::2] = 7
+    square_colors[2, 2::2] = [0] * (length - len(y)) + [int(digit) for digit in y]
+    square_colors[3] = 5
+    square_colors[4, ::2] = 2
+
+    run_simulation(num_rows=num_rows,
+                   num_cols=num_cols,
+                   flea_class=AdderFastFlea,
+                   num_fleas=1,
+                   flea_rows=[3],
+                   flea_cols=[-1],
+                   init_directions=['left'],
+                   square_colors=square_colors.tolist(),
+                   delay=100,
+                   pause=True)
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--compute', type=str, required=True, help='Type of compute to perform. Options: {}'.format(__all__))
@@ -180,5 +220,7 @@ if __name__ == '__main__':
         twos_complement(args.inputs[0])
     elif args.compute == 'add':
         add(args.inputs[0], args.inputs[1])
+    elif args.compute == 'add_fast':
+        add_fast(args.inputs[0], args.inputs[1])
     else:
         print('Error: compute type must be one of {}'.format(__all__))

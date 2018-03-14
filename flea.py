@@ -400,7 +400,7 @@ class TwosComplementFlea(Flea):
 
 @RegisterFlea('adder')
 class AdderFlea(Flea):
-    """Adds two binary numbers.
+    """Adds two binary numbers in O(n^2) time.
 
     Digit colors
     Color 0: straight
@@ -457,3 +457,36 @@ class GuiderFlea(AdderFlea):
 
     num_colors = 9
     color_map = {i: i for i in range(num_colors)}
+
+@RegisterFlea('adder_fast')
+class AdderFastFlea(Flea):
+    """Adds two binary numbers in O(n) time.
+
+
+
+    """
+
+    num_colors = 9
+    color_map = {
+        0: 0,
+        1: 0,
+        2: 3,
+        3: 4,
+        4: 2,
+        5: 7,
+        6: 6,
+        7: 7,
+        8: 8
+    }
+
+    def rotate(self):
+        color = self.square.color
+
+        if color in [1, 2]:
+            self.rotate_180()
+        elif color in [3, 5]:
+            self.rotate_right()
+        elif color in [4, 6]:
+            self.rotate_left()
+        elif color == 8:
+            self.stop()

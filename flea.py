@@ -451,8 +451,8 @@ class AdderFlea(Flea):
 class AdderFastFlea(Flea):
     """Adds two binary numbers in O(n) time.
 
-
-
+    Same color scheme as AdderFlea but
+    now color 6 turns left instead of right.
     """
 
     num_colors = 9

@@ -179,7 +179,7 @@ python compute.py --compute twos_complement --inputs 01011000
 
 #### Add
 
-A flea which adds two binary numbers. In this example, 187 + 154 = 341, or in binary:
+A flea which adds two binary numbers in O(n<sup>2</sup>) time. In this example, 187 + 154 = 341, or in binary:
 
 ```
   10111011
@@ -194,6 +194,16 @@ python compute.py --compute add --base 10 --inputs 187 154
 ```
 
 ![Alt Text](gifs/adder.gif)
+
+#### Add fast
+
+A flea which adds two binary numbers in O(n) time. As with the [Add](#add) flea, the flea in this example adds 187 + 154 = 341.
+
+```
+python compute.py --compute add_fast --base 10 --inputs 187 154
+```
+
+![Alt Text](gifs/adder_fast.gif)
 
 ## References
 

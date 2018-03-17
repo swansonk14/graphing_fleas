@@ -11,6 +11,6 @@
     "image": "arrow.png",
     "delay": 100,
     "pause": true,
-    "width": 250,
-    "height": 250
+    "width": 100,
+    "height": 100
 }

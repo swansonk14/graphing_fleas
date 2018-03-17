@@ -199,8 +199,8 @@ if __name__ == '__main__':
     parser.add_argument('--compute', type=str, required=True, help='Type of compute to perform. Options: {}'.format(__all__))
     parser.add_argument('--base', type=int, default=2, help='Base in which inputs will be entered')
     parser.add_argument('--inputs', type=str, nargs='+', required=True, help='Inputs')
-    parser.add_argument('--width', type=int, default=200, help='Width of each square (in pixels)')
-    parser.add_argument('--height', type=int, default=200, help='Height of each square (in pixels)')
+    parser.add_argument('--width', type=int, default=100, help='Width of each square (in pixels)')
+    parser.add_argument('--height', type=int, default=100, help='Height of each square (in pixels)')
 
     args = parser.parse_args()
 
